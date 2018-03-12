@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="翻译," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="论文网址摘要&amp;emsp;&amp;emsp;近来，基于$CNN$的方法在很多应用场合都取得了很大成功并且已经成为计算机视觉中最有力、最广泛的技术。然而，基于$CNN$的方法是计算密集型和资源消耗型的，并因此很难集成到像手机、机器人等嵌入式系统中。$FPGA$是最有潜力的加速$CNN$的平台，但是有限的带宽和片上内存限制了$FPGA$对$CNN$的加速。&amp;emsp;&amp;emsp;在本文中，我们深入研究了关于在">
+<meta name="keywords" content="翻译">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Going Deeper with Embedded FPGA Platform for Convolutional Neural Network">
+<meta property="og:url" content="http://yanxingang.com/2018/01/05/translation2/uncategorized/index.html">
+<meta property="og:site_name" content="Xingang Yan">
+<meta property="og:description" content="论文网址摘要&amp;emsp;&amp;emsp;近来，基于$CNN$的方法在很多应用场合都取得了很大成功并且已经成为计算机视觉中最有力、最广泛的技术。然而，基于$CNN$的方法是计算密集型和资源消耗型的，并因此很难集成到像手机、机器人等嵌入式系统中。$FPGA$是最有潜力的加速$CNN$的平台，但是有限的带宽和片上内存限制了$FPGA$对$CNN$的加速。&amp;emsp;&amp;emsp;在本文中，我们深入研究了关于在">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yanxingang.com/images/translation2f1.PNG">
+<meta property="og:updated_time" content="2018-01-06T08:14:45.161Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Going Deeper with Embedded FPGA Platform for Convolutional Neural Network">
+<meta name="twitter:description" content="论文网址摘要&amp;emsp;&amp;emsp;近来，基于$CNN$的方法在很多应用场合都取得了很大成功并且已经成为计算机视觉中最有力、最广泛的技术。然而，基于$CNN$的方法是计算密集型和资源消耗型的，并因此很难集成到像手机、机器人等嵌入式系统中。$FPGA$是最有潜力的加速$CNN$的平台，但是有限的带宽和片上内存限制了$FPGA$对$CNN$的加速。&amp;emsp;&amp;emsp;在本文中，我们深入研究了关于在">
+<meta name="twitter:image" content="http://yanxingang.com/images/translation2f1.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yanxingang.com/2018/01/05/translation2/uncategorized/"/>
+
+
+
+
+
+  <title>Going Deeper with Embedded FPGA Platform for Convolutional Neural Network | Xingang Yan</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Xingang Yan</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about-me">
+          <a href="https://yanxingang.github.io/2017/12/29/aboutme-md/uncategorized/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About me
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yanxingang.com/2018/01/05/translation2/uncategorized/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr Yan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xingang Yan">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Going Deeper with Embedded FPGA Platform for Convolutional Neural Network</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-05T20:23:33+08:00">
+                2018-01-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/01/05/translation2/uncategorized/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/01/05/translation2/uncategorized/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/01/05/translation2/uncategorized/" class="leancloud_visitors" data-flag-title="Going Deeper with Embedded FPGA Platform for Convolutional Neural Network">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://nicsefc.ee.tsinghua.edu.cn/media/publications/2016/FPGA2016_None_6tAJnDW.pdf" target="_blank" rel="noopener"><strong>论文网址</strong></a><br><strong>摘要</strong><br>&emsp;&emsp;近来，基于$CNN$的方法在很多应用场合都取得了很大成功并且已经成为计算机视觉中最有力、最广泛的技术。然而，基于$CNN$的方法是计算密集型和资源消耗型的，并因此很难集成到像手机、机器人等嵌入式系统中。$FPGA$是最有潜力的加速$CNN$的平台，但是有限的带宽和片上内存限制了$FPGA$对$CNN$的加速。<br>&emsp;&emsp;在本文中，我们深入研究了关于在嵌入式$FPGA$平台上加速$CNN$的问题，并且提出了一个嵌入式$FPGA$平台$CNN$加速器设计，用于$ImageNet$大规模图像分类。我们首先对最先进的$CNN$模型进行深入分析，并且发现卷积层为计算中心型，全连接层为内存中心型。而后提出动态数据量化方法和对于$CNN$中所有层均有效的卷积设计方法，用以提高宽带和资源利用率。结果显示，当我们使用$8/4$位量化时，对于非常深的$VGG16$模型，我们的数据量化流程只引入了$0.4\%$的精度损失。提出了一种数据布局方法，以进一步确保外部存储器带宽的高利用率。最后，作为一个研究示例，在嵌入式$FPGA$平台实现了最先进的$CNN$，$VGG16-SVD$。$VGG16-SVD$是迄今为止在FPGA端到端实现的最大、最精确的网络。赛灵思Zynq ZC706板上的系统用16位量化，实现了4.45 fps的帧速率，且$top5$精度为$86.66\%$。在$150MHz$的工作频率下，卷积层和整个$CNN$的平均性能分别为$187.8GOP/s$和$137.0GOP/s$，这显着优于以前的方法。  </p>
+<h2 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h2><p><strong>嵌入式$FPGA$、$CNN$、动态数据量化、带宽利用率</strong>  </p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>&emsp;&emsp;图像分类是在$CV$领域的一个基本问题。近年来，$CNN$已在图象分类准确度方法取得了巨大的进步。在$2012$年的$ILSVRC$中，$Krizhevsky$等人通过在分类任务中达到$top5$精度$84.7\%$展现了$CNN$有很大的能力，其远远高于其他传统的分类方法。在接下来的几年里，$ILSVRC$ $2013$，$2014$，$2015$分别达到了$88.8\%$、$93.3\%$、$96.4\%$的精度。<br>&emsp;&emsp;然而要达到最好的性能，$CNN$这种方法相对于传统方法需要更多的计算和内存资源。以这种方式，大多数基于CNN的方法必须依赖于大型服务器。然而有一个需要高精度和高实时性的嵌入式系统的市场是不可忽视的，如自动驾驶汽车、机器人。但是对于嵌入式系统，有限的电池和资源是严重的问题。<br>&emsp;&emsp;为了解决这个问题，许多研究人员已经从计算或存储访问方面提出了各种$CNN$加速技术[6，7，8，9，10，11，12，13]。然而，以前的大多数技术只考虑小的CNN模型，例如5层$LeNet$，用于$MNIST$手写数字识别等简单任务[14]。用于大规模图像分类的最新的$CNN$模型具有极高的复杂度，因此只能存储在外部存储器中。以这种方式，储存器带宽成为加速$CNN$最严重的问题，特别是对于嵌入式系统。此外，以前的研究集中在加速卷积层，而全连接层没有得到很好的研究。因此，我们需要深入研究嵌入式$FPGA$平台以解决这个问题。<br>&emsp;&emsp;本文就如何在嵌入式$FPGA$平台上部署全$CNN$加速器进行深入研究。本文提出了一种应用于$ImageNet$大规模分类的$CNN$加速器，其能够以$4.45fps$的速度执行非常深的$VGG16-SVD$模型。<br>具体来说，本文作出以下贡献：  </p>
+<blockquote>
+<ul>
+<li>我们对大规模图像分类的最新$CNN$模型进行了深入的分析。我们展示了最好的$CNN$模型是非常复杂的（例如，$VGG16$模型有1.38亿个权重，需要超过$30GOP$），卷积层是计算中心型，全连接层是内存中心型。  </li>
+<li>我们首次提出了一种用于动态精确数据量化的自动流程，并探索了各种数据量化配置。结果表明，在$8/4$位动态精度量化下，仅对$VGG16$模型引入了$0.4\%$的精度损失。为了动态精确的数据量化，设计了特定的硬件。  </li>
+<li>我们发现，全连接层的性能主要受嵌入式FPGA平台上的内存带宽的限制，这与卷积层不同。以这种方式，我们将$SVD$应用于第一个全连接层的权重矩阵，这减少了该层的$85.8\%$的内存占用量，同时设计了可以计算全连接层的卷积器来减少资源消耗，并提出了一种数据布局方案来加速全连接层。  </li>
+<li>我们提出了基于嵌入式FPGA平台上的$CNN$加速器设计，进行$ImageNet$大规模分类。 在$Xilinx$ $Zynq$平台上，我们的系统在$150 MHz$频率下分别在卷积层和全$CNN$上达到$187.8 GOP/s$和$137.0 GOP / s$的性能。 采用$VGG16-SVD$网络，我们以$4.45 fps$的速度实现了$86.66\%$的$top5$精度。  </li>
+</ul>
+</blockquote>
+<p>&emsp;&emsp;论文的剩余部分组织如下：第二部分介绍了$CNN$的背景；第三部分介绍和讨论相关工作，第四部分分析了最新$CNN$模型的复杂度分布，第五部分提出了动态精度数据量化流程，第六节介绍了所提出的图像分类系统的设计和实现细节，第七部分介绍了全连接层的存储系统和数据布局方法，第八部分对所提出的系统的性能进行了评估和讨论，最后，在第九部分我们总结了本文。  </p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>深度卷积神经网路在众多视觉相关任务中达到了最好的性能。为了帮助理解本文中分析的基于$CNN$的图像分类算法，在本部分，我们介绍$CNN$的基础，同时介绍了$ImageNet$数据集和最新的$CNN$模型。  </p>
+<h3 id="CNN入门"><a href="#CNN入门" class="headerlink" title="CNN入门"></a>CNN入门</h3><p>&emsp;&emsp;一个典型的$CNN$是由大量按顺序运行的层组成的。一个$CNN$模型的参数被称为“&amp;weights&amp;”。$CNN$的第一层读取输入图像，并输出一系列的$fearture$ $map$。接下来的层读取上一层生成的$fearture$ $map$，并输出新的$fearture$ $map$。最后一个分类器输出该输入图像属于哪个类别的可能性。卷积层和全连接层是$CNN$中两种非常重要的层。在卷积层之后，通常由池化层。图1展示了一个典型的$CNN$例子。<br><img src="\images\translation2f1.PNG" alt=""><br>&emsp;&emsp;在本文中，对于一个$CNN$中的层，$f^{in}_{j}$表示其第$j$个输入特征映射，$f^{out}_{i}$表示其第$i$个输出特征映射，$b_{i}$表示第$i$个输出映射的偏移量。对于卷积层，$n_{in}$和$n_{out}$分别表示输入和输出的特征映射数量。对于全连接层，$n_{in}$和$n_{out}$分别表示输入和输出的特征向量长度。<br>&emsp;&emsp;卷积层将一系列的特征映射作为输入，并与卷积核卷积以获得输出特征映射。非线性层一般与卷积层在一起，其将非线性函数应用于特征映射的元素输出上。卷积层可以用等式1表示：  </p>
+<script type="math/tex; mode=display">
+f^{out}_{i}=\sum_{j=1}^{n_{in}}f^{in}_{j} \otimes g_{i,j}+b_{i} \quad (1 \leq i \leq n_{out})
+\tag{1}</script><p>此处$g_{i,j}$是应用于第$j$次输入核第$i$次输出特征映射的卷积核。<br>&emsp;&emsp;全连接层对输入特征向量做了一个线性变换。  </p>
+<script type="math/tex; mode=display">
+f^{out}=Wf^{in}+b
+\tag{2}</script><p>此处$W$为一个$n_{out} \times n_{in}$的变换矩阵，而$b$是一个偏移量。特别注意，对于全连接层，输入不是几个二维特征图的组合而是一个特征向量。因此，在等式2中，参数$n_{in}$和$n_{out}$实际上对应于输入输出特征向量的长度。<br>&emsp;&emsp;池化层通常附加到卷积层，其每个特征映射中分区的最大值或平均值。最大池化能够用等式3表达：</p>
+<script type="math/tex; mode=display">
+    f^{out}_{i,j}=\max \limits_{p \times p}
+    \begin{bmatrix}
+    f^{in}_{m,n} & \cdots & f^{in}_{m,n+p-1} \\
+    \vdots  &   & \vdots \\
+    f^{in}_{m+p-1,n} & \cdots & f^{in}_{m+p-1,n+p-1} 
+    \end{bmatrix}
+    \tag{3}</script><p>此处$p$为池化核的大小。这种非线性的“下降采样”不仅减少了特征映射的大小和后续层的计算量，而且还提供了平移不变性。<br>&emsp;&emsp;<br>&emsp;&emsp;<br>&emsp;&emsp;<br>&emsp;&emsp;<br>&emsp;&emsp;<br>&emsp;&emsp;<br>&emsp;&emsp;</p>
+<h2 id=""><a href="#" class="headerlink" title=" "></a> </h2><p><strong>词汇</strong>  </p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>English</th>
+<th style="text-align:center">Chinese</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$in-depth$</td>
+<td style="text-align:center">深入</td>
+</tr>
+<tr>
+<td>$state-of-the-art$</td>
+<td style="text-align:center">最新的，最先进的</td>
+</tr>
+<tr>
+<td>$dynamic-precision$</td>
+<td style="text-align:center">动态精度</td>
+</tr>
+<tr>
+<td>$address$ $this$ $problem$</td>
+<td style="text-align:center">解决这个问题</td>
+</tr>
+<tr>
+<td>$handwritten$ $digits$ $recognition$</td>
+<td style="text-align:center">手写数字识别</td>
+</tr>
+<tr>
+<td>$large-scale$</td>
+<td style="text-align:center">大规模的</td>
+</tr>
+<tr>
+<td>$deploy$</td>
+<td style="text-align:center">部署</td>
+</tr>
+<tr>
+<td>$Specifically$</td>
+<td style="text-align:center">特别，具体</td>
+</tr>
+<tr>
+<td>$translation$ $invariance$</td>
+<td style="text-align:center">平移不变性</td>
+</tr>
+<tr>
+<td>$in-depth$</td>
+<td style="text-align:center">深入</td>
+</tr>
+<tr>
+<td>$in-depth$</td>
+<td style="text-align:center">深入</td>
+</tr>
+<tr>
+<td>$in-depth$</td>
+<td style="text-align:center">深入</td>
+</tr>
+<tr>
+<td>$in-depth$</td>
+<td style="text-align:center">深入</td>
+</tr>
+<tr>
+<td>$in-depth$</td>
+<td style="text-align:center">深入</td>
+</tr>
+<tr>
+<td>$in-depth$</td>
+<td style="text-align:center">深入</td>
+</tr>
+<tr>
+<td>$in-depth$</td>
+<td style="text-align:center">深入</td>
+</tr>
+<tr>
+<td>$in-depth$</td>
+<td style="text-align:center">深入</td>
+</tr>
+<tr>
+<td>$in-depth$</td>
+<td style="text-align:center">深入</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>概念</strong><br><strong>$top-5 accuracy$</strong></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/翻译/" rel="tag"># 翻译</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/01/2018/uncategorized/" rel="next" title="2018！I'm coming">
+                <i class="fa fa-chevron-left"></i> 2018！I'm coming
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/06/qianghuaxuexi/uncategorized/" rel="prev" title="强化学习基本概念">
+                强化学习基本概念 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div onclick="showGitment()" id="gitment-display-button">显示 Gitment 评论</div>
+        <div id="gitment-container" style="display:none"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/touxiang.jpg"
+                alt="Mr Yan" />
+            
+              <p class="site-author-name" itemprop="name">Mr Yan</p>
+              <p class="site-description motion-element" itemprop="description">This is the story of an idea</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Yanxingang" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1928847546@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-qq"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+            
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#关键字"><span class="nav-number">1.</span> <span class="nav-text">关键字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">2.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">3.</span> <span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CNN入门"><span class="nav-number">3.1.</span> <span class="nav-text">CNN入门</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">4.</span> <span class="nav-text"> </span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-yanxingang"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yanxingang</span>
+
+  
+</div>
+
+
+  <div class="powered-by"></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info"></div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'Yanxingang',
+            repo: 'mygitment_hexo',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: 'a86bbb5e1222aeea5fce81845dc2dd6d7129c119',
+            
+                client_id: '353225e81e70f8f76366'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      function showGitment(){
+        document.getElementById("gitment-display-button").style.display = "none";
+        document.getElementById("gitment-container").style.display = "block";
+        renderGitment();
+      }
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("kcLakFAl5FIayd5pjiSVwFQj-gzGzoHsz", "vVyw9jgi80os2p6RXolwC604");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "bottomCenter";
+      
+          pbOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+  </script>
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

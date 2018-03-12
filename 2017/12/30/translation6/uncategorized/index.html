@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="翻译," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="论文网址摘要&amp;emsp;&amp;emsp;最近有关神经网络的研究已经表明其在计算机视觉领域相对于传统的基于手工标记特征和模型的算法有很大优势。神经网络现在被广泛应用于图像、语音以及视频识别等领域。但是神经网络算法计算和存储的巨大复杂度造成其应用上存在很大困难。$CPU$平台不足以提供足够的计算能力。$GPU$平台对于神经网络训练而言是第一选择，因为$GPU$有很高的计算能力和易于使用的开发框架。&amp;ems">
+<meta name="keywords" content="翻译">
+<meta property="og:type" content="article">
+<meta property="og:title" content="A Survey of FPGA Based Neural Network Accelerator">
+<meta property="og:url" content="http://yanxingang.com/2017/12/30/translation6/uncategorized/index.html">
+<meta property="og:site_name" content="Xingang Yan">
+<meta property="og:description" content="论文网址摘要&amp;emsp;&amp;emsp;最近有关神经网络的研究已经表明其在计算机视觉领域相对于传统的基于手工标记特征和模型的算法有很大优势。神经网络现在被广泛应用于图像、语音以及视频识别等领域。但是神经网络算法计算和存储的巨大复杂度造成其应用上存在很大困难。$CPU$平台不足以提供足够的计算能力。$GPU$平台对于神经网络训练而言是第一选择，因为$GPU$有很高的计算能力和易于使用的开发框架。&amp;ems">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yanxingang.com/images/translation1f1.PNG">
+<meta property="og:image" content="http://yanxingang.com/images/translation1f2.PNG">
+<meta property="og:image" content="http://yanxingang.com/images/translation1a1.PNG">
+<meta property="og:image" content="http://yanxingang.com/images/translation1f3.PNG">
+<meta property="og:image" content="http://yanxingang.com/images/translation1f4.PNG">
+<meta property="og:updated_time" content="2018-01-05T05:29:42.170Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="A Survey of FPGA Based Neural Network Accelerator">
+<meta name="twitter:description" content="论文网址摘要&amp;emsp;&amp;emsp;最近有关神经网络的研究已经表明其在计算机视觉领域相对于传统的基于手工标记特征和模型的算法有很大优势。神经网络现在被广泛应用于图像、语音以及视频识别等领域。但是神经网络算法计算和存储的巨大复杂度造成其应用上存在很大困难。$CPU$平台不足以提供足够的计算能力。$GPU$平台对于神经网络训练而言是第一选择，因为$GPU$有很高的计算能力和易于使用的开发框架。&amp;ems">
+<meta name="twitter:image" content="http://yanxingang.com/images/translation1f1.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yanxingang.com/2017/12/30/translation6/uncategorized/"/>
+
+
+
+
+
+  <title>A Survey of FPGA Based Neural Network Accelerator | Xingang Yan</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Xingang Yan</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about-me">
+          <a href="https://yanxingang.github.io/2017/12/29/aboutme-md/uncategorized/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About me
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yanxingang.com/2017/12/30/translation6/uncategorized/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr Yan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xingang Yan">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">A Survey of FPGA Based Neural Network Accelerator</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-30T18:35:12+08:00">
+                2017-12-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/30/translation6/uncategorized/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2017/12/30/translation6/uncategorized/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/12/30/translation6/uncategorized/" class="leancloud_visitors" data-flag-title="A Survey of FPGA Based Neural Network Accelerator">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong><a href="https://arxiv.org/pdf/1712.08934.pdf" target="_blank" rel="noopener">论文网址</a></strong><br><strong>摘要</strong><br>&emsp;&emsp;最近有关神经网络的研究已经表明其在计算机视觉领域相对于传统的基于手工标记特征和模型的算法有很大优势。神经网络现在被广泛应用于图像、语音以及视频识别等领域。但是神经网络算法计算和存储的巨大复杂度造成其应用上存在很大困难。$CPU$平台不足以提供足够的计算能力。$GPU$平台对于神经网络训练而言是第一选择，因为$GPU$有很高的计算能力和易于使用的开发框架。<br>&emsp;&emsp;另一方面，基于$FPGA$的神经网络加速器正成为一个研究的热点。因为特殊设计的硬件是下一个可能在速度和功耗上超过$GPU$的解决方案。为了提高速度、降低功耗，各种各样软硬件同时优化的$FPGA$的加速器设计被提出来。在本文中，我们概括了过去关于$FPGA$神经网络加速器的研究，并且总结了使用的主要技术。为了完成$FPGA$神经网络加速器设计的分析并为未来的研究提供指导，探究方式采用从软件到硬件、从电路层到系统层的模式。  </p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>&emsp;&emsp;最近有关神经网络(NN)的研究表明其相对于传统计算机视觉算法的优势。各种各样的神经网络模型，如卷积神经网络(CNN)、循环神经网络(RNN)，被提出应用于图像、视频和语音处理上。CNN[22]将前5名对于ImageNet[41]数据集的图像分类精度从73.8%提高到84.7%，并且由于其在特征提取上卓越的表现大大促进了物体检测发展。RNN[16]实现了对语音识别最高水准的字错误率。一般来说，神经网络具有较高的拟合能力，广泛适用于模式识别问题。这使得神经网络成为许多人工智能应用的希望候选。<br>&emsp;&emsp;但是神经网络模型计算和存储的复杂性是很高的。当前对于神经网络的研究仍然是增加神经网络模型的规模。以卷积神经网络为例，应用于$224\times224$图像分类的最大规模神经网络模型需要达到$390$亿次浮点运算(FLOP)和超过$500M$的模型参数[46]。因为计算复杂度是与输入图像的大小成比例的，所以处理更高分辨率的图像可能需要超过$1000$亿次运算。<br>&emsp;&emsp;因此，根据应用去选择合适的神经网络计算平台就非常重要了。一个普通的$CPU$能够实现一秒钟$10-100G FLOP$，并且功耗刚刚低于$1 GOP/J$。所以$CPUs$无论是在云端的高性能需求还是在终端的低功耗上都很难达到需求。与之相对应的，$GPUs$能够提供高达$10TOP/s$的最高性能，是高性能神经网络应用的不错选择。像$Caffe$和$Tensorflow$等开发框架同样提供了易于使用的界面，这使得$GPU$成为神经网络加速的第一选择。<br>&emsp;&emsp;除了$CPUs$和$GPUs$，$FPGAs$正成为低功耗神经网络处理的潜在平台。对于一个面向硬件设计的神经网络，$FPGAs$能够实现高并行，并且利用神经网络计算的特性去除不必要的逻辑单元。算法研究同样表明神经网络模型能够以一种硬件友好型的方式简化，而不损失模型准确度。因此$FPGAs$相对于$CPU$和$GPU$是可能实现更高能效的。<br>&emsp;&emsp;基于$FPGA$的加速器设计在性能和灵活性上正面临两个挑战：  </p>
+<blockquote>
+<ul>
+<li>当前$FPGAs$通常工作频率在$100-300MHz$，这要比$CPU$和$GPU$低很多。$FPGAs$过高的可重构逻辑也降低了系统整体的性能。直接在$FPGA$上进行设计很难达到高性能和高效能。</li>
+<li>在$FPGAs$上实现神经网络要远远比在$CPUs$和$GPUs$上难得多。FPGA需要像面向$CPU$和$GPU$的$Caffe$、$Tensorflow$这样的框架。   </li>
+</ul>
+</blockquote>
+<p>&emsp;&emsp;为了实现$FPGA$神经网络加速器更高的能效和灵活性，进行了许多针对上面两个问题的研究。在本文中，总结了这些工作中的技术。我们是从以下方面总结这些技术的：</p>
+<blockquote>
+<ul>
+<li>我们首先给出一个$FPGA$神经网络加速器的简单模型以分析能效设计的方法。</li>
+<li>我们研究了当前对于高性能和高能效的神经网络加速器设计的技术方法。我们从软件和硬件两个层面进行介绍，并且预估了这些技术的影响。</li>
+<li>我们比较了最新的神经网络加速器设计以评估被介绍的技术，并且预估可达到的$FPGA$神经网络加速器设计，其相对于当前的$GPUs$有至少40倍的能效。</li>
+<li>我们考察了$FPGA$神经网络加速器自动设计方法。  </li>
+</ul>
+</blockquote>
+<p>&emsp;&emsp;本文的剩余部分安排如下：第二部分介绍了神经网络的基本运算；第4部分和第5部分回顾了神经网络加速器在软硬件上的技术；第6部分比较并评估了现存的技术；第7部分介绍了灵活设计加速器的方法；第8部分为本文结论。  </p>
+<h2 id="神经网络初步研究"><a href="#神经网络初步研究" class="headerlink" title="神经网络初步研究"></a>神经网络初步研究</h2><p>&emsp;&emsp;在这一部分，我们介绍在神经网络算法中的基本运算。神经网络是一个生物启发的模型，它通常包括几个神经元的层。每一层将上一层的输出作为输入。在一个基本的神经网络层中，该层中的每个神经元计算与其相连的输入神经元与相应权重相乘之和。本文中将连接的权重表示为$weights$。最新的神经网络模型也介绍了其他类型的层。在本部分的剩余部分，我们介绍几种不同类型的层。<br>&emsp;&emsp;<strong>全连接层($Fully$ $connected$ $layer$)</strong> 实现了每个输入神经元与输出神经元之间存在一个权重的连接。CNN和RNN都采用了这种层。全连接层的输入和输出是两个向量$x$和$y$。该层的权重可表示为矩阵$W$。一个偏置量$b$被加到每个输出神经元中。该层的函数可表示为等式(1)。  </p>
+<script type="math/tex; mode=display">
+x=Wy+b \tag{1}</script><p>&emsp;&emsp;<strong>卷积层（$Convolution$ $layer$)</strong> 用于二维神经元处理。图像处理中的卷积神经网络常常采用卷积层。该层的输入输出神经元能够表示为二维特征映射，$F_{in}$和$F_{out}$。每个特征映射被称作一个通道。卷积层实现了每组输入输出之间的卷积矩阵$K_{ij}$和每个输出通道的偏差标量$b_{i}$。$M$个输入通道、$N$个输出通道的卷积层计算能够用等式(2)表示：  </p>
+<script type="math/tex; mode=display">
+F_{out}{(j)}=\sum_{i=0}^{M-1} conv2d{(F_{in}{(i)},K_{ij})+b_j} \quad j = 0,1,\dots,N-1
+\tag{2}</script><p>在卷积层中有多种二维卷积。通常使用卷积矩阵为$3\times3$带填充的标准卷积。对于大一点的卷积矩阵，如$5\times5$、$7\times7$等，通常使用大于1的步幅来减少操作次数和特征图大小。最近的研究也有使用$1\times1$的卷积矩阵[17，19]。<br>&emsp;&emsp;<strong>非线性层($Non-linear$ $layer$)</strong> 在每一个输入神经元上应用了非线性函数。在早期模型中，$sigmoid$函数和$tanh$函数是最常用的，并且仍在语音识别的循环神经网络中使用。$ReLU$激活函数应用于许多先进的模型之中。这个函数保留了神经元正值，并将负值置零。各种不同的$ReLU$同样得以应用，如$PReLU$和$Leaky ReLU$[56]。<br>&emsp;&emsp;<strong>池化层($Pooling$ $layer$)</strong> 也应用于像卷积层一样的二维神经元处理中。池化层分别向下采样每个输入通道，这有助于降低特征维度。有两种向下采样的方法：平均池化和最大池化。平均池化将特征图分割成小窗口，如$2\times2$窗口，并找出每个窗口的平均值。最大池化方法即为找出每个窗口的最大值。常见的窗口大小包括$2\times2$，步幅为2；$3\times3$，步幅为2。<br>&emsp;&emsp;<strong>元素操作层($Element-wise$ $layer$)</strong> 通常用于$RNN$中，在一些$CNN$模型中也有应用[17]。该层接收两个同样大小的神经元向量，并在两个向量的相应神经元上应用基于元素的运算。在$ResNet$中，这个层是元素加法。对于$RNN$，这个层是元素减法或乘法。<br>&emsp;&emsp;在这些层中，全连接层和卷积层是神经网络中最占用计算和存储的。在接下来的部分，所有软硬件设计都是针对这两种层的。</p>
+<h2 id="设计方法"><a href="#设计方法" class="headerlink" title="设计方法"></a>设计方法</h2><p>&emsp;&emsp;在开始分析更快、更高能效的神经网络加速器具体技术细节之前，我们首先给出一个设计方法的概述。一般来说，一个神经网络系统的设计目标包括一下三个方面：高模型准确率、高吞吐和高能效。对于特定的应用，高灵活性可能也会被考虑。<br>&emsp;&emsp;通常，一个大的神经网络往往能够保证高模型准确率。不同的网络结构，像[17,22,46]中的，确实会影响模型准确率，但不在本文的讨论范围之内。同一个模型，用模型压缩的方法去平衡吞吐率与模型准确率。一些模型压缩的方法在没有准确率损失的情况下甚至达到加速。<br>&emsp;&emsp;一个神经网络系统的吞吐率能够用等式(3)来表示。借助模型压缩的方式，我们能够减少$workload$。在一个$FPGA$芯片中，片上资源是有限的。提高最高性能意味着降低计算量并提高工作频率。降低计算量可通过简化神经网络中基本的运算来实现，这可能会损失模型精度，并且需要软硬件协同设计。提高工作频率却是一个单纯的硬件设计工作。通过合理的并行执行和高效的内存系统能够实现高利用率。这部分主要受硬件设计影响。但是模型压缩同样能够降低神经网络模型存储需求，同时有利于内存系统。</p>
+<script type="math/tex; mode=display">
+throughput=\frac{peak_performance\times utilization}{workload}
+\tag{3}</script><p>&emsp;&emsp;能效是以单位能耗下能够进行多少次运算(此处为乘法、加法)评估的。对于一个特定的神经网络模型，神经网络系统的能效是与能耗成反比的，其用等式(4)来表示。能耗来自于两部分：计算和内存访问。</p>
+<script type="math/tex; mode=display">
+E_{total}=N_{effect\_op}\times E_{uint\_op} + N_{mem\_access}\times E_{uint\_mem\_access}
+\tag{4}</script><p>&emsp;&emsp;在等式(4)中的第一项为计算的能耗。这部分很大程度上收模型压缩的影响。模型压缩的方法能够从硬件上减少计算执行的次数$N_{effect\_op}$，并且能够降低单次运算的能耗。对于$FPGA$实现而言，单次运算能耗也受其硬件实现的影响。(4)中第二项为内存访问的能耗。内存访问次数受内存系统和调度方法的影响。可通过模型压缩降低位宽来降低单次内存访问的能耗。<br>&emsp;&emsp;从吞吐和能量的分析来看，神经网络加速器涉及到软硬件协同设计。在接下来的部分，我们将分别介绍过去在软件和硬件方面关于神经网络的工作。</p>
+<h2 id="软件设计：模型压缩"><a href="#软件设计：模型压缩" class="headerlink" title="软件设计：模型压缩"></a>软件设计：模型压缩</h2><p>&emsp;&emsp;如第三部分所介绍，高能效和高性能的神经网络加速器设计设计到软件和硬件的协同。在本部分，我们研究软件层面网络模型压缩的方法。已经进行了很多关于这个话题的很多研究，通过减少权重$weights$的数量或者降低每个神经元、权重的比特位宽，来帮助减小计算量和存储复杂度。但是这些方法同时也损失了模型准确率。本部分主要讨论在模型压缩和模型准确率损失之间如何平衡的问题。</p>
+<h3 id="数据量化"><a href="#数据量化" class="headerlink" title="数据量化"></a>数据量化</h3><p>&emsp;&emsp;模型压缩最常用的方法之一就是权重和神经元的量化。在常规的开发框架中，神经网络的神经元和权重通常用浮点数表示。最近的研究尝试用低位宽的定点数甚至是一小组训练值来代替浮点数表示。一方面，用低位宽的神经元和位宽能够降低神经网络系统的带宽和存储需求。另一方面，使用简化的表示方式能够降低硬件每次计算的消耗。硬件的所得好处将会在第5部分具体讨论。在本部分讨论两种量化方法：线性量化和非线性量化。  </p>
+<h4 id="线性量化"><a href="#线性量化" class="headerlink" title="线性量化"></a>线性量化</h4><p>&emsp;&emsp;线性量化是寻找每个权重和神经元的最近的定点数表达。这个方法的问题是浮点数表示的动态范围远远超过了定点数。绝大部分的权重和神经元都面临着上溢出和下溢出的风险。$Qiu$在[40]中发现在单层中神经元和权重的动态范围更加有限，并且在不同层之间是不同的。因此，他们给不同层中的神经元和权重分配不同的小数位宽。为了确定一组数据即一层的神经元与权重的分数位宽，首先需要分析数据的分布。一组可能的分数位宽作为备选方案。然后选择对训练数据集表现最好的小数位宽方案。在[40]中，网络的最优方案是一层一层选择的，以避免修改指数设计。$Guo$，在[13]中，在确定所有层的小数位宽之后通过微调模型大大提高了该方法。<br>&emsp;&emsp;选择某个小数位宽的方法等同于以比例因子$2^k$缩放数据。$Li$等人为每层用训练的参数$W^l$缩放权重，并且用表示为$W^l$，$0$，$-W^l$的2位数量化比重。在这个研究中神经元没有被量化。所以，神经网络仍然实现的是32位的浮点数运算。$Zhou$等人只用1位$\pm s$量化一个层的权重，而$s=E(|{w^l}|)$是该层权重绝对值的期望。这项研究中也运用了线性量化。  </p>
+<h4 id="非线性量化"><a href="#非线性量化" class="headerlink" title="非线性量化"></a>非线性量化</h4><p>&emsp;&emsp;与线性量化相比，非线性量化独立地赋值给不同的二进制码。从一个非线性编码到其真实值就是一个查找表。这种方法极大地帮助了减少每个神经元和权重的位宽。$Chen$等人在[6中]通过预定义哈希函数将每个权重分配到查找表的一项，并训练查找表中的值。$Han$等人在[15]中通过聚类某一已训练的模型将查找表中的值赋给权重。将每个查找表中的值作为聚类中心并且用训练数据集进行微调。这个方法能够在没有精度损失的情况下压缩最新的$CNN$模型权重。$Zhu$等人在[65]中提出三元量化网络，所有的权重被量化为三个值：$W^n$，$0$，$W^p$。量化值、权重与查找表之间的对应关系都会被训练。这个方法牺牲了基于$ImageNet$数据集的最新的神经网络上2%的准确率。权重的位宽从32位降到2位，这意味着大约16倍的压缩率。  </p>
+<h4 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h4><p>&emsp;&emsp;我们在表1中比较了不同的量化方法。标签表示了实验的$BW_{weight}\times BW_{neurons}$和网络名称。‘$(FT)$’表示网络在线性化之后进行了微调。比较不同模型中的不同方法有一点有失公允。但是这仍能给予一些见解。对于线性量化而言，8位是准确度损失是否可忽略的界限。对于6位及其以下的位数，微调甚至开始时就训练权重也会造成明显的精度下降。如果我们需要将1%的精度损失作为可接受的范围，那么我们可以发现$8 \times 8$线性量化和$2 \times 32$非线性量化是最低的量化界限。我们将在第五部分进一步讨论量化的性能增益。<br><img src="\images\translation1f1.PNG" alt="">  </p>
+<h3 id="减小权重"><a href="#减小权重" class="headerlink" title="减小权重"></a>减小权重</h3><p>&emsp;&emsp;除了降低神经元和权重的位宽，另一个模型压缩的方法就是减小权重。其中一种方法是用一个低秩的表达去近似权重矩阵。$Qiu$等人在[40]中用奇异值分解($singular$ $value$ $decomposition$)去压缩全连接层的权重矩阵$W$。一个$m\times n$的权重矩阵$W$用两个矩阵的乘积$A_{m \times p}B_{p \times n}$代替。对于一个足够小的$p$，全部的权重数量减少了。这项研究以0.04%的分类准确率降低量将最开始的$VGG$网络中最大的全连接层压缩了36%。$Zhang$等人在[62]中对卷积层应用了相似的方法，并将后面非线性层的效果纳入分解优化的过程。这种方法以0.9%的准确度损失达到对基于$ImageNet$数据集最新<br>的$CNN$模型4倍的加速。<br>&emsp;&emsp;剪枝是另外一种减少权重数量的方法。这种方法直接移除了权重中的“0”项和绝对值较小项。剪枝的难点在于怎样在保证模型准确率的情况下使更多的权重为0。一种解决方法是在训练中应用$lasso$函数。$Liu$等人在[26]中对$AlexNet$[22]模型应用$spase$ $group-lasso$函数。在准确率损失低于1%的情况下移除了90%的权重。另外一种方法是在训练过程中剪枝“0”项。$Han$等人在[15]中直接在网络中移除了“0”项以及绝对值较小项。留下来的权重再去微调训练以恢复准确度。在$AlexNet$上的实验结果表明在保证准确度的情况下能够移除89%的权重。<br>&emsp;&emsp;来自权重数减小的硬件性能提高是压缩比的倒数($reciprocal$)。根据上面的结果，来自权重减小量的提高能达到10倍。  </p>
+<h2 id="硬件设计：高效率架构"><a href="#硬件设计：高效率架构" class="headerlink" title="硬件设计：高效率架构"></a>硬件设计：高效率架构</h2><p>&emsp;&emsp;在这一部分，我们研究为了实现高性能和高效能的FPGA神经网络加速器的硬件层面的技术。我们将其技术分为三个层级：计算单元层，循环展开层，系统层。</p>
+<h3 id="计算单元层"><a href="#计算单元层" class="headerlink" title="计算单元层"></a>计算单元层</h3><p>&emsp;&emsp;计算单元层面的设计影响神经网络加速器的最高性能。对于一片确定的FPGA，可用的资源是有限的。一个更小的计算单元设计意味着有更多的计算单元和更高的性能。一个仔细设计的计算单元阵列同样也可以增加工作频率，并因此提高最高性能。</p>
+<h4 id="低位宽单元"><a href="#低位宽单元" class="headerlink" title="低位宽单元"></a>低位宽单元</h4><p>&emsp;&emsp;降低计算的位宽数是减小计算单元大小的直接方式。使用更小位宽的可行性来自于4.1部分介绍的量化方法。绝大部分最新的$FPGA$设计用定点数单元代替了32位浮点数单元。$Podili$等人在[38]中为系统实现了32位定点数单元。[10，24，40，55，57]中均采用了16位定点神经元设计。$Guo$在[13]中在他们的嵌入式$FPGA$中使用了8位单元。最近的研究还是关注于及其小位宽的设计。$Prost-Boucle$在[39]中用1个$LUT$实现了三元网络的2位乘法。[37]中的实验表明FPGA实现二值神经网络性能($BNN$)优于在$CPU$和$GPU$上。尽管$BNN$有精度损失，许多设计仍在探索1位计算的好处[21，25，32，35，48，63]。<br>&emsp;&emsp;上面提到的主要集中于线性量化的计算单元。对于非线性量化，将数据对应到全精度的计算仍是高耗费的。$Samragh$等人在[42]中提出基于点积实现的分解系数。由于在非线性量化中权重的可能值非常有限，所提出的计算单元为每个可能的权重值的乘法累加求和，并将其结果作为查找表中权重之和。在这种方式中，一个输出神经元的乘法等同于查找表中的数。原来的乘法被随机的积分所代替。<br>&emsp;&emsp;绝大部分的设计在神经网络中均使用相同的位宽。$Qiu$等人在[40]中发现在保持准确率的情况下全连接层的神经元和权重比卷积层可用更少的位宽。[12，63]中使用了异构($Heterogeneous$)计算单元。<br>&emsp;&emsp;表2比较了不同位宽的计算单元的规模。综合后的资源消耗是$Vivado$ $2017.2$的结果。所有的$IPs$都没有使用$DSP$资源。尽管我们倾向于在实际实现时使用$DSPs$，但这个结果却可以显示真实的硬件消耗。像[40]中，一些运算用$DSP$和其他的逻辑资源来实现，用这种混合式的方式来实现计算单元是非常普遍的。<br>&emsp;&emsp;在神经网络中，乘法和加法的计算次数大约是相同的。所以乘法器和加法器的资源总和就是全部消耗。32位的定点数运算和32位的浮点数运算所消耗的资源基本是相同的。而对16位的运算，使用定点格式能够节省30%的资源。4.1部分介绍过，8位的定点运算是线性量化的界限。相对于32位运算，8位能在相同的逻辑面积上实现14倍的运算。如果进一步研究可以利用4位运算，这个优势能变为54倍。对于1位的设计，提高能够达到1000倍。<br><img src="\images\translation1f2.PNG" alt=""> </p>
+<h4 id="快速卷积单元"><a href="#快速卷积单元" class="headerlink" title="快速卷积单元"></a>快速卷积单元</h4><p>&emsp;&emsp;对于卷积层，卷积运算能够被特殊的算法加速。基于快速卷积的离散傅里叶变换($DFT$)广泛适用于数字信号处理上。$Zhang$等人在[59]中为了高效的卷积层执行提出了一种基于硬件设计的二维离散傅里叶变换。对于一个$F \times F$与$K \times K$卷积的滤波器，离散傅里叶变换将空间域上$(F-K+1)^2K^2$次乘法转换为频域上$F^2$复杂度的乘法。对于一个有$M$个输入通道、$N$个输出通道的卷积层，需要$MN$次频域乘法，而$DFT$只需要$(M+N)$次。卷积矩阵的转换只需要一次。所以对于卷积层而言，域转换是低消耗的。对于步长$&gt;1$或者$1 \times 1$卷积的卷积层，这个方法是不适用的。$Ding$等人在[8]中建议块循环约束可以应用于权重矩阵上。在这种方法中，在全连接层的矩阵向量乘法被转换为一组一维卷积，并且能够在频域里加速。这种方法同样可以通过把$K \times K$看作$K \times K$矩阵应用于卷积层中，并且不受$K$和步长的限制。<br>&emsp;&emsp;频域方法需要复数乘法。另外一种快速卷积的方法只涉及实数乘法[53]。等式(5)表示了使用$Winograd$算法的二维特征映射$F_{in}$的卷积。</p>
+<script type="math/tex; mode=display">
+F_out=A^T{[(GF_{in}G^T) \odot (BF_{in}B^T)]}A
+\tag{5}</script><p>$G$，$B$和$A$是只与卷积矩阵和特征映射有关的变换矩阵。$\odot$表示两个矩阵的元素乘法。对一个与$3 \times 3$卷积矩阵卷积的$4 \times 4$的特征映射，变换矩阵可以用下式表示：</p>
+<script type="math/tex; mode=display">
+    G=
+    \begin{bmatrix}
+    1 & 0 & 0 \\
+    1/2 & 1/2 & 1/2 \\
+    1/2 & -1/2 & 1/2 \\
+    0 & 0 & 1 
+    \end{bmatrix}</script><script type="math/tex; mode=display">
+    B=
+    \begin{bmatrix}
+    1 & 0 & -1 & 0\\
+    1 & 1 & 1 & 0\\
+    0 & -1 & 1 & 0\\
+    0 & 1 & 0 & -1
+    \end{bmatrix}</script><script type="math/tex; mode=display">
+    A=
+    \begin{bmatrix}
+    1 & 0  \\
+    1 & 1 \\
+    1 & -1  \\
+    0 & 1 
+    \end{bmatrix}</script><p>基于$Winograd$的方法受限于卷积矩阵的$size$和$DFT$的步长。最常使用$Winograd$变换的是在[28，55]中的$3 \times 3$卷积。<br>&emsp;&emsp;快速卷积的理论性能取决于变换矩阵的$size$。因为基于$DFT$的方法使用了复数运算并且很耗费硬件资源，我们根据在[28]中的$6 \times 6$ $Winograd$预估性能上理论值能高达4倍。  </p>
+<h4 id="DSP-优化"><a href="#DSP-优化" class="headerlink" title="$DSP$优化"></a>$DSP$优化</h4><p>最近的FPGA与可重构逻辑一起实现了强化的DSP单元，以提供高计算能力。一个$DSP$单元的基本运算是乘法累加($MAC$)。乘法和加法的位宽是确定的。当神经网络中用的位宽和$DSP$单元的位宽不匹配时，$FPGA$不能被充分利用。$Altera$ $FPGA$中最新的$DSP$单元实现了2个$18 \times 19$的乘法器，并且能够配置为$27 \times 27$的乘法器或者一个32位的浮点数乘法器[1]。$Xilinx$ $FPGA$能够实现$27 \times 18$的乘法器[2]。正如5.1.1部分所提到的，许多设计采用了等于或者少于16位的乘法运算，这可能会造成$DSP$利用率大大下降。<br>&emsp;&emsp;$Nguyen$等人在[36]中提出用一个比特位数较宽的乘法器去实现两个比特位数较少的乘法运算的设计。在该设计中，$AB$和$AC$能够用一个乘法$A{(B&lt;&lt;k+C)}$来执行。如果$k$足够大，那么$AB$和$AC$在乘法运算中不会交叠，并且能够直接分离。在[36]中的设计用一个$25 \times 18$的乘法器实现了两个8位的乘法运算，此处$k$为9。相似的方法能够适用于其他位宽和$DSP$中。如果使用这项技术，理论上最高性能高达两倍。  </p>
+<h4 id="频率优化方法"><a href="#频率优化方法" class="headerlink" title="频率优化方法"></a>频率优化方法</h4><p>&emsp;&emsp;上述所有的技术都是在一个特定的$FPGA$上去增加计算单元。增加计算的工作频率同样能够提高性能。<br>&emsp;&emsp;为了实现高并行性。神经网络加速器通常都是实现矩阵与向量的乘法或者矩阵与矩阵的乘法，而不是向量内积作为基本运算。不同的计算单元共享运算器。简单的调用数据到不同的计算单元上就会造成大量扇出，浪费布线资源，并因此降低工作频率。$Wei$等人在[52]中使用了脉动阵列结构用于他们的设计。共享数据以链式方式从一个计算单元转移到下一个计算单元。所以数据不会被$broadcast$，而只需在相邻的计算单元中连接。缺点是会增加延迟。随着神经网络模型的处理被确定并且收缩结构被完全流水线化，延迟开销可以被完全覆盖。<br>&emsp;&emsp;最近的$FPGA$ $DSP$支持理论最高$700-900MHz$的工作频率。但是现存的工作频率一般在$100-300MHz$[13，30，40，57]。如[54]中说明，工作频率受限于片上$SRAM$与$DSP$单元之间的布线。[54]中的设计为$DSP$单元和周围的逻辑使用了不同的工作频率。每个$DSP$单元的相邻$slice$被用作局部$RAM$来分离时钟域。在[54]中的原型设计在不同等级的$FPGA$上实现了最高$741MHz$和$891MHz$的$DSP$工作频率。然而这个方法还没有被一个完整的神经网络加速器设计所采纳。不用该方法，现存设计可达到$300MHz$，所以我们预估理论硬件性能还可达到两倍。  </p>
+<h3 id="循环展开策略"><a href="#循环展开策略" class="headerlink" title="循环展开策略"></a>循环展开策略</h3><p>&emsp;&emsp;第二部分介绍过，卷积层和全连接层占一个神经网络的计算和存储需求的绝大部分。我们将等式2中的卷积层函数表示为算法1中的嵌套循环。为了使代码更加清晰易读，我们分别为特征映射和二维卷积核沿$x$和$y$的方向合并映射。一个全连接层可以看作一个特征映射和核的大小均为$1 \times 1$的卷积层。除了算法1中的循环，我们同样将多个输入的过程的并行看作一个$batch$。这形成了$batch$循环。<br><img src="\images\translation1a1.PNG" alt=""><br>&emsp;&emsp;为了并行化执行这些循环操作，我们将循环的一个特定部分展开，并将这部分的每一个运算映射到一个硬件计算单元中。一组不恰当的循环展开参数可能会造成硬件资源严重利用不足。我们以图3所示的3个嵌套循环为例。大立方体表示循环内的所有操作。每条边的长度表示循环的行程计数。小立方体表示展开的核，其边缘代表展开的参数。满负载工作意味着小的立方体填满大的立方体。图3(a)表示了一组合适的展开参数。但是图3(b)中，红色部分表示一些小立方体的某些部分在大立方体之外，这意味着硬件资源的浪费。<br><img src="\images\translation1f3.PNG" alt=""><br>&emsp;&emsp;在图3中可以很明显的看出如果一个循环的行程计数太小，该循环展开参数就会受限。对于一个$CNN$模型，循环的大小在不同层之间变化很大。对于一个像$ResNet$一样在$ImageNet$分类中使用的普通网络，通道数可从3到2048间变化，特征映射可从$224 \times 224$到$7 \times 7$之间变化，卷积核的大小可从$7 \times 7$到$1 \times 1$之间变化。除了利用率的问题，循环展开还会影响到片上内存和数据通道的设计。因此循环展开的策略是一个神经网络加速器设计的关键。<br>&emsp;&emsp;各种各样的研究主要围绕在如何去选择展开参数。$Zhang$等人在[58]中提出了展开输入通道和输出通道循环的思想，并通过设计空间探索来选择最优的展开参数。在这两个循环之间，相邻迭代间没有输入数据交叉相关性。因此，不需要多路复用器将数据从片上缓冲器运送到计算单元。但是并行化被$7 \times 64=448$个乘法器所限制。对更大的并行化，这个方法很容易面临利用率低的问题。$Ma$等人zai[30]中通过允许在特征映射循环上并行化进一步扩展了设计空间。这个并行化可达到$1 \times 16 \times 14 \times 14=3136$个乘法器。移位寄存器结构被用来将特征映像素送到计算单元。<br>&emsp;&emsp;在上面的工作中没有选择核循环，因为核的大小差别很大。$Motamedi$在[33]中使用核展开应用于$AlexNet$。即使对于$11 \times 11$和$5 \times 5$核进行$3 \times 3$展开，整个系统的性能仍能达到卷积层的最高性能的97.4%。对于特定的像$VGG$[46]的网络，只能使用$3 \times 3$的卷积核。$Qiu$等人在[40]中使用行缓冲结构来实现$3 \times 3$滑动窗口函数，并且完全并行化核循环。另外一个展开核循环的原因是用快速卷积算法达到加速。[59]中的设计在$4 \times 4$特征映射和$3 \times 3$核上完全实现了并行频域乘法运算。$Lu$等人在[28]中为等式5在$FPGA$上实现了专用的流水线。$6 \times 6$核上的$3 \times 3$核的卷积完全并行化了。<br><img src="\images\translation1f4.PNG" alt=""><br>&emsp;&emsp;上面的解决方案仅仅是针对单层。但是几乎没有一个适用于整个网络的通用解决方案，特别是当我们需要高并行时。<br>&emsp;&emsp;  </p>
+<h3 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h3><p>&emsp;&emsp;<br>&emsp;&emsp;<br>&emsp;&emsp;<br>&emsp;&emsp;<br>&emsp;&emsp;  </p>
+<h2 id="评估"><a href="#评估" class="headerlink" title="评估"></a>评估</h2><h4 id="备注："><a href="#备注：" class="headerlink" title="备注："></a>备注：</h4><p><a href="https://www.zhihu.com/question/21686447" target="_blank" rel="noopener">卷积的物理意义</a><br><a href="https://en.wikipedia.org/wiki/Kernel_(image_processing)" target="_blank" rel="noopener">Convolution kernel 的意思</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/翻译/" rel="tag"># 翻译</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/29/aboutme-md/uncategorized/" rel="next" title="About Me">
+                <i class="fa fa-chevron-left"></i> About Me
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/01/2018/uncategorized/" rel="prev" title="2018！I'm coming">
+                2018！I'm coming <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div onclick="showGitment()" id="gitment-display-button">显示 Gitment 评论</div>
+        <div id="gitment-container" style="display:none"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/touxiang.jpg"
+                alt="Mr Yan" />
+            
+              <p class="site-author-name" itemprop="name">Mr Yan</p>
+              <p class="site-description motion-element" itemprop="description">This is the story of an idea</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Yanxingang" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1928847546@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-qq"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+            
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#神经网络初步研究"><span class="nav-number">2.</span> <span class="nav-text">神经网络初步研究</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设计方法"><span class="nav-number">3.</span> <span class="nav-text">设计方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#软件设计：模型压缩"><span class="nav-number">4.</span> <span class="nav-text">软件设计：模型压缩</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据量化"><span class="nav-number">4.1.</span> <span class="nav-text">数据量化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#线性量化"><span class="nav-number">4.1.1.</span> <span class="nav-text">线性量化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#非线性量化"><span class="nav-number">4.1.2.</span> <span class="nav-text">非线性量化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#比较"><span class="nav-number">4.1.3.</span> <span class="nav-text">比较</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#减小权重"><span class="nav-number">4.2.</span> <span class="nav-text">减小权重</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#硬件设计：高效率架构"><span class="nav-number">5.</span> <span class="nav-text">硬件设计：高效率架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#计算单元层"><span class="nav-number">5.1.</span> <span class="nav-text">计算单元层</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#低位宽单元"><span class="nav-number">5.1.1.</span> <span class="nav-text">低位宽单元</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#快速卷积单元"><span class="nav-number">5.1.2.</span> <span class="nav-text">快速卷积单元</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DSP-优化"><span class="nav-number">5.1.3.</span> <span class="nav-text">$DSP$优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#频率优化方法"><span class="nav-number">5.1.4.</span> <span class="nav-text">频率优化方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#循环展开策略"><span class="nav-number">5.2.</span> <span class="nav-text">循环展开策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#系统设计"><span class="nav-number">5.3.</span> <span class="nav-text">系统设计</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#评估"><span class="nav-number">6.</span> <span class="nav-text">评估</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#备注："><span class="nav-number">6.0.1.</span> <span class="nav-text">备注：</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-yanxingang"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yanxingang</span>
+
+  
+</div>
+
+
+  <div class="powered-by"></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info"></div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'Yanxingang',
+            repo: 'mygitment_hexo',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: 'a86bbb5e1222aeea5fce81845dc2dd6d7129c119',
+            
+                client_id: '353225e81e70f8f76366'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      function showGitment(){
+        document.getElementById("gitment-display-button").style.display = "none";
+        document.getElementById("gitment-container").style.display = "block";
+        renderGitment();
+      }
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("kcLakFAl5FIayd5pjiSVwFQj-gzGzoHsz", "vVyw9jgi80os2p6RXolwC604");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "bottomCenter";
+      
+          pbOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+  </script>
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
