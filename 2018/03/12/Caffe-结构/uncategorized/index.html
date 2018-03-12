@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Caffe," />
 
 
 
@@ -79,19 +79,20 @@
 
 
 
-<meta name="description" content="NowI’m a student from NEU. My research interests include optimization, FPGA.    PastI have participated in several competitions, including ABU Robocon and National Undergraduate Electronic Design Con">
+<meta name="description" content="本文来自 BlobBlob是Caffe里面最基本的数据包，这种数据形式能够保证CPU以及GPU之间数据交换没有同步上的问题，数学上，是以C连续方式存储的N维数组。Caffe存储数据和交换数据都是采用的Blob的形式，Blob提供了保存数据的统一的存储器接口; 例如批量的图像，模型参数和用于优化的派生物。Blob通过根据需要从CPU主机同步到GPU设备来隐藏混合CPU / GPU操作的计算。主机和设">
+<meta name="keywords" content="Caffe">
 <meta property="og:type" content="article">
-<meta property="og:title" content="About Me">
-<meta property="og:url" content="http://yanxingang.com/2017/12/29/aboutme-md/uncategorized/index.html">
+<meta property="og:title" content="Caffe 结构">
+<meta property="og:url" content="http://yanxingang.com/2018/03/12/Caffe-结构/uncategorized/index.html">
 <meta property="og:site_name" content="Xingang Yan">
-<meta property="og:description" content="NowI’m a student from NEU. My research interests include optimization, FPGA.    PastI have participated in several competitions, including ABU Robocon and National Undergraduate Electronic Design Con">
+<meta property="og:description" content="本文来自 BlobBlob是Caffe里面最基本的数据包，这种数据形式能够保证CPU以及GPU之间数据交换没有同步上的问题，数学上，是以C连续方式存储的N维数组。Caffe存储数据和交换数据都是采用的Blob的形式，Blob提供了保存数据的统一的存储器接口; 例如批量的图像，模型参数和用于优化的派生物。Blob通过根据需要从CPU主机同步到GPU设备来隐藏混合CPU / GPU操作的计算。主机和设">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yanxingang.com/images/about.jpg">
-<meta property="og:updated_time" content="2018-01-04T05:30:34.807Z">
+<meta property="og:image" content="http://caffe.berkeleyvision.org/tutorial/fig/logreg.jpg">
+<meta property="og:updated_time" content="2018-03-12T08:52:02.842Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="About Me">
-<meta name="twitter:description" content="NowI’m a student from NEU. My research interests include optimization, FPGA.    PastI have participated in several competitions, including ABU Robocon and National Undergraduate Electronic Design Con">
-<meta name="twitter:image" content="http://yanxingang.com/images/about.jpg">
+<meta name="twitter:title" content="Caffe 结构">
+<meta name="twitter:description" content="本文来自 BlobBlob是Caffe里面最基本的数据包，这种数据形式能够保证CPU以及GPU之间数据交换没有同步上的问题，数学上，是以C连续方式存储的N维数组。Caffe存储数据和交换数据都是采用的Blob的形式，Blob提供了保存数据的统一的存储器接口; 例如批量的图像，模型参数和用于优化的派生物。Blob通过根据需要从CPU主机同步到GPU设备来隐藏混合CPU / GPU操作的计算。主机和设">
+<meta name="twitter:image" content="http://caffe.berkeleyvision.org/tutorial/fig/logreg.jpg">
 
 
 
@@ -121,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yanxingang.com/2017/12/29/aboutme-md/uncategorized/"/>
+  <link rel="canonical" href="http://yanxingang.com/2018/03/12/Caffe-结构/uncategorized/"/>
 
 
 
 
 
-  <title>About Me | Xingang Yan</title>
+  <title>Caffe 结构 | Xingang Yan</title>
   
 
 
@@ -254,7 +255,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yanxingang.com/2017/12/29/aboutme-md/uncategorized/">
+    <link itemprop="mainEntityOfPage" href="http://yanxingang.com/2018/03/12/Caffe-结构/uncategorized/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Mr Yan">
@@ -271,7 +272,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">About Me</h1>
+          <h1 class="post-title" itemprop="name headline">Caffe 结构</h1>
         
 
         <div class="post-meta">
@@ -283,8 +284,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-29T20:44:29+08:00">
-                2017-12-29
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-12T15:03:04+08:00">
+                2018-03-12
               </time>
             
 
@@ -302,8 +303,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/12/29/aboutme-md/uncategorized/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count gitment-comments-count" data-xid="/2017/12/29/aboutme-md/uncategorized/" itemprop="commentsCount"></span>
+                <a href="/2018/03/12/Caffe-结构/uncategorized/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/03/12/Caffe-结构/uncategorized/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -311,7 +312,7 @@
 
           
           
-             <span id="/2017/12/29/aboutme-md/uncategorized/" class="leancloud_visitors" data-flag-title="About Me">
+             <span id="/2018/03/12/Caffe-结构/uncategorized/" class="leancloud_visitors" data-flag-title="Caffe 结构">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -342,9 +343,78 @@
       
 
       
-        <p><img src="\images\about.jpg" alt=""></p>
-<h2 id="Now"><a href="#Now" class="headerlink" title="Now"></a>Now</h2><p><strong>I’m a student from NEU. My research interests include optimization, FPGA.</strong>   </p>
-<h2 id="Past"><a href="#Past" class="headerlink" title="Past"></a>Past</h2><p><strong>I have participated in several competitions, including ABU Robocon and National Undergraduate Electronic Design Contest. If you have any questions about these competitions, I’m willing to communicate with you.</strong></p>
+        <p><a href="http://caffe.berkeleyvision.org/tutorial/net_layer_blob.html" target="_blank" rel="noopener">本文来自</a></p>
+<h2 id="Blob"><a href="#Blob" class="headerlink" title="Blob"></a>Blob</h2><p>Blob是Caffe里面最基本的数据包，这种数据形式能够保证CPU以及GPU之间数据交换没有同步上的问题，数学上，是以C连续方式存储的N维数组。Caffe存储数据和交换数据都是采用的Blob的形式，Blob提供了保存数据的统一的存储器接口; 例如批量的图像，模型参数和用于优化的派生物。Blob通过根据需要从CPU主机同步到GPU设备来隐藏混合CPU / GPU操作的计算。主机和设备上的内存按需分配以提高内存使用率。<br><strong>Blob几个参数各代表什么意思？</strong>   </p>
+<h2 id="Implementation-Details"><a href="#Implementation-Details" class="headerlink" title="Implementation Details"></a>Implementation Details</h2><p>Blob存储了两大块数据：  </p>
+<ul>
+<li>data: 传递的正常的数据</li>
+<li>diff: 网络的梯度  </li>
+</ul>
+<p>这些数据既能够存储在CPU也可以存储在GPU中，有两种使用他们的方式：常量方式和指针方式：  </p>
+<pre><code class="lang-c">const Dtype* cpu_data() const;
+Dtype* mutable_cpu_data();
+</code></pre>
+<p>这样设计的原因在于，Blob使用SyncedMem类去同步CPU和GPU之间的值，以隐藏同步的细节、减少数据传输。**要点：如果不想让值改变，就使用常量回调，不要在自己的object中存储指针。每次操作Blob的时候，回调函数得到指针，因为SyncedMem需要其来弄清楚我什么时候去copy数据。<br>在练习的时候，如果GPU存在，首先数据从硬盘中被传入CPU代码中的Blob，调用一个device kernel来让GPU计算，并且将Blob送往下一层，要达到高层级性能会忽略底层级的细节。只要所有的层都用GPU实现，所有的中间数据、梯度值都会保存在GPU中。<br>如果想要查看何时Blob将会copy数据，下面是一个示例：  </p>
+<pre><code class="lang-c">// Assuming that data are on the CPU initially, and we have a blob.
+const Dtype* foo;
+Dtype* bar;
+foo = blob.gpu_data(); // data copied cpu-&gt;gpu.
+foo = blob.cpu_data(); // no data copied since both have up-to-date contents.
+bar = blob.mutable_gpu_data(); // no data copied.
+// ... some operations ...
+bar = blob.mutable_gpu_data(); // no data copied when we are still on GPU.
+foo = blob.cpu_data(); // data copied gpu-&gt;cpu, since the gpu side has modified the data
+foo = blob.gpu_data(); // no data copied since both have up-to-date contents
+bar = blob.mutable_cpu_data(); // still no data copied.
+bar = blob.mutable_gpu_data(); // data copied cpu-&gt;gpu.
+bar = blob.mutable_cpu_data(); // data copied gpu-&gt;cpu.
+</code></pre>
+<h2 id="Layer-computation-and-connections"><a href="#Layer-computation-and-connections" class="headerlink" title="Layer computation and connections"></a>Layer computation and connections</h2><p>层是一个模型的本质和最基础的计算单元。<br>查看<a href="http://caffe.berkeleyvision.org/tutorial/layers.html" target="_blank" rel="noopener">layer catalogue</a>。<br>Caffe中的层是按照从底层往顶层的连接方式。每一层定义了三个关键计算步骤：  </p>
+<ul>
+<li>Setup:在模型初始化的时候初始化层和连接。</li>
+<li>Forward:从底层到高层的前向传播。</li>
+<li>Backward:从高层到底层的反向传播。一个层将在内部存储这些梯度值：w.r.t。  </li>
+</ul>
+<p>要点：有两个正向和反向的函数实现，一个为CPU计算，一个为GPU计算。如果不用GPU，Caffe就只用CPU计算。</p>
+<h2 id="Net-definition-and-operation"><a href="#Net-definition-and-operation" class="headerlink" title="Net definition and operation"></a>Net definition and operation</h2><p>Caffe的模型是端对端的机器学习模型。<br>一个网络中的每层是按照计算图表的方式连接（DAC）。<br><img src="http://caffe.berkeleyvision.org/tutorial/fig/logreg.jpg" alt="">  </p>
+<pre><code class="lang-c">name: &quot;LogReg&quot;
+layer {
+  name: &quot;mnist&quot;
+  type: &quot;Data&quot;
+  top: &quot;data&quot;
+  top: &quot;label&quot;
+  data_param {
+    source: &quot;input_leveldb&quot;
+    batch_size: 64
+  }
+}
+layer {
+  name: &quot;ip&quot;
+  type: &quot;InnerProduct&quot;
+  bottom: &quot;data&quot;
+  top: &quot;ip&quot;
+  inner_product_param {
+    num_output: 2
+  }
+}
+layer {
+  name: &quot;loss&quot;
+  type: &quot;SoftmaxWithLoss&quot;
+  bottom: &quot;ip&quot;
+  bottom: &quot;label&quot;
+  top: &quot;loss&quot;
+}
+</code></pre>
+<p>下面是初始化程序。</p>
+<pre><code class="lang-c"> Net::Init()
+</code></pre>
+<p>初始化做两件事情：</p>
+<ul>
+<li>通过创建Blob和图层来支持整个DAG（对于C ++极客：网络将在其生命周期中保留blob和图层的所有权），并调用图层的SetUp（）函数。 </li>
+<li>它还做了一系列其他簿记工作，比如验证整个网络架构的正确性。 另外，在初始化过程中，Net通过登录到INFO来解释它的初始化。  </li>
+</ul>
+<p>请注意，网络的构建是设备不可知的 - 回想一下我们先前的解释，blob和图层隐藏了模型定义中的实现细节。构建完成后，可通过Caffe :: set_mode（），设置在GPU还是CPU,还是GPU&amp;CPU上运行。  </p>
+<h2 id="Model-format"><a href="#Model-format" class="headerlink" title="Model format"></a>Model format</h2><p>模型保存在 plaintext protocol buffer schema (prototxt)中。</p>
 
       
     </div>
@@ -359,6 +429,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Caffe/" rel="tag"># Caffe</a>
+          
+        </div>
       
 
       
@@ -384,15 +460,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2018/03/12/Caffe学习-Mnist/uncategorized/" rel="next" title="Caffe学习-Mnist">
+                <i class="fa fa-chevron-left"></i> Caffe学习-Mnist
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/12/30/translation6/uncategorized/" rel="prev" title="A Survey of FPGA Based Neural Network Accelerator">
-                A Survey of FPGA Based Neural Network Accelerator <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -542,7 +618,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Now"><span class="nav-number">1.</span> <span class="nav-text">Now</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Past"><span class="nav-number">2.</span> <span class="nav-text">Past</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Blob"><span class="nav-number">1.</span> <span class="nav-text">Blob</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Implementation-Details"><span class="nav-number">2.</span> <span class="nav-text">Implementation Details</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Layer-computation-and-connections"><span class="nav-number">3.</span> <span class="nav-text">Layer computation and connections</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Net-definition-and-operation"><span class="nav-number">4.</span> <span class="nav-text">Net definition and operation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Model-format"><span class="nav-number">5.</span> <span class="nav-text">Model format</span></a></li></ol></div>
             
 
           </div>
