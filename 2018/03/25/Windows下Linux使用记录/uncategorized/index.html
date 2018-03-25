@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="VNC使用VNC登陆Linux子系统时，有时会关闭当前端口12345678910vncserver -kill :1  ```  此时会报错  ``` cWarning: DESKTOP-I3A9G05:1 is taken because of /tmp/.X1-lockRemove this file if there is no X server DESKTOP-I3A9G05:1  ```">
+<meta name="description" content="VNC使用VNC登陆Linux子系统时，有时会关闭当前端口1234567891011121314151617181920vncserver -kill :1  ```  此时会报错  ``` cWarning: DESKTOP-I3A9G05:1 is taken because of /tmp/.X1-lockRemove this file if there is no X server DE">
 <meta name="keywords" content="Linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Windows下Linux使用记录">
 <meta property="og:url" content="http://yanxingang.com/2018/03/25/Windows下Linux使用记录/uncategorized/index.html">
 <meta property="og:site_name" content="Xingang Yan">
-<meta property="og:description" content="VNC使用VNC登陆Linux子系统时，有时会关闭当前端口12345678910vncserver -kill :1  ```  此时会报错  ``` cWarning: DESKTOP-I3A9G05:1 is taken because of /tmp/.X1-lockRemove this file if there is no X server DESKTOP-I3A9G05:1  ```">
+<meta property="og:description" content="VNC使用VNC登陆Linux子系统时，有时会关闭当前端口1234567891011121314151617181920vncserver -kill :1  ```  此时会报错  ``` cWarning: DESKTOP-I3A9G05:1 is taken because of /tmp/.X1-lockRemove this file if there is no X server DE">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-25T09:08:25.913Z">
+<meta property="og:updated_time" content="2018-03-25T09:11:35.033Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Windows下Linux使用记录">
-<meta name="twitter:description" content="VNC使用VNC登陆Linux子系统时，有时会关闭当前端口12345678910vncserver -kill :1  ```  此时会报错  ``` cWarning: DESKTOP-I3A9G05:1 is taken because of /tmp/.X1-lockRemove this file if there is no X server DESKTOP-I3A9G05:1  ```">
+<meta name="twitter:description" content="VNC使用VNC登陆Linux子系统时，有时会关闭当前端口1234567891011121314151617181920vncserver -kill :1  ```  此时会报错  ``` cWarning: DESKTOP-I3A9G05:1 is taken because of /tmp/.X1-lockRemove this file if there is no X server DE">
 
 
 
@@ -341,9 +341,7 @@
       
 
       
-        <h2 id="VNC"><a href="#VNC" class="headerlink" title="VNC"></a>VNC</h2><p>使用VNC登陆Linux子系统时，有时会关闭当前端口<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">vncserver -kill :<span class="number">1</span>  </span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">此时会报错  </span><br><span class="line">``` c</span><br><span class="line">Warning: DESKTOP-I3A9G05:<span class="number">1</span> is taken because of /tmp/.X1-lock</span><br><span class="line">Remove <span class="keyword">this</span> file <span class="keyword">if</span> there is no X server DESKTOP-I3A9G05:<span class="number">1</span>  </span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">删除该文件即可</span><br></pre></td></tr></table></figure></p>
-<p> rm -f /tmp/.X1-lock<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">调节分辨率</span><br></pre></td></tr></table></figure></p>
-<p>vncserver -geometry 1920x1080 :1<br>```</p>
+        <h2 id="VNC"><a href="#VNC" class="headerlink" title="VNC"></a>VNC</h2><p>使用VNC登陆Linux子系统时，有时会关闭当前端口<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">vncserver -kill :<span class="number">1</span>  </span><br><span class="line"></span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">此时会报错  </span><br><span class="line">``` c</span><br><span class="line">Warning: DESKTOP-I3A9G05:<span class="number">1</span> is taken because of /tmp/.X1-lock</span><br><span class="line">Remove <span class="keyword">this</span> file <span class="keyword">if</span> there is no X server DESKTOP-I3A9G05:<span class="number">1</span>  </span><br><span class="line"></span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">删除该文件即可  </span><br><span class="line">``` c</span><br><span class="line"> rm -f /tmp/.X1-lock  </span><br><span class="line"></span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">调节分辨率  </span><br><span class="line">``` c</span><br><span class="line">vncserver -geometry <span class="number">1920</span>x1080 :<span class="number">1</span></span><br></pre></td></tr></table></figure></p>
 
       
     </div>
