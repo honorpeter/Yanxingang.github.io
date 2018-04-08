@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="title: C++ Problemdate: 2018-03-15 16:59:01 tags: C++本文用以记录自己在C++编程过程中遇到的C++问题   指针初始化一般定义一个指针都要初始化为NULL。如果指针为全局变量，会自动初始化为NULL,但是局部变量不一定。">
+<meta name="description" content="title: C++ Problemdate: 2018-03-15 16:59:01 tags: C++本文用以记录自己在C++编程过程中遇到的C++问题   指针初始化一般定义一个指针都要初始化为NULL。如果指针为全局变量，会自动初始化为NULL,但是局部变量不一定。   指针和const 见下代码：const int a=0;const int *p=&amp;a;此处的意思为指针p所指向的地址">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Xingang Yan">
 <meta property="og:url" content="http://yanxingang.com/2018/03/15/C-problem/uncategorized/index.html">
 <meta property="og:site_name" content="Xingang Yan">
-<meta property="og:description" content="title: C++ Problemdate: 2018-03-15 16:59:01 tags: C++本文用以记录自己在C++编程过程中遇到的C++问题   指针初始化一般定义一个指针都要初始化为NULL。如果指针为全局变量，会自动初始化为NULL,但是局部变量不一定。">
+<meta property="og:description" content="title: C++ Problemdate: 2018-03-15 16:59:01 tags: C++本文用以记录自己在C++编程过程中遇到的C++问题   指针初始化一般定义一个指针都要初始化为NULL。如果指针为全局变量，会自动初始化为NULL,但是局部变量不一定。   指针和const 见下代码：const int a=0;const int *p=&amp;a;此处的意思为指针p所指向的地址">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-15T09:09:48.659Z">
+<meta property="og:updated_time" content="2018-04-07T05:55:58.997Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Xingang Yan">
-<meta name="twitter:description" content="title: C++ Problemdate: 2018-03-15 16:59:01 tags: C++本文用以记录自己在C++编程过程中遇到的C++问题   指针初始化一般定义一个指针都要初始化为NULL。如果指针为全局变量，会自动初始化为NULL,但是局部变量不一定。">
+<meta name="twitter:description" content="title: C++ Problemdate: 2018-03-15 16:59:01 tags: C++本文用以记录自己在C++编程过程中遇到的C++问题   指针初始化一般定义一个指针都要初始化为NULL。如果指针为全局变量，会自动初始化为NULL,但是局部变量不一定。   指针和const 见下代码：const int a=0;const int *p=&amp;a;此处的意思为指针p所指向的地址">
 
 
 
@@ -343,7 +343,14 @@
         <hr>
 <p>title: C++ Problem<br>date: 2018-03-15 16:59:01</p>
 <h2 id="tags-C"><a href="#tags-C" class="headerlink" title="tags: C++"></a>tags: C++</h2><p><strong>本文用以记录自己在C++编程过程中遇到的C++问题</strong>  </p>
-<h3 id="指针初始化"><a href="#指针初始化" class="headerlink" title="指针初始化"></a>指针初始化</h3><p>一般定义一个指针都要初始化为NULL。如果指针为全局变量，会自动初始化为NULL,但是局部变量不一定。</p>
+<h3 id="指针初始化"><a href="#指针初始化" class="headerlink" title="指针初始化"></a>指针初始化</h3><p>一般定义一个指针都要初始化为NULL。如果指针为全局变量，会自动初始化为NULL,但是局部变量不一定。  </p>
+<h3 id="指针和const"><a href="#指针和const" class="headerlink" title="指针和const"></a>指针和const</h3><ul>
+<li><p>见下代码：<br>const int a=0;<br>const int *p=&a;<br>此处的意思为指针p所指向的地址处a变量是const型，是不能改变其值的。  </p>
+</li>
+<li><p>见下代码：<br>int a=0;<br>int *const p=&a;<br>此处指的是指针p是const型，其存储的地址是不可变的。<br>所以指向常量的指针和常量指针是不同的。</p>
+</li>
+</ul>
+<h3 id="C-函数前和函数后加const修饰符区别"><a href="#C-函数前和函数后加const修饰符区别" class="headerlink" title="C++函数前和函数后加const修饰符区别"></a>C++函数前和函数后加const修饰符区别</h3><p>在函数前加const只是说明该函数的返回值是一个const类型，在函数后加const是。。。（此问题先留着）</p>
 
       
     </div>
@@ -484,7 +491,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -497,7 +504,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -545,7 +552,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#tags-C"><span class="nav-number">1.</span> <span class="nav-text">tags: C++</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#指针初始化"><span class="nav-number">1.1.</span> <span class="nav-text">指针初始化</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#tags-C"><span class="nav-number">1.</span> <span class="nav-text">tags: C++</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#指针初始化"><span class="nav-number">1.1.</span> <span class="nav-text">指针初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指针和const"><span class="nav-number">1.2.</span> <span class="nav-text">指针和const</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-函数前和函数后加const修饰符区别"><span class="nav-number">1.3.</span> <span class="nav-text">C++函数前和函数后加const修饰符区别</span></a></li></ol></li></ol></div>
             
 
           </div>
