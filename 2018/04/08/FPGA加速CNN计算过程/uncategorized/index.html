@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Xingang Yan">
 <meta property="og:description" content="类型转换需要将float型参数转换成signed char 型再传入FPGA端。    定义为signed char型，可以将后四位作为小数位，这样计算原来模型各层数据不能超过7，否则将会溢出。   权重统一乘以16后传入FPGA端，图片数据也要缩小16倍     不过开始训练的模型不能压缩到8位，否则会溢出，只能采用16位的形式。这样的话，按照下面的方式计算：    定义为16位有符号型，将后8">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-09T15:16:12.753Z">
+<meta property="og:updated_time" content="2018-04-10T02:53:38.117Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="FPGA加速CNN计算过程">
 <meta name="twitter:description" content="类型转换需要将float型参数转换成signed char 型再传入FPGA端。    定义为signed char型，可以将后四位作为小数位，这样计算原来模型各层数据不能超过7，否则将会溢出。   权重统一乘以16后传入FPGA端，图片数据也要缩小16倍     不过开始训练的模型不能压缩到8位，否则会溢出，只能采用16位的形式。这样的话，按照下面的方式计算：    定义为16位有符号型，将后8">
@@ -356,6 +356,14 @@
 <li>采用了for循环嵌套的方式，原来for只是多次例化，资源占用这么大，不过计算速度是很快的。通过写一个小矩阵对应元素相乘，了解到：<br>（1）System Verilog,在verilog 2001的基础上扩展了C语言数据类型、非压缩数组等等，很强大。<br>（2）如果在Verilog中定义数组，综合出来就是RAM，利用的应该也是BRAM资源。<br>（3）数组的初始化可以用generate / endgenerate初始化，也可以用txt文件初始化。  </li>
 </ul>
 <p>在资源占用情况上看，两个2<em>2矩阵对应元素的乘法，只占用一个LUT和一个FF，以及BUFG时钟资源。此处先介绍下<strong>BUFG</strong>，<strong>BUFG是全局时钟网络，可以驱动所有的IO和逻辑，并且可以被Transciever所驱动。</strong><br><em>*中间没有定义顶层模块的输出端口，出现了错误，好像输出端口必须要有。</em></em>  </p>
+<ul>
+<li>关于使用readmemh读取数据的问题<br>（1）readmemh只能读取一维数据，多维数组只将最后一列数据赋值为文本中的值。<br>（2）用fopen和fscanf ，initial 里面定义int型，逐个赋值如<br> int k,w;<br> fd=$fopen(“A.mem”,”r”);  <pre><code> for(k=0;k&lt;ROW;k=k+1)  
+ begin  
+     for(w=0;w&lt;COL;w=w+1)  
+     rv=$fscanf(fd,&quot;%d&quot;,A[k][w]);  
+  end  
+</code></pre>  $fclose(fd);  </li>
+</ul>
 
       
     </div>
