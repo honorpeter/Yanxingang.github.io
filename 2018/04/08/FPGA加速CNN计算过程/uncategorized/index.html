@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Xingang Yan">
 <meta property="og:description" content="类型转换需要将float型参数转换成signed char 型再传入FPGA端。    定义为signed char型，可以将后四位作为小数位，这样计算原来模型各层数据不能超过7，否则将会溢出。   权重统一乘以16后传入FPGA端，图片数据也要缩小16倍     不过开始训练的模型不能压缩到8位，否则会溢出，只能采用16位的形式。这样的话，按照下面的方式计算：    定义为16位有符号型，将后8">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-10T02:53:38.117Z">
+<meta property="og:updated_time" content="2018-04-11T06:58:16.747Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="FPGA加速CNN计算过程">
 <meta name="twitter:description" content="类型转换需要将float型参数转换成signed char 型再传入FPGA端。    定义为signed char型，可以将后四位作为小数位，这样计算原来模型各层数据不能超过7，否则将会溢出。   权重统一乘以16后传入FPGA端，图片数据也要缩小16倍     不过开始训练的模型不能压缩到8位，否则会溢出，只能采用16位的形式。这样的话，按照下面的方式计算：    定义为16位有符号型，将后8">
@@ -357,12 +357,16 @@
 </ul>
 <p>在资源占用情况上看，两个2<em>2矩阵对应元素的乘法，只占用一个LUT和一个FF，以及BUFG时钟资源。此处先介绍下<strong>BUFG</strong>，<strong>BUFG是全局时钟网络，可以驱动所有的IO和逻辑，并且可以被Transciever所驱动。</strong><br><em>*中间没有定义顶层模块的输出端口，出现了错误，好像输出端口必须要有。</em></em>  </p>
 <ul>
-<li>关于使用readmemh读取数据的问题<br>（1）readmemh只能读取一维数据，多维数组只将最后一列数据赋值为文本中的值。<br>（2）用fopen和fscanf ，initial 里面定义int型，逐个赋值如<br> int k,w;<br> fd=$fopen(“A.mem”,”r”);  <pre><code> for(k=0;k&lt;ROW;k=k+1)  
+<li><p>关于使用readmemh读取数据的问题<br>（1）readmemh只能读取一维数据，多维数组只将最后一列数据赋值为文本中的值。<br>（2）用fopen和fscanf ，initial 里面定义int型，逐个赋值如<br> int k,w;<br> fd=$fopen(“A.mem”,”r”);  </p>
+<pre><code> for(k=0;k&lt;ROW;k=k+1)  
  begin  
      for(w=0;w&lt;COL;w=w+1)  
      rv=$fscanf(fd,&quot;%d&quot;,A[k][w]);  
   end  
-</code></pre>  $fclose(fd);  </li>
+</code></pre><p>  $fclose(fd);<br>但是用这种方式初始化是不可综合的。<br>（3）用generate endgenerate的方式初始化可以综合。  </p>
+</li>
+<li><p>暂时采取了直接用C语言写程序打印变量初始化的语句。文件类型设为Sysyem Verilog类型。  </p>
+</li>
 </ul>
 
       
@@ -510,7 +514,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
