@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="title: C_plus Stringdate: 2018-03-13 11:13:15 tags: C++ostringstreamC++通过ostringstream实现任意类型转string1234567891011121314#include &amp;lt;iostream&amp;gt;  #include &amp;lt;string&amp;gt;  using namespace std;  int mai">
+<meta name="description" content="title: C-plus-Stringdate: 2018-03-13 11:13:15 tags: C++ostringstreamC++通过ostringstream实现任意类型转string1234567891011121314#include &amp;lt;iostream&amp;gt;  #include &amp;lt;string&amp;gt;  using namespace std;  int mai">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Xingang Yan">
-<meta property="og:url" content="http://yanxingang.com/2018/03/13/C plus String/uncategorized/index.html">
+<meta property="og:url" content="http://yanxingang.com/2018/03/13/C-plus-String/uncategorized/index.html">
 <meta property="og:site_name" content="Xingang Yan">
-<meta property="og:description" content="title: C_plus Stringdate: 2018-03-13 11:13:15 tags: C++ostringstreamC++通过ostringstream实现任意类型转string1234567891011121314#include &amp;lt;iostream&amp;gt;  #include &amp;lt;string&amp;gt;  using namespace std;  int mai">
+<meta property="og:description" content="title: C-plus-Stringdate: 2018-03-13 11:13:15 tags: C++ostringstreamC++通过ostringstream实现任意类型转string1234567891011121314#include &amp;lt;iostream&amp;gt;  #include &amp;lt;string&amp;gt;  using namespace std;  int mai">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-11T08:27:16.420Z">
+<meta property="og:updated_time" content="2018-04-11T08:57:28.564Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Xingang Yan">
-<meta name="twitter:description" content="title: C_plus Stringdate: 2018-03-13 11:13:15 tags: C++ostringstreamC++通过ostringstream实现任意类型转string1234567891011121314#include &amp;lt;iostream&amp;gt;  #include &amp;lt;string&amp;gt;  using namespace std;  int mai">
+<meta name="twitter:description" content="title: C-plus-Stringdate: 2018-03-13 11:13:15 tags: C++ostringstreamC++通过ostringstream实现任意类型转string1234567891011121314#include &amp;lt;iostream&amp;gt;  #include &amp;lt;string&amp;gt;  using namespace std;  int mai">
 
 
 
@@ -119,7 +119,7 @@
 
 
 
-  <link rel="canonical" href="http://yanxingang.com/2018/03/13/C plus String/uncategorized/"/>
+  <link rel="canonical" href="http://yanxingang.com/2018/03/13/C-plus-String/uncategorized/"/>
 
 
 
@@ -252,7 +252,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yanxingang.com/2018/03/13/C plus String/uncategorized/">
+    <link itemprop="mainEntityOfPage" href="http://yanxingang.com/2018/03/13/C-plus-String/uncategorized/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Mr Yan">
@@ -300,8 +300,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/03/13/C plus String/uncategorized/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/03/13/C plus String/uncategorized/" itemprop="commentsCount"></span>
+                <a href="/2018/03/13/C-plus-String/uncategorized/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/03/13/C-plus-String/uncategorized/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -309,7 +309,7 @@
 
           
           
-             <span id="/2018/03/13/C plus String/uncategorized/" class="leancloud_visitors" data-flag-title="">
+             <span id="/2018/03/13/C-plus-String/uncategorized/" class="leancloud_visitors" data-flag-title="">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -341,7 +341,7 @@
 
       
         <hr>
-<p>title: C_plus String<br>date: 2018-03-13 11:13:15</p>
+<p>title: C-plus-String<br>date: 2018-03-13 11:13:15</p>
 <h2 id="tags-C"><a href="#tags-C" class="headerlink" title="tags: C++"></a>tags: C++</h2><h2 id="ostringstream"><a href="#ostringstream" class="headerlink" title="ostringstream"></a>ostringstream</h2><p>C++通过ostringstream实现任意类型转string<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;  </span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;  </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line"> <span class="keyword">int</span> a = <span class="number">55</span>;  </span><br><span class="line"> <span class="keyword">double</span> b = <span class="number">65.123</span>;  </span><br><span class="line"> <span class="built_in">string</span> oss = <span class="string">""</span>;  </span><br><span class="line"> <span class="built_in">std</span>::<span class="built_in">ostringstream</span> oss;  </span><br><span class="line"> oss &lt;&lt; a &lt;&lt; <span class="string">"---"</span> &lt;&lt; b;  </span><br><span class="line"> str = oss.str();  </span><br><span class="line"> <span class="built_in">cout</span> &lt;&lt; str &lt;&lt; <span class="built_in">endl</span>;  </span><br><span class="line"> <span class="keyword">return</span> <span class="number">0</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>输出55—-65.123</p>
 
@@ -393,7 +393,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/15/C plus problem/uncategorized/" rel="prev" title="">
+              <a href="/2018/03/15/C-plus-problem/uncategorized/" rel="prev" title="">
                  <i class="fa fa-chevron-right"></i>
               </a>
             

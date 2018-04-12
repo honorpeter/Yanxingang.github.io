@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="title: Vivado_Synthesisdate: 2018-04-11 16:26:27 tags: FPGA">
+<meta name="description" content="title: Vivado-Synthesisdate: 2018-04-11 16:26:27 tags: FPGAIntroduction综合就是一个将RTL级描述转化为门级表达的过程。Vivado 支持对以下文件的综合：System verilog,Verilog,HDL,Mixed Language。   综合Attributes见Vivado_Synthesis pdf第二章，其中讲解">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Xingang Yan">
 <meta property="og:url" content="http://yanxingang.com/2018/04/11/Vivado-Synthesis/uncategorized/index.html">
 <meta property="og:site_name" content="Xingang Yan">
-<meta property="og:description" content="title: Vivado_Synthesisdate: 2018-04-11 16:26:27 tags: FPGA">
+<meta property="og:description" content="title: Vivado-Synthesisdate: 2018-04-11 16:26:27 tags: FPGAIntroduction综合就是一个将RTL级描述转化为门级表达的过程。Vivado 支持对以下文件的综合：System verilog,Verilog,HDL,Mixed Language。   综合Attributes见Vivado_Synthesis pdf第二章，其中讲解">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-11T08:28:02.940Z">
+<meta property="og:updated_time" content="2018-04-11T13:01:56.650Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Xingang Yan">
-<meta name="twitter:description" content="title: Vivado_Synthesisdate: 2018-04-11 16:26:27 tags: FPGA">
+<meta name="twitter:description" content="title: Vivado-Synthesisdate: 2018-04-11 16:26:27 tags: FPGAIntroduction综合就是一个将RTL级描述转化为门级表达的过程。Vivado 支持对以下文件的综合：System verilog,Verilog,HDL,Mixed Language。   综合Attributes见Vivado_Synthesis pdf第二章，其中讲解">
 
 
 
@@ -341,8 +341,21 @@
 
       
         <hr>
-<p>title: Vivado_Synthesis<br>date: 2018-04-11 16:26:27</p>
-<h2 id="tags-FPGA"><a href="#tags-FPGA" class="headerlink" title="tags: FPGA"></a>tags: FPGA</h2>
+<p>title: Vivado-Synthesis<br>date: 2018-04-11 16:26:27</p>
+<h2 id="tags-FPGA"><a href="#tags-FPGA" class="headerlink" title="tags: FPGA"></a>tags: FPGA</h2><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>综合就是一个将RTL级描述转化为门级表达的过程。Vivado 支持对以下文件的综合：System verilog,Verilog,HDL,Mixed Language。  </p>
+<h2 id="综合Attributes"><a href="#综合Attributes" class="headerlink" title="综合Attributes"></a>综合Attributes</h2><p>见Vivado_Synthesis pdf第二章，其中讲解了很多命令，如(<em> MARL_DEBUG=”TRUE” </em>)即可将该端口添加到debug。  </p>
+<h2 id="Verilog-Code-示例"><a href="#Verilog-Code-示例" class="headerlink" title="Verilog Code 示例"></a>Verilog Code 示例</h2><ul>
+<li>32位移位寄存器  </li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">module</span> <span class="title">v_shift_registers_0</span> <span class="params">(clk, clken, SI, SO)</span></span>;</span><br><span class="line"></span><br><span class="line">parameter WIDTH = <span class="number">32</span>;</span><br><span class="line"></span><br><span class="line">input clk, clken, SI;</span><br><span class="line">output SO;</span><br><span class="line"></span><br><span class="line">reg[WIDTH<span class="number">-1</span>:<span class="number">0</span>] shreg;</span><br><span class="line"></span><br><span class="line">always @(posedge clk)</span><br><span class="line">    begin</span><br><span class="line">    <span class="keyword">if</span> (clken)</span><br><span class="line">    shreg = &#123;shreg[WIDTH<span class="number">-2</span>:<span class="number">0</span>], SI&#125;;</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">assign SO = shreg[WIDTH<span class="number">-1</span>];</span><br><span class="line">endmodule</span><br></pre></td></tr></table></figure>
+<ul>
+<li>无符号型乘法器<br>``` C<br>//1 latency stage on operands<br>//3 latency stage after the multiplication<br>module multiplier#(<br>  parameter WIDTHA=16,<br>  parameter WIDTHB=24<br>)<br>(<br>  input clk,<br>  input [WIDTHA-1:0]A,<br>  input [WIDTHB-1:0]B,<br>  output [WIDTHA+WIDTHB-1:0]RES<br>);</li>
+</ul>
+<p>reg [WIDTHA-1:0] reg_A;<br>reg [WIDTHB-1:0] reg_B;<br>reg [WIDTHA+WIDTHB-1:0] reg_RES [3:0];</p>
+<p>integer i;<br>always @ (posedge clk)<br>begin<br>    reg_A&lt;=A;<br>    reg_B&lt;=B;<br>    reg_RES[0]&lt;=reg_A*reg_B;<br>    for(i=0;i&lt;3;i=i+1)<br>        reg_RES[i+1]=reg_RES[i];<br>end</p>
+<p>assign RES=reg_RES[3];</p>
+<p>endmodule<br>```<br>上面这个例子的关键体会点在于for循环这个地方。  </p>
+
       
     </div>
     
@@ -539,7 +552,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#tags-FPGA"><span class="nav-number">1.</span> <span class="nav-text">tags: FPGA</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#tags-FPGA"><span class="nav-number">1.</span> <span class="nav-text">tags: FPGA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">2.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#综合Attributes"><span class="nav-number">3.</span> <span class="nav-text">综合Attributes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Verilog-Code-示例"><span class="nav-number">4.</span> <span class="nav-text">Verilog Code 示例</span></a></li></ol></div>
             
 
           </div>

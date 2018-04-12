@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Xingang Yan">
 <meta property="og:description" content="类型转换需要将float型参数转换成signed char 型再传入FPGA端。    定义为signed char型，可以将后四位作为小数位，这样计算原来模型各层数据不能超过7，否则将会溢出。   权重统一乘以16后传入FPGA端，图片数据也要缩小16倍     不过开始训练的模型不能压缩到8位，否则会溢出，只能采用16位的形式。这样的话，按照下面的方式计算：    定义为16位有符号型，将后8">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-11T06:58:16.747Z">
+<meta property="og:updated_time" content="2018-04-12T14:16:58.001Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="FPGA加速CNN计算过程">
 <meta name="twitter:description" content="类型转换需要将float型参数转换成signed char 型再传入FPGA端。    定义为signed char型，可以将后四位作为小数位，这样计算原来模型各层数据不能超过7，否则将会溢出。   权重统一乘以16后传入FPGA端，图片数据也要缩小16倍     不过开始训练的模型不能压缩到8位，否则会溢出，只能采用16位的形式。这样的话，按照下面的方式计算：    定义为16位有符号型，将后8">
@@ -365,10 +365,14 @@
   end  
 </code></pre><p>  $fclose(fd);<br>但是用这种方式初始化是不可综合的。<br>（3）用generate endgenerate的方式初始化可以综合。  </p>
 </li>
-<li><p>暂时采取了直接用C语言写程序打印变量初始化的语句。文件类型设为Sysyem Verilog类型。  </p>
+<li><p>暂时采取了直接用C语言写程序打印变量初始化的语句。文件类型设为Sysyem Verilog类型。<br>（1）在定义内存的时候，前面可以指定使用的RAM或者ROM类型，如：<br>(<em> ram_style = “distributed” </em>) reg [data_size-1:0] myram [2<strong>addr_size-1:0];<br>其中，”distributedz”指的是LUT RAM,”block”是block RAM,”registers”是registers instead of RAMs。<br>在程序中使用了上面Block Ram 的命令，但是实现的结果并不是Block RAM而是LUT，重新查找了相关文档，发现可以用IP了配置Block RAM。</strong>RAM分为单端口RAM和双端口RAM,单端口RAM只有一个端口，同时只能读或写，双端口RAM读端口和写端口分开，一个端口能写，一个端口能读，能够同时读写，还有一种RAM，叫做dual RAM，是RAM有两个双端口<em>*。<br>（2）如果一个module要使用DSP资源，下面是示例:<br>(</em> use_dsp48 = “yes” *) module test(clk, in1, in2, out1);    </p>
+</li>
+<li><p>打算用RAM IP，来配置生成RAM。<br>选择了IP生成ROM的方式，如果是ROM的话就不用写的端口了。端口上要简洁些。<br>这个地方需要注意下，ROM的接口，地址线和数据线，如果都接到reg数组每个元素上，线还是很密集的。而且用reg数组的方式，LUT资源占用还是很多的。所以很多设计中都是用的buffer而不是直接很大的一块reg数组。下面打算考虑怎么设计buffer的问题。  </p>
 </li>
 </ul>
-
+<h2 id="Vivado实现优化问题"><a href="#Vivado实现优化问题" class="headerlink" title="Vivado实现优化问题"></a>Vivado实现优化问题</h2><p>如果不想优化，需要在端口前加上，(<em> DONT_TOUCH = “TRUE” </em>) ，<strong>注意KEEP好像没有用</strong>。但是如果在一个工程中，如果原来有(<em> DONT_TOUCH = “TRUE” </em>) ，实现过，再去掉(<em> DONT_TOUCH = “TRUE” </em>) ，好像也不会优化了。Vivado具有极强的实现优化能力，如果一个module中的很多reg,例化的module对于输出结果没有影响或者输出结果是确定的，那么这些reg、例化的module都会被优化掉。</p>
+<p>这个地方我犯过一个错误，就是一个reg型只能在一个always块中被初始化或者赋值。这是综合只是出现critical warning,而实现就会直接报错。    </p>
+<h2 id="Buffer-测试"><a href="#Buffer-测试" class="headerlink" title="Buffer 测试"></a>Buffer 测试</h2>
       
     </div>
     
@@ -575,7 +579,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#类型转换"><span class="nav-number">1.</span> <span class="nav-text">类型转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定点数IP计算"><span class="nav-number">2.</span> <span class="nav-text">定点数IP计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩阵以及卷积运算"><span class="nav-number">3.</span> <span class="nav-text">矩阵以及卷积运算</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#类型转换"><span class="nav-number">1.</span> <span class="nav-text">类型转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定点数IP计算"><span class="nav-number">2.</span> <span class="nav-text">定点数IP计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩阵以及卷积运算"><span class="nav-number">3.</span> <span class="nav-text">矩阵以及卷积运算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vivado实现优化问题"><span class="nav-number">4.</span> <span class="nav-text">Vivado实现优化问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Buffer-测试"><span class="nav-number">5.</span> <span class="nav-text">Buffer 测试</span></a></li></ol></div>
             
 
           </div>
