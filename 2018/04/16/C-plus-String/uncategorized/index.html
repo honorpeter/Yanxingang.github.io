@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="C++," />
 
 
 
@@ -79,17 +79,18 @@
 
 
 
-<meta name="description" content="This is the story of an idea">
+<meta name="description" content="ostringstreamC++通过ostringstream实现任意类型转string       #include &amp;lt;iostream&amp;gt;       #include &amp;lt;string&amp;gt;       using namespace std;       int main()       {        int a = 55;        double b = 65.1">
+<meta name="keywords" content="C++">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C-plus-String">
 <meta property="og:url" content="http://yanxingang.com/2018/04/16/C-plus-String/uncategorized/index.html">
 <meta property="og:site_name" content="Xingang Yan">
-<meta property="og:description" content="This is the story of an idea">
+<meta property="og:description" content="ostringstreamC++通过ostringstream实现任意类型转string       #include &amp;lt;iostream&amp;gt;       #include &amp;lt;string&amp;gt;       using namespace std;       int main()       {        int a = 55;        double b = 65.1">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-16T01:55:19.932Z">
+<meta property="og:updated_time" content="2018-04-16T01:59:19.888Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C-plus-String">
-<meta name="twitter:description" content="This is the story of an idea">
+<meta name="twitter:description" content="ostringstreamC++通过ostringstream实现任意类型转string       #include &amp;lt;iostream&amp;gt;       #include &amp;lt;string&amp;gt;       using namespace std;       int main()       {        int a = 55;        double b = 65.1">
 
 
 
@@ -340,7 +341,24 @@
       
 
       
-        
+        <h2 id="ostringstream"><a href="#ostringstream" class="headerlink" title="ostringstream"></a>ostringstream</h2><p>C++通过ostringstream实现任意类型转string  </p>
+<pre><code class="lang-c">    #include &lt;iostream&gt;  
+    #include &lt;string&gt;  
+    using namespace std;  
+    int main()  
+    {  
+     int a = 55;  
+     double b = 65.123;  
+     string oss = &quot;&quot;;  
+     std::ostringstream oss;  
+     oss &lt;&lt; a &lt;&lt; &quot;---&quot; &lt;&lt; b;  
+     str = oss.str();  
+     cout &lt;&lt; str &lt;&lt; endl;  
+     return 0;  
+    }
+</code></pre>
+<p>输出55—-65.123</p>
+
       
     </div>
     
@@ -354,6 +372,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/" rel="tag"># C++</a>
+          
+        </div>
       
 
       
@@ -447,8 +471,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -518,6 +551,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ostringstream"><span class="nav-number">1.</span> <span class="nav-text">ostringstream</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

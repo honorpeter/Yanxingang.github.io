@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="This is the story of an idea">
+<meta name="description" content="Introduction综合就是一个将RTL级描述转化为门级表达的过程。Vivado 支持对以下文件的综合：System verilog,Verilog,HDL,Mixed Language。   综合Attributes见Vivado_Synthesis pdf第二章，其中讲解了很多命令，如( MARL_DEBUG=”TRUE” )即可将该端口添加到debug。   Verilog Code 示">
 <meta name="keywords" content="Vivado">
 <meta property="og:type" content="article">
 <meta property="og:title" content="VivadoSynthesis">
 <meta property="og:url" content="http://yanxingang.com/2018/04/16/VivadoSynthesis/uncategorized/index.html">
 <meta property="og:site_name" content="Xingang Yan">
-<meta property="og:description" content="This is the story of an idea">
+<meta property="og:description" content="Introduction综合就是一个将RTL级描述转化为门级表达的过程。Vivado 支持对以下文件的综合：System verilog,Verilog,HDL,Mixed Language。   综合Attributes见Vivado_Synthesis pdf第二章，其中讲解了很多命令，如( MARL_DEBUG=”TRUE” )即可将该端口添加到debug。   Verilog Code 示">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-16T01:55:45.240Z">
+<meta property="og:updated_time" content="2018-04-16T01:58:02.154Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="VivadoSynthesis">
-<meta name="twitter:description" content="This is the story of an idea">
+<meta name="twitter:description" content="Introduction综合就是一个将RTL级描述转化为门级表达的过程。Vivado 支持对以下文件的综合：System verilog,Verilog,HDL,Mixed Language。   综合Attributes见Vivado_Synthesis pdf第二章，其中讲解了很多命令，如( MARL_DEBUG=”TRUE” )即可将该端口添加到debug。   Verilog Code 示">
 
 
 
@@ -341,7 +341,48 @@
       
 
       
-        
+        <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>综合就是一个将RTL级描述转化为门级表达的过程。Vivado 支持对以下文件的综合：System verilog,Verilog,HDL,Mixed Language。  </p>
+<h2 id="综合Attributes"><a href="#综合Attributes" class="headerlink" title="综合Attributes"></a>综合Attributes</h2><p>见Vivado_Synthesis pdf第二章，其中讲解了很多命令，如(<em> MARL_DEBUG=”TRUE” </em>)即可将该端口添加到debug。  </p>
+<h2 id="Verilog-Code-示例"><a href="#Verilog-Code-示例" class="headerlink" title="Verilog Code 示例"></a>Verilog Code 示例</h2><ul>
+<li>32位移位寄存器  </li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">module</span> <span class="title">v_shift_registers_0</span> <span class="params">(clk, clken, SI, SO)</span></span>;</span><br><span class="line"></span><br><span class="line">parameter WIDTH = <span class="number">32</span>;</span><br><span class="line"></span><br><span class="line">input clk, clken, SI;</span><br><span class="line">output SO;</span><br><span class="line"></span><br><span class="line">reg[WIDTH<span class="number">-1</span>:<span class="number">0</span>] shreg;</span><br><span class="line"></span><br><span class="line">always @(posedge clk)</span><br><span class="line">    begin</span><br><span class="line">    <span class="keyword">if</span> (clken)</span><br><span class="line">    shreg = &#123;shreg[WIDTH<span class="number">-2</span>:<span class="number">0</span>], SI&#125;;</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">assign SO = shreg[WIDTH<span class="number">-1</span>];</span><br><span class="line">endmodule</span><br></pre></td></tr></table></figure>
+<ul>
+<li>无符号型乘法器    </li>
+</ul>
+<pre><code class="lang-C">//1 latency stage on operands
+//3 latency stage after the multiplication
+module multiplier#(
+    parameter WIDTHA=16,
+    parameter WIDTHB=24
+)
+(
+    input clk,
+    input [WIDTHA-1:0]A,
+    input [WIDTHB-1:0]B,
+    output [WIDTHA+WIDTHB-1:0]RES
+);
+
+reg [WIDTHA-1:0] reg_A;
+reg [WIDTHB-1:0] reg_B;
+reg [WIDTHA+WIDTHB-1:0] reg_RES [3:0];
+
+integer i;
+always @ (posedge clk)
+begin 
+    reg_A&lt;=A;
+    reg_B&lt;=B;
+    reg_RES[0]&lt;=reg_A*reg_B;
+    for(i=0;i&lt;3;i=i+1)
+        reg_RES[i+1]=reg_RES[i];
+end
+
+assign RES=reg_RES[3];
+
+endmodule
+</code></pre>
+<p>上面这个例子的关键体会点在于for循环这个地方。  </p>
+
       
     </div>
     
@@ -458,8 +499,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -529,6 +579,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#综合Attributes"><span class="nav-number">2.</span> <span class="nav-text">综合Attributes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Verilog-Code-示例"><span class="nav-number">3.</span> <span class="nav-text">Verilog Code 示例</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
