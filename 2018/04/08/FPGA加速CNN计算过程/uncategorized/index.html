@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Xingang Yan">
 <meta property="og:description" content="类型转换需要将float型参数转换成signed char 型再传入FPGA端。    定义为signed char型，可以将后四位作为小数位，这样计算原来模型各层数据不能超过7，否则将会溢出。   权重统一乘以16后传入FPGA端，图片数据也要缩小16倍     不过开始训练的模型不能压缩到8位，否则会溢出，只能采用16位的形式。这样的话，按照下面的方式计算：    定义为16位有符号型，将后8">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-16T01:59:52.987Z">
+<meta property="og:updated_time" content="2018-04-16T02:17:58.482Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="FPGA加速CNN计算过程">
 <meta name="twitter:description" content="类型转换需要将float型参数转换成signed char 型再传入FPGA端。    定义为signed char型，可以将后四位作为小数位，这样计算原来模型各层数据不能超过7，否则将会溢出。   权重统一乘以16后传入FPGA端，图片数据也要缩小16倍     不过开始训练的模型不能压缩到8位，否则会溢出，只能采用16位的形式。这样的话，按照下面的方式计算：    定义为16位有符号型，将后8">
@@ -374,13 +374,16 @@
 <p>这个地方我犯过一个错误，就是一个reg型只能在一个always块中被初始化或者赋值。这是综合只是出现critical warning,而实现就会直接报错。    </p>
 <h2 id="Buffer-测试"><a href="#Buffer-测试" class="headerlink" title="Buffer 测试"></a>Buffer 测试</h2><p><strong>Buffer和Cache的区别是什么</strong><br>Cache是为了解决两边处理速度不同而引入的中间层，比如两边时钟频率不同。Buffer是将很大的数据流平整为小的数据块，一块一块的处理数据。  </p>
 <h2 id="softmax函数"><a href="#softmax函数" class="headerlink" title="softmax函数"></a>softmax函数</h2><p>softmax函数实现最好放在PS端实现，因为放在PL端实现可能会造成未知的溢出问题，另外Softmax函数放在PL端加速的意义不大。  </p>
+<h2 id="思路变化"><a href="#思路变化" class="headerlink" title="思路变化"></a>思路变化</h2><ul>
+<li>做完一层卷积和一层池化后，发现资源LUT占用率达到86%，正在考虑合理的方式来降低资源占用，除了计算单元PE外，过多的reg类型和逻辑判断也占用了太多资源。感觉之所以占用率如此之高的问题在于我当前想将整个CNN过程流水话，这样使得我控制逻辑、计算逻辑、数据读取逻辑有些混乱。现在想参考下别人的论文，重新整理下自己的思路。  </li>
+</ul>
 <h2 id="Bug-list"><a href="#Bug-list" class="headerlink" title="Bug list"></a>Bug list</h2><ul>
 <li>定义reg忘记加signed，都变成无符号型了。  </li>
 <li>文件名要与module名字一致，否则无法方阵。  </li>
 <li>编辑器编辑完成后要在Vivado里面检查一下，否则拼写错误和未定义变量是检查不出来的。  </li>
 </ul>
-<h2 id="Problems"><a href="#Problems" class="headerlink" title="Problems"></a>Problems</h2><ul>
-<li>时钟IP,复位重启后有很大延迟才能产生波形。  </li>
+<h2 id="Verilog编程技巧"><a href="#Verilog编程技巧" class="headerlink" title="Verilog编程技巧"></a>Verilog编程技巧</h2><ul>
+<li>always块里面队列生成，不必一个一个的写，用for循环即可生成相应电路。  </li>
 </ul>
 
       
@@ -528,7 +531,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">23</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -541,7 +544,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -589,7 +592,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#类型转换"><span class="nav-number">1.</span> <span class="nav-text">类型转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定点数IP计算"><span class="nav-number">2.</span> <span class="nav-text">定点数IP计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#时钟"><span class="nav-number">3.</span> <span class="nav-text">时钟</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩阵以及卷积运算"><span class="nav-number">4.</span> <span class="nav-text">矩阵以及卷积运算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vivado实现优化问题"><span class="nav-number">5.</span> <span class="nav-text">Vivado实现优化问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Buffer-测试"><span class="nav-number">6.</span> <span class="nav-text">Buffer 测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#softmax函数"><span class="nav-number">7.</span> <span class="nav-text">softmax函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bug-list"><span class="nav-number">8.</span> <span class="nav-text">Bug list</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Problems"><span class="nav-number">9.</span> <span class="nav-text">Problems</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#类型转换"><span class="nav-number">1.</span> <span class="nav-text">类型转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定点数IP计算"><span class="nav-number">2.</span> <span class="nav-text">定点数IP计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#时钟"><span class="nav-number">3.</span> <span class="nav-text">时钟</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩阵以及卷积运算"><span class="nav-number">4.</span> <span class="nav-text">矩阵以及卷积运算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vivado实现优化问题"><span class="nav-number">5.</span> <span class="nav-text">Vivado实现优化问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Buffer-测试"><span class="nav-number">6.</span> <span class="nav-text">Buffer 测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#softmax函数"><span class="nav-number">7.</span> <span class="nav-text">softmax函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思路变化"><span class="nav-number">8.</span> <span class="nav-text">思路变化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bug-list"><span class="nav-number">9.</span> <span class="nav-text">Bug list</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Verilog编程技巧"><span class="nav-number">10.</span> <span class="nav-text">Verilog编程技巧</span></a></li></ol></div>
             
 
           </div>
