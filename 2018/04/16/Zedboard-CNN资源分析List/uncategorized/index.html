@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="FPGA Zynq CNN," />
+  <meta name="keywords" content="FPGA," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="This is the story of an idea">
-<meta name="keywords" content="FPGA Zynq CNN">
+<meta name="description" content="用时分析 conv1_w ROM数据读取用时，20×25=500，500×2=1000clk，大约10us;     资源分析 Zynq7020 DSP资源220个，一个PE单元是25个乘法器，（8个PE单元是完全可以通过DSP资源实现的；1个PE是用了20个DSP，剩余用LUT实现；最后一个PE完全通过LUT来实现。   一个LUT实现的16位乘法器至少需要LUT大约 134个,按照上面的分析，">
+<meta name="keywords" content="FPGA">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Zedboard-CNN资源分析List">
 <meta property="og:url" content="http://yanxingang.com/2018/04/16/Zedboard-CNN资源分析List/uncategorized/index.html">
 <meta property="og:site_name" content="Xingang Yan">
-<meta property="og:description" content="This is the story of an idea">
+<meta property="og:description" content="用时分析 conv1_w ROM数据读取用时，20×25=500，500×2=1000clk，大约10us;     资源分析 Zynq7020 DSP资源220个，一个PE单元是25个乘法器，（8个PE单元是完全可以通过DSP资源实现的；1个PE是用了20个DSP，剩余用LUT实现；最后一个PE完全通过LUT来实现。   一个LUT实现的16位乘法器至少需要LUT大约 134个,按照上面的分析，">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-16T08:14:33.667Z">
+<meta property="og:updated_time" content="2018-04-16T08:44:59.588Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Zedboard-CNN资源分析List">
-<meta name="twitter:description" content="This is the story of an idea">
+<meta name="twitter:description" content="用时分析 conv1_w ROM数据读取用时，20×25=500，500×2=1000clk，大约10us;     资源分析 Zynq7020 DSP资源220个，一个PE单元是25个乘法器，（8个PE单元是完全可以通过DSP资源实现的；1个PE是用了20个DSP，剩余用LUT实现；最后一个PE完全通过LUT来实现。   一个LUT实现的16位乘法器至少需要LUT大约 134个,按照上面的分析，">
 
 
 
@@ -341,7 +341,16 @@
       
 
       
-        
+        <h2 id="用时分析"><a href="#用时分析" class="headerlink" title="用时分析"></a>用时分析</h2><ul>
+<li>conv1_w ROM数据读取用时，20×25=500，500×2=1000clk，大约10us;  </li>
+<li></li>
+</ul>
+<h2 id="资源分析"><a href="#资源分析" class="headerlink" title="资源分析"></a>资源分析</h2><ul>
+<li>Zynq7020 DSP资源220个，一个PE单元是25个乘法器，（8个PE单元是完全可以通过DSP资源实现的；1个PE是用了20个DSP，剩余用LUT实现；最后一个PE完全通过LUT来实现。  </li>
+<li>一个LUT实现的16位乘法器至少需要LUT大约 134个,按照上面的分析，LUT实现的乘法器有30个，需要LUT为3960个，占用比率7.4%。</li>
+<li>LUT 6输入， 一个16位Reg类型是不是至少需要3个LUT?</li>
+</ul>
+
       
     </div>
     
@@ -358,7 +367,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/FPGA-Zynq-CNN/" rel="tag"># FPGA Zynq CNN</a>
+            <a href="/tags/FPGA/" rel="tag"># FPGA</a>
           
         </div>
       
@@ -454,8 +463,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -487,7 +505,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -525,6 +543,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#用时分析"><span class="nav-number">1.</span> <span class="nav-text">用时分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资源分析"><span class="nav-number">2.</span> <span class="nav-text">资源分析</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

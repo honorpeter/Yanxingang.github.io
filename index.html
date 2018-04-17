@@ -334,8 +334,13 @@
       
         
           
-          
-          
+          用时分析
+conv1_w ROM数据读取用时，20×25=500，500×2=1000clk，大约10us;  
+
+
+资源分析
+Zynq7020 DSP资源220个，一个PE单元是25个乘法器，（8个PE单元是完全可以通过DSP资源实现的；1个PE是用了20个DSP，剩余用LUT实现；最后一个PE完
+          ...
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/04/16/Zedboard-CNN资源分析List/uncategorized/#more" rel="contents">
@@ -1694,7 +1699,7 @@ tar.gz解压tar -xvf
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
