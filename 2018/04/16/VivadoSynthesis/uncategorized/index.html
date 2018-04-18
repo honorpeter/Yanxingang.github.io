@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Xingang Yan">
 <meta property="og:description" content="Introduction综合就是一个将RTL级描述转化为门级表达的过程。Vivado 支持对以下文件的综合：System verilog,Verilog,HDL,Mixed Language。   综合Attributes见Vivado_Synthesis pdf第二章，其中讲解了很多命令，如( MARL_DEBUG=”TRUE” )即可将该端口添加到debug。   Verilog Code 示">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-16T02:02:24.389Z">
+<meta property="og:updated_time" content="2018-04-18T13:52:01.400Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="VivadoSynthesis">
 <meta name="twitter:description" content="Introduction综合就是一个将RTL级描述转化为门级表达的过程。Vivado 支持对以下文件的综合：System verilog,Verilog,HDL,Mixed Language。   综合Attributes见Vivado_Synthesis pdf第二章，其中讲解了很多命令，如( MARL_DEBUG=”TRUE” )即可将该端口添加到debug。   Verilog Code 示">
@@ -375,7 +375,7 @@ begin
     reg_B&lt;=B;
     reg_RES[0]&lt;=reg_A*reg_B;
     for(i=0;i&lt;3;i=i+1)
-        reg_RES[i+1]=reg_RES[i];
+        reg_RES[i+1]&lt;=reg_RES[i];
 end
 
 assign RES=reg_RES[3];
