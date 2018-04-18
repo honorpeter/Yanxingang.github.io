@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Xingang Yan">
 <meta property="og:description" content="类型转换需要将float型参数转换成signed char 型再传入FPGA端。    定义为signed char型，可以将后四位作为小数位，这样计算原来模型各层数据不能超过7，否则将会溢出。   权重统一乘以16后传入FPGA端，图片数据也要缩小16倍     不过开始训练的模型不能压缩到8位，否则会溢出，只能采用16位的形式。这样的话，按照下面的方式计算：    定义为16位有符号型，将后8">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-16T02:17:58.482Z">
+<meta property="og:updated_time" content="2018-04-18T08:57:04.762Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="FPGA加速CNN计算过程">
 <meta name="twitter:description" content="类型转换需要将float型参数转换成signed char 型再传入FPGA端。    定义为signed char型，可以将后四位作为小数位，这样计算原来模型各层数据不能超过7，否则将会溢出。   权重统一乘以16后传入FPGA端，图片数据也要缩小16倍     不过开始训练的模型不能压缩到8位，否则会溢出，只能采用16位的形式。这样的话，按照下面的方式计算：    定义为16位有符号型，将后8">
@@ -373,17 +373,25 @@
 <h2 id="Vivado实现优化问题"><a href="#Vivado实现优化问题" class="headerlink" title="Vivado实现优化问题"></a>Vivado实现优化问题</h2><p>如果不想优化，需要在端口前加上，(<em> DONT_TOUCH = “TRUE” </em>) ，<strong>注意KEEP好像没有用</strong>。但是如果在一个工程中，如果原来有(<em> DONT_TOUCH = “TRUE” </em>) ，实现过，再去掉(<em> DONT_TOUCH = “TRUE” </em>) ，好像也不会优化了。Vivado具有极强的实现优化能力，如果一个module中的很多reg,例化的module对于输出结果没有影响或者输出结果是确定的，那么这些reg、例化的module都会被优化掉。</p>
 <p>这个地方我犯过一个错误，就是一个reg型只能在一个always块中被初始化或者赋值。这是综合只是出现critical warning,而实现就会直接报错。    </p>
 <h2 id="Buffer-测试"><a href="#Buffer-测试" class="headerlink" title="Buffer 测试"></a>Buffer 测试</h2><p><strong>Buffer和Cache的区别是什么</strong><br>Cache是为了解决两边处理速度不同而引入的中间层，比如两边时钟频率不同。Buffer是将很大的数据流平整为小的数据块，一块一块的处理数据。  </p>
+<h2 id="PS、PL通过Block-RAM共享数据"><a href="#PS、PL通过Block-RAM共享数据" class="headerlink" title="PS、PL通过Block RAM共享数据"></a>PS、PL通过Block RAM共享数据</h2><p>PS端通过Master GP0将数据从PS端传到PL端，AXI位宽为32，对于PS端而言，GP0的地址为32位，GP0地址只有低位连到了Block RAM的地址上，也就是说32位地址是相对于PS端而言的，实际到了PL电路层，需要多宽的地址就连了多少线。<br>双端口RAM，每个端口既可读又可写。一个端口连到AXI BRAM Controller上，AXI BRAM Controller的BRAM interface配置为1，意思为AXI BRAM Controller只有一个BRAM控制端口。AXI BRAM Controller的RAM clk和AXI clk是相同的。一般都连在FCK_CLK0上，FCK_CLK0在Zynq IP上可以配置，默认是50MHz。<br>为了保证PS端数据能够及时传送到PL端，打算测试下PL端触发PS端的中断。  </p>
 <h2 id="softmax函数"><a href="#softmax函数" class="headerlink" title="softmax函数"></a>softmax函数</h2><p>softmax函数实现最好放在PS端实现，因为放在PL端实现可能会造成未知的溢出问题，另外Softmax函数放在PL端加速的意义不大。  </p>
 <h2 id="思路变化"><a href="#思路变化" class="headerlink" title="思路变化"></a>思路变化</h2><ul>
 <li>做完一层卷积和一层池化后，发现资源LUT占用率达到86%，正在考虑合理的方式来降低资源占用，除了计算单元PE外，过多的reg类型和逻辑判断也占用了太多资源。感觉之所以占用率如此之高的问题在于我当前想将整个CNN过程流水话，这样使得我控制逻辑、计算逻辑、数据读取逻辑有些混乱。现在想参考下别人的论文，重新整理下自己的思路。  </li>
+<li>重新画了整个系统的框图，但是又遇到了新的问题。PL端的BRam资源不够，打算用AXI线将全连接第一层的参数从PS端传到PL端。</li>
 </ul>
 <h2 id="Bug-list"><a href="#Bug-list" class="headerlink" title="Bug list"></a>Bug list</h2><ul>
 <li>定义reg忘记加signed，都变成无符号型了。  </li>
 <li>文件名要与module名字一致，否则无法方阵。  </li>
 <li>编辑器编辑完成后要在Vivado里面检查一下，否则拼写错误和未定义变量是检查不出来的。  </li>
+<li>Xilinx的Block Ram竟然是Mb单位，不是MB为单位，Mb是10的6次方个bits,MB是10的6次方个byte。Xilinx 真TM坑B。</li>
 </ul>
 <h2 id="Verilog编程技巧"><a href="#Verilog编程技巧" class="headerlink" title="Verilog编程技巧"></a>Verilog编程技巧</h2><ul>
 <li>always块里面队列生成，不必一个一个的写，用for循环即可生成相应电路。  </li>
+</ul>
+<h2 id="关注的参数"><a href="#关注的参数" class="headerlink" title="关注的参数"></a>关注的参数</h2><ul>
+<li>FPS(每秒处理多少图片)  </li>
+<li>准确率  </li>
+<li>功耗  </li>
 </ul>
 
       
@@ -531,7 +539,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -592,7 +600,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#类型转换"><span class="nav-number">1.</span> <span class="nav-text">类型转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定点数IP计算"><span class="nav-number">2.</span> <span class="nav-text">定点数IP计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#时钟"><span class="nav-number">3.</span> <span class="nav-text">时钟</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩阵以及卷积运算"><span class="nav-number">4.</span> <span class="nav-text">矩阵以及卷积运算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vivado实现优化问题"><span class="nav-number">5.</span> <span class="nav-text">Vivado实现优化问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Buffer-测试"><span class="nav-number">6.</span> <span class="nav-text">Buffer 测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#softmax函数"><span class="nav-number">7.</span> <span class="nav-text">softmax函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思路变化"><span class="nav-number">8.</span> <span class="nav-text">思路变化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bug-list"><span class="nav-number">9.</span> <span class="nav-text">Bug list</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Verilog编程技巧"><span class="nav-number">10.</span> <span class="nav-text">Verilog编程技巧</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#类型转换"><span class="nav-number">1.</span> <span class="nav-text">类型转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定点数IP计算"><span class="nav-number">2.</span> <span class="nav-text">定点数IP计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#时钟"><span class="nav-number">3.</span> <span class="nav-text">时钟</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#矩阵以及卷积运算"><span class="nav-number">4.</span> <span class="nav-text">矩阵以及卷积运算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vivado实现优化问题"><span class="nav-number">5.</span> <span class="nav-text">Vivado实现优化问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Buffer-测试"><span class="nav-number">6.</span> <span class="nav-text">Buffer 测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PS、PL通过Block-RAM共享数据"><span class="nav-number">7.</span> <span class="nav-text">PS、PL通过Block RAM共享数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#softmax函数"><span class="nav-number">8.</span> <span class="nav-text">softmax函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思路变化"><span class="nav-number">9.</span> <span class="nav-text">思路变化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bug-list"><span class="nav-number">10.</span> <span class="nav-text">Bug list</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Verilog编程技巧"><span class="nav-number">11.</span> <span class="nav-text">Verilog编程技巧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关注的参数"><span class="nav-number">12.</span> <span class="nav-text">关注的参数</span></a></li></ol></div>
             
 
           </div>
