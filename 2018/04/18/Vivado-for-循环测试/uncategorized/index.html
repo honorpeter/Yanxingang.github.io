@@ -92,7 +92,7 @@
 <meta property="og:image" content="http://yanxingang.com/images/verilogfor/verilogfor5.PNG">
 <meta property="og:image" content="http://yanxingang.com/images/verilogfor/verilogfor3.PNG">
 <meta property="og:image" content="http://yanxingang.com/images/verilogfor/verilogfor4.PNG">
-<meta property="og:updated_time" content="2018-04-18T14:02:22.498Z">
+<meta property="og:updated_time" content="2018-04-19T01:09:40.312Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Vivado for 循环测试">
 <meta name="twitter:description" content="关于for循环使用的问题。   Shifttest bench  12345678910111213141516171819202122232425module test_sim(    );reg clk;reg reset;reg [7:0] key;wire [7:0] signal;initial beginclk=0;reset=1;key=1;#100 reset=0;endalway">
@@ -358,8 +358,8 @@
 <p>仿真结果：<br><img src="\images\verilogfor\verilogfor2.PNG" alt=""><br>资源占用率：<br><img src="\images\verilogfor\verilogfor5.PNG" alt="">  </p>
 <p><strong>Code 3</strong><br>将Code 1的第26行改为  </p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">10</span>;j=j+<span class="number">1</span>)</span><br><span class="line">    shift[j+<span class="number">1</span>]&lt;=shift[j];</span><br></pre></td></tr></table></figure>
-<p>仿真结果：<br><img src="\images\verilogfor\verilogfor3.PNG" alt=""><br>实现Shift功能，只是将&lt;=改为=,区别就如此之大。<br>资源占用率：<br><img src="\images\verilogfor\verilogfor4.PNG" alt="">  </p>
-<h2 id=""><a href="#" class="headerlink" title=" "></a> </h2>
+<p>仿真结果：<br><img src="\images\verilogfor\verilogfor3.PNG" alt=""><br>实现Shift功能，只是将&lt;=改为=,区别就如此之大。<br>资源占用率：<br><img src="\images\verilogfor\verilogfor4.PNG" alt=""><br>打开implement看实现后的Nets和Leaf Cells，没有发现和i,j,w相关的线或硬件单元。  </p>
+
       
     </div>
     
@@ -562,7 +562,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Shift"><span class="nav-number">1.</span> <span class="nav-text">Shift</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">2.</span> <span class="nav-text"> </span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Shift"><span class="nav-number">1.</span> <span class="nav-text">Shift</span></a></li></ol></div>
             
 
           </div>
