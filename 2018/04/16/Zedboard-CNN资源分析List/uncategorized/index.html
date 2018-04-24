@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="用时分析 conv1_w ROM数据读取用时，20×25=500，500×2=1000clk，大约10us;     资源分析 Zynq7020 DSP资源220个，一个PE单元是25个乘法器，（8个PE单元是完全可以通过DSP资源实现的；1个PE是用了20个DSP，剩余用LUT实现；最后一个PE完全通过LUT来实现。   一个LUT实现的16位乘法器至少需要LUT大约 134个,按照上面的分析，">
+<meta name="description" content="Zedboard资源分析 Zynq7020 DSP资源220个，一个PE单元是25个乘法器，（8个PE单元是完全可以通过DSP资源实现的；1个PE是用了20个DSP，剩余用LUT实现；最后一个PE完全通过LUT来实现。   一个LUT实现的16位乘法器至少需要LUT大约 134个,按照上面的分析，LUT实现的乘法器有30个，需要LUT为3960个，占用比率7.4%。 LUT 6输入， 一个16位R">
 <meta name="keywords" content="FPGA">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Zedboard-CNN资源分析List">
 <meta property="og:url" content="http://yanxingang.com/2018/04/16/Zedboard-CNN资源分析List/uncategorized/index.html">
 <meta property="og:site_name" content="Xingang Yan">
-<meta property="og:description" content="用时分析 conv1_w ROM数据读取用时，20×25=500，500×2=1000clk，大约10us;     资源分析 Zynq7020 DSP资源220个，一个PE单元是25个乘法器，（8个PE单元是完全可以通过DSP资源实现的；1个PE是用了20个DSP，剩余用LUT实现；最后一个PE完全通过LUT来实现。   一个LUT实现的16位乘法器至少需要LUT大约 134个,按照上面的分析，">
+<meta property="og:description" content="Zedboard资源分析 Zynq7020 DSP资源220个，一个PE单元是25个乘法器，（8个PE单元是完全可以通过DSP资源实现的；1个PE是用了20个DSP，剩余用LUT实现；最后一个PE完全通过LUT来实现。   一个LUT实现的16位乘法器至少需要LUT大约 134个,按照上面的分析，LUT实现的乘法器有30个，需要LUT为3960个，占用比率7.4%。 LUT 6输入， 一个16位R">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-16T08:44:59.588Z">
+<meta property="og:updated_time" content="2018-04-24T05:21:51.062Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Zedboard-CNN资源分析List">
-<meta name="twitter:description" content="用时分析 conv1_w ROM数据读取用时，20×25=500，500×2=1000clk，大约10us;     资源分析 Zynq7020 DSP资源220个，一个PE单元是25个乘法器，（8个PE单元是完全可以通过DSP资源实现的；1个PE是用了20个DSP，剩余用LUT实现；最后一个PE完全通过LUT来实现。   一个LUT实现的16位乘法器至少需要LUT大约 134个,按照上面的分析，">
+<meta name="twitter:description" content="Zedboard资源分析 Zynq7020 DSP资源220个，一个PE单元是25个乘法器，（8个PE单元是完全可以通过DSP资源实现的；1个PE是用了20个DSP，剩余用LUT实现；最后一个PE完全通过LUT来实现。   一个LUT实现的16位乘法器至少需要LUT大约 134个,按照上面的分析，LUT实现的乘法器有30个，需要LUT为3960个，占用比率7.4%。 LUT 6输入， 一个16位R">
 
 
 
@@ -341,14 +341,14 @@
       
 
       
-        <h2 id="用时分析"><a href="#用时分析" class="headerlink" title="用时分析"></a>用时分析</h2><ul>
-<li>conv1_w ROM数据读取用时，20×25=500，500×2=1000clk，大约10us;  </li>
-<li></li>
-</ul>
-<h2 id="资源分析"><a href="#资源分析" class="headerlink" title="资源分析"></a>资源分析</h2><ul>
+        <h1 id="Zedboard"><a href="#Zedboard" class="headerlink" title="Zedboard"></a>Zedboard</h1><h2 id="资源分析"><a href="#资源分析" class="headerlink" title="资源分析"></a>资源分析</h2><ul>
 <li>Zynq7020 DSP资源220个，一个PE单元是25个乘法器，（8个PE单元是完全可以通过DSP资源实现的；1个PE是用了20个DSP，剩余用LUT实现；最后一个PE完全通过LUT来实现。  </li>
 <li>一个LUT实现的16位乘法器至少需要LUT大约 134个,按照上面的分析，LUT实现的乘法器有30个，需要LUT为3960个，占用比率7.4%。</li>
-<li>LUT 6输入， 一个16位Reg类型是不是至少需要3个LUT?</li>
+<li>LUT 6输入， 一个16位Reg类型是不是至少需要3个LUT?  </li>
+</ul>
+<h2 id="实现结果"><a href="#实现结果" class="headerlink" title="实现结果"></a>实现结果</h2><p>粗略用Zedboard实现两层卷积核两层池化层，发现第二层卷积是最占用计算时间的，耗时非常长。整个逻辑控制部分占用资源达到LUT的70%，明显超过预期。   </p>
+<h1 id="Zybo"><a href="#Zybo" class="headerlink" title="Zybo"></a>Zybo</h1><ul>
+<li>Zybo DSP资源只有80个，只能支持实现80个乘法器。按实现125个乘法器考虑，还有45个乘法器需要用LUT实现，粗略估计LUT乘法器占用资源30%。  </li>
 </ul>
 
       
@@ -496,7 +496,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">28</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -509,7 +509,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -557,7 +557,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#用时分析"><span class="nav-number">1.</span> <span class="nav-text">用时分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资源分析"><span class="nav-number">2.</span> <span class="nav-text">资源分析</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Zedboard"><span class="nav-number">1.</span> <span class="nav-text">Zedboard</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#资源分析"><span class="nav-number">1.1.</span> <span class="nav-text">资源分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现结果"><span class="nav-number">1.2.</span> <span class="nav-text">实现结果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Zybo"><span class="nav-number">2.</span> <span class="nav-text">Zybo</span></a></li></ol></div>
             
 
           </div>

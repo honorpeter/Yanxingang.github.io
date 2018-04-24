@@ -88,7 +88,7 @@
 <meta property="og:description" content="类型转换需要将float型参数转换成signed char 型再传入FPGA端。    定义为signed char型，可以将后四位作为小数位，这样计算原来模型各层数据不能超过7，否则将会溢出。   权重统一乘以16后传入FPGA端，图片数据也要缩小16倍     不过开始训练的模型不能压缩到8位，否则会溢出，只能采用16位的形式。这样的话，按照下面的方式计算：    定义为16位有符号型，将后8">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yanxingang.com/images/Fpga_cnn/Fpga_cnn1.PNG">
-<meta property="og:updated_time" content="2018-04-21T02:34:31.472Z">
+<meta property="og:updated_time" content="2018-04-24T05:15:42.652Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="FPGA加速CNN计算过程">
 <meta name="twitter:description" content="类型转换需要将float型参数转换成signed char 型再传入FPGA端。    定义为signed char型，可以将后四位作为小数位，这样计算原来模型各层数据不能超过7，否则将会溢出。   权重统一乘以16后传入FPGA端，图片数据也要缩小16倍     不过开始训练的模型不能压缩到8位，否则会溢出，只能采用16位的形式。这样的话，按照下面的方式计算：    定义为16位有符号型，将后8">
@@ -379,7 +379,8 @@
 <h2 id="softmax函数"><a href="#softmax函数" class="headerlink" title="softmax函数"></a>softmax函数</h2><p>softmax函数实现最好放在PS端实现，因为放在PL端实现可能会造成未知的溢出问题，另外Softmax函数放在PL端加速的意义不大。  </p>
 <h2 id="思路变化"><a href="#思路变化" class="headerlink" title="思路变化"></a>思路变化</h2><ul>
 <li>做完一层卷积和一层池化后，发现资源LUT占用率达到86%，正在考虑合理的方式来降低资源占用，除了计算单元PE外，过多的reg类型和逻辑判断也占用了太多资源。感觉之所以占用率如此之高的问题在于我当前想将整个CNN过程流水话，这样使得我控制逻辑、计算逻辑、数据读取逻辑有些混乱。现在想参考下别人的论文，重新整理下自己的思路。  </li>
-<li>重新画了整个系统的框图，但是又遇到了新的问题。PL端的BRam资源不够，打算用AXI线将全连接第一层的参数从PS端传到PL端。</li>
+<li>重新画了整个系统的框图，但是又遇到了新的问题。PL端的BRam资源不够，打算用AXI线将全连接第一层的参数从PS端传到PL端。  </li>
+<li>将两层卷积和两层池化层实现之后，发现FPGA做控制逻辑是真的复杂，所以决定换个思路，还是FPGA端做计算加速的事情，PS端完成逻辑控制。  </li>
 </ul>
 <h2 id="Bug-list"><a href="#Bug-list" class="headerlink" title="Bug list"></a>Bug list</h2><ul>
 <li>定义reg忘记加signed，都变成无符号型了。  </li>
@@ -541,7 +542,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">28</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -554,7 +555,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
