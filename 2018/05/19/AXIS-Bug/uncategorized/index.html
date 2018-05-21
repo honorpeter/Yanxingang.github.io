@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Xingang Yan">
 <meta property="og:description" content="很久没有更新博客了，最近一直在解一个Bug，基本快要崩溃了，不过好在现在已经有些眉目了。自己写的AXI Stream发送接口好像有些问题，只有在模块与DMA之间接入相对较深的FIFO时才能正常使用，比如Depth为1024或者512好使，Depth为16就不好使，另外，DMA接收时的Ready信号总是不连续，思考了一下，感觉原因可能是PS端在处理数据，占用了数据总线。还有就是如果我将Ram输出的数">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-05-19T11:49:17.225Z">
+<meta property="og:updated_time" content="2018-05-21T07:36:28.508Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AXIS Bug">
 <meta name="twitter:description" content="很久没有更新博客了，最近一直在解一个Bug，基本快要崩溃了，不过好在现在已经有些眉目了。自己写的AXI Stream发送接口好像有些问题，只有在模块与DMA之间接入相对较深的FIFO时才能正常使用，比如Depth为1024或者512好使，Depth为16就不好使，另外，DMA接收时的Ready信号总是不连续，思考了一下，感觉原因可能是PS端在处理数据，占用了数据总线。还有就是如果我将Ram输出的数">
@@ -352,7 +352,13 @@
 <ul>
 <li>FPGA有关图像处理的事情，就是用摄像头输入图像，然后完成相应的功能，识别、检测等等。但是感觉很多半导体厂商(英伟达、Arm)正在发力物联网应用，不清楚仅仅就FPGA而言能够走多远。  </li>
 <li>Linux系统，在Linux系统上完成相应的功能，但是我有不想研究太多驱动的内容，如果能最少的时间完成移植相关的工作就好了，自己可以专注于应用程序的开发。  </li>
-<li>系统级开发，神经网络层出不穷，做和神经网络相关的研究，研究跟适合FPGA加速的网络。  </li>
+<li>系统级开发，神经网络层出不穷，做和神经网络相关的研究，研究跟适合FPGA加速的网络。   </li>
+</ul>
+<p><strong>2018.5.21更新</strong><br>(2018.5.21)中午躺在椅子上休息了将近1个小时吧，感觉下午精神状态很饱满。<br>上午看了下Xilinx最新的发展愿景，三大发展方向：云计算、八大主流应用(汽车、通信等等)、ACAP(异构计算平台)，感觉Xilinx接下来才是真正推出软件易用产品，预计年底量产，感觉如果成本可以降下来，又是对于行业的一次洗牌，毕竟现在Xilinx的营业额不是特别高，虽然一直在增长。  </p>
+<ul>
+<li>有时间的话得重点关注如何使用Zynq上的Linux系统了，感觉裸机不是未来，以太网驱动看看怎么用，以后可能会先用以太网建一个网络。  </li>
+<li>有时间多看看Xilinx有哪些IP可以使用，这可以大大减小自己开发的时间。</li>
+<li>将网上自己找的相关的资料、视频等等，得看看了，这有助于自己后面对于架构的设计，有些很传统的跟Verilog相关的就不必看了，感觉没什么用。</li>
 </ul>
 
       
