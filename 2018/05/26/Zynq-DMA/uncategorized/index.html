@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="C++," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -79,18 +79,17 @@
 
 
 
-<meta name="description" content="本文用以记录自己在C++编程过程中遇到的C++问题   指针初始化一般定义一个指针都要初始化为NULL。如果指针为全局变量，会自动初始化为NULL,但是局部变量不一定。   指针和const 见下代码：const int a=0;const int *p=&amp;a;此处的意思为指针p所指向的地址处a变量是const型，是不能改变其值的。    见下代码：int a=0;int *const p=&amp;a;">
-<meta name="keywords" content="C++">
+<meta name="description" content="title: Zynq DMAdate: 2018-05-26 10:40:57 tags: FPGA本文用以记录Zynq AXI DMA数据传输遇到的相关问题。   概念 参考文献ug585图5-1,这是一个很重要的关于AXI的系统框图。There are a few notable bottlenecks on the path from the GP ports to DDR (when">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C-plus-problems">
-<meta property="og:url" content="http://yanxingang.com/2018/04/16/C-plus-problems/uncategorized/index.html">
+<meta property="og:title" content="Xingang Yan">
+<meta property="og:url" content="http://yanxingang.com/2018/05/26/Zynq-DMA/uncategorized/index.html">
 <meta property="og:site_name" content="Xingang Yan">
-<meta property="og:description" content="本文用以记录自己在C++编程过程中遇到的C++问题   指针初始化一般定义一个指针都要初始化为NULL。如果指针为全局变量，会自动初始化为NULL,但是局部变量不一定。   指针和const 见下代码：const int a=0;const int *p=&amp;a;此处的意思为指针p所指向的地址处a变量是const型，是不能改变其值的。    见下代码：int a=0;int *const p=&amp;a;">
+<meta property="og:description" content="title: Zynq DMAdate: 2018-05-26 10:40:57 tags: FPGA本文用以记录Zynq AXI DMA数据传输遇到的相关问题。   概念 参考文献ug585图5-1,这是一个很重要的关于AXI的系统框图。There are a few notable bottlenecks on the path from the GP ports to DDR (when">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-16T01:58:57.315Z">
+<meta property="og:updated_time" content="2018-05-26T02:52:39.115Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C-plus-problems">
-<meta name="twitter:description" content="本文用以记录自己在C++编程过程中遇到的C++问题   指针初始化一般定义一个指针都要初始化为NULL。如果指针为全局变量，会自动初始化为NULL,但是局部变量不一定。   指针和const 见下代码：const int a=0;const int *p=&amp;a;此处的意思为指针p所指向的地址处a变量是const型，是不能改变其值的。    见下代码：int a=0;int *const p=&amp;a;">
+<meta name="twitter:title" content="Xingang Yan">
+<meta name="twitter:description" content="title: Zynq DMAdate: 2018-05-26 10:40:57 tags: FPGA本文用以记录Zynq AXI DMA数据传输遇到的相关问题。   概念 参考文献ug585图5-1,这是一个很重要的关于AXI的系统框图。There are a few notable bottlenecks on the path from the GP ports to DDR (when">
 
 
 
@@ -120,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yanxingang.com/2018/04/16/C-plus-problems/uncategorized/"/>
+  <link rel="canonical" href="http://yanxingang.com/2018/05/26/Zynq-DMA/uncategorized/"/>
 
 
 
 
 
-  <title>C-plus-problems | Xingang Yan</title>
+  <title> | Xingang Yan</title>
   
 
 
@@ -253,7 +252,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yanxingang.com/2018/04/16/C-plus-problems/uncategorized/">
+    <link itemprop="mainEntityOfPage" href="http://yanxingang.com/2018/05/26/Zynq-DMA/uncategorized/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Mr Yan">
@@ -270,7 +269,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">C-plus-problems</h1>
+          <h1 class="post-title" itemprop="name headline"></h1>
         
 
         <div class="post-meta">
@@ -282,8 +281,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-16T09:54:24+08:00">
-                2018-04-16
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-26T10:40:57+08:00">
+                2018-05-26
               </time>
             
 
@@ -301,8 +300,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/04/16/C-plus-problems/uncategorized/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/04/16/C-plus-problems/uncategorized/" itemprop="commentsCount"></span>
+                <a href="/2018/05/26/Zynq-DMA/uncategorized/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/05/26/Zynq-DMA/uncategorized/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -310,7 +309,7 @@
 
           
           
-             <span id="/2018/04/16/C-plus-problems/uncategorized/" class="leancloud_visitors" data-flag-title="C-plus-problems">
+             <span id="/2018/05/26/Zynq-DMA/uncategorized/" class="leancloud_visitors" data-flag-title="">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -341,15 +340,21 @@
       
 
       
-        <p><strong>本文用以记录自己在C++编程过程中遇到的C++问题</strong>  </p>
-<h3 id="指针初始化"><a href="#指针初始化" class="headerlink" title="指针初始化"></a>指针初始化</h3><p>一般定义一个指针都要初始化为NULL。如果指针为全局变量，会自动初始化为NULL,但是局部变量不一定。  </p>
-<h3 id="指针和const"><a href="#指针和const" class="headerlink" title="指针和const"></a>指针和const</h3><ul>
-<li><p>见下代码：<br>const int a=0;<br>const int *p=&a;<br>此处的意思为指针p所指向的地址处a变量是const型，是不能改变其值的。  </p>
+        <hr>
+<p>title: Zynq DMA<br>date: 2018-05-26 10:40:57</p>
+<h2 id="tags-FPGA"><a href="#tags-FPGA" class="headerlink" title="tags: FPGA"></a>tags: FPGA</h2><p>本文用以记录Zynq AXI DMA数据传输遇到的相关问题。  </p>
+<h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><ul>
+<li><p>参考文献ug585图5-1,这是一个很重要的关于AXI的系统框图。<br>There are a few notable bottlenecks on the path from the GP ports to DDR (when compared to the path from the HP ports to DDR). First, you should notice that the HP path only has one interconnect to go through but the GP has two. You should also notice that the Memory Interconnect has two separate ports that can master on the memory controller whereas the Central Interconnect only has one. Also, the Master Interconnect is only 32-bits wide. That’s another bottleneck. The HP path also has FIFOs on each of the HP ports to queue up commands which improves performance.   </p>
 </li>
-<li><p>见下代码：<br>int a=0;<br>int *const p=&a;<br>此处指的是指针p是const型，其存储的地址是不可变的。<br>所以指向常量的指针和常量指针是不同的。</p>
+<li><p>一个很重要的缩写，叫做BD，看了下手册才明白，Buffer Descriptor，这个东西好像是按照链表的方式来存储的要传输的内存地址。会有一个寄存器存储着当前的Descriptor Pointer for the Stream to Memory Map DMA Scatter Gather Descriptor Management。并且Buffer Descriptors must be 16-word aligned, that is, 0x00, 0x40, 0x80, and so forth. Any other alignment has undefined results。下面是这个链表的叙述AXI DMA operation requires a memory-resident data structure that holds the list of DMA operations to be performed. This list of instructions is organized into what is referred to as a descriptor chain. Each descriptor has a pointer to the next descriptor to be processed. The last descriptor in the chain then points back to the first descriptor in the chain。  </p>
 </li>
 </ul>
-<h3 id="C-函数前和函数后加const修饰符区别"><a href="#C-函数前和函数后加const修饰符区别" class="headerlink" title="C++函数前和函数后加const修饰符区别"></a>C++函数前和函数后加const修饰符区别</h3><p>在函数前加const只是说明该函数的返回值是一个const类型，在函数后加const是。。。（此问题先留着）</p>
+<p>SG模式暂时没有调出来，换用Simple模式。  </p>
+<h3 id="地址问题"><a href="#地址问题" class="headerlink" title="地址问题"></a>地址问题</h3><p>关于发送接收地址的问题，有了新的认识。  </p>
+<ul>
+<li>发送地址，这个地址可以提前声明全局变量，然后在后面DMA传送时，直接取址即可，因为此处取址并不冲突。  </li>
+<li>接收地址，这个就有不同了。首先，提前声明全局变量或者局部变量，在DMA传送时，是无法将数据写道该地址上的，数据是没有变化的，这个地方将DDR的数据更新到Cache里面，确定就是DDR的数据没有变化，但是DMA发送接收中断都进了，中断竟然是正常的。怀疑是一旦软件里面使用了该地址，将不允许DMA去改变该内存段中的数据。另一个测试结果是，如果接收DMA数据的内存地址是空白的，未被写过数据，那么DMA可以将数据直接写入。或者该内存地址如果和已经定义的变量地址有冲突，那么数据也是无法写入的。  </li>
+</ul>
 
       
     </div>
@@ -364,12 +369,6 @@
     
 
     <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/C/" rel="tag"># C++</a>
-          
-        </div>
       
 
       
@@ -395,8 +394,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/04/09/终于搬到校内了/uncategorized/" rel="next" title="终于搬到校内了">
-                <i class="fa fa-chevron-left"></i> 终于搬到校内了
+              <a href="/2018/05/25/volatile与指针/uncategorized/" rel="next" title="volatile与指针">
+                <i class="fa fa-chevron-left"></i> volatile与指针
               </a>
             
           </div>
@@ -404,10 +403,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/04/16/VivadoSynthesis/uncategorized/" rel="prev" title="VivadoSynthesis">
-                VivadoSynthesis <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -557,7 +552,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#指针初始化"><span class="nav-number">1.</span> <span class="nav-text">指针初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指针和const"><span class="nav-number">2.</span> <span class="nav-text">指针和const</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-函数前和函数后加const修饰符区别"><span class="nav-number">3.</span> <span class="nav-text">C++函数前和函数后加const修饰符区别</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#tags-FPGA"><span class="nav-number">1.</span> <span class="nav-text">tags: FPGA</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念"><span class="nav-number">1.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#地址问题"><span class="nav-number">1.2.</span> <span class="nav-text">地址问题</span></a></li></ol></li></ol></div>
             
 
           </div>

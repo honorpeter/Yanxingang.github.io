@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="C++," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -79,18 +79,17 @@
 
 
 
-<meta name="description" content="本文用以记录自己在C++编程过程中遇到的C++问题   指针初始化一般定义一个指针都要初始化为NULL。如果指针为全局变量，会自动初始化为NULL,但是局部变量不一定。   指针和const 见下代码：const int a=0;const int *p=&amp;a;此处的意思为指针p所指向的地址处a变量是const型，是不能改变其值的。    见下代码：int a=0;int *const p=&amp;a;">
-<meta name="keywords" content="C++">
+<meta name="description" content="This is the story of an idea">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C-plus-problems">
-<meta property="og:url" content="http://yanxingang.com/2018/04/16/C-plus-problems/uncategorized/index.html">
+<meta property="og:title" content="volatile与指针">
+<meta property="og:url" content="http://yanxingang.com/2018/05/25/volatile与指针/uncategorized/index.html">
 <meta property="og:site_name" content="Xingang Yan">
-<meta property="og:description" content="本文用以记录自己在C++编程过程中遇到的C++问题   指针初始化一般定义一个指针都要初始化为NULL。如果指针为全局变量，会自动初始化为NULL,但是局部变量不一定。   指针和const 见下代码：const int a=0;const int *p=&amp;a;此处的意思为指针p所指向的地址处a变量是const型，是不能改变其值的。    见下代码：int a=0;int *const p=&amp;a;">
+<meta property="og:description" content="This is the story of an idea">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-16T01:58:57.315Z">
+<meta property="og:updated_time" content="2018-05-25T07:44:58.310Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C-plus-problems">
-<meta name="twitter:description" content="本文用以记录自己在C++编程过程中遇到的C++问题   指针初始化一般定义一个指针都要初始化为NULL。如果指针为全局变量，会自动初始化为NULL,但是局部变量不一定。   指针和const 见下代码：const int a=0;const int *p=&amp;a;此处的意思为指针p所指向的地址处a变量是const型，是不能改变其值的。    见下代码：int a=0;int *const p=&amp;a;">
+<meta name="twitter:title" content="volatile与指针">
+<meta name="twitter:description" content="This is the story of an idea">
 
 
 
@@ -120,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yanxingang.com/2018/04/16/C-plus-problems/uncategorized/"/>
+  <link rel="canonical" href="http://yanxingang.com/2018/05/25/volatile与指针/uncategorized/"/>
 
 
 
 
 
-  <title>C-plus-problems | Xingang Yan</title>
+  <title>volatile与指针 | Xingang Yan</title>
   
 
 
@@ -253,7 +252,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yanxingang.com/2018/04/16/C-plus-problems/uncategorized/">
+    <link itemprop="mainEntityOfPage" href="http://yanxingang.com/2018/05/25/volatile与指针/uncategorized/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Mr Yan">
@@ -270,7 +269,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">C-plus-problems</h1>
+          <h1 class="post-title" itemprop="name headline">volatile与指针</h1>
         
 
         <div class="post-meta">
@@ -282,8 +281,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-16T09:54:24+08:00">
-                2018-04-16
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-25T15:44:58+08:00">
+                2018-05-25
               </time>
             
 
@@ -301,8 +300,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/04/16/C-plus-problems/uncategorized/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/04/16/C-plus-problems/uncategorized/" itemprop="commentsCount"></span>
+                <a href="/2018/05/25/volatile与指针/uncategorized/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/05/25/volatile与指针/uncategorized/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -310,7 +309,7 @@
 
           
           
-             <span id="/2018/04/16/C-plus-problems/uncategorized/" class="leancloud_visitors" data-flag-title="C-plus-problems">
+             <span id="/2018/05/25/volatile与指针/uncategorized/" class="leancloud_visitors" data-flag-title="volatile与指针">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -341,16 +340,7 @@
       
 
       
-        <p><strong>本文用以记录自己在C++编程过程中遇到的C++问题</strong>  </p>
-<h3 id="指针初始化"><a href="#指针初始化" class="headerlink" title="指针初始化"></a>指针初始化</h3><p>一般定义一个指针都要初始化为NULL。如果指针为全局变量，会自动初始化为NULL,但是局部变量不一定。  </p>
-<h3 id="指针和const"><a href="#指针和const" class="headerlink" title="指针和const"></a>指针和const</h3><ul>
-<li><p>见下代码：<br>const int a=0;<br>const int *p=&a;<br>此处的意思为指针p所指向的地址处a变量是const型，是不能改变其值的。  </p>
-</li>
-<li><p>见下代码：<br>int a=0;<br>int *const p=&a;<br>此处指的是指针p是const型，其存储的地址是不可变的。<br>所以指向常量的指针和常量指针是不同的。</p>
-</li>
-</ul>
-<h3 id="C-函数前和函数后加const修饰符区别"><a href="#C-函数前和函数后加const修饰符区别" class="headerlink" title="C++函数前和函数后加const修饰符区别"></a>C++函数前和函数后加const修饰符区别</h3><p>在函数前加const只是说明该函数的返回值是一个const类型，在函数后加const是。。。（此问题先留着）</p>
-
+        
       
     </div>
     
@@ -364,12 +354,6 @@
     
 
     <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/C/" rel="tag"># C++</a>
-          
-        </div>
       
 
       
@@ -395,8 +379,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/04/09/终于搬到校内了/uncategorized/" rel="next" title="终于搬到校内了">
-                <i class="fa fa-chevron-left"></i> 终于搬到校内了
+              <a href="/2018/05/23/FPGA慎思/uncategorized/" rel="next" title="FPGA慎思">
+                <i class="fa fa-chevron-left"></i> FPGA慎思
               </a>
             
           </div>
@@ -405,8 +389,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/04/16/VivadoSynthesis/uncategorized/" rel="prev" title="VivadoSynthesis">
-                VivadoSynthesis <i class="fa fa-chevron-right"></i>
+              <a href="/2018/05/26/Zynq-DMA/uncategorized/" rel="prev" title="">
+                 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -467,17 +451,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -547,22 +522,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#指针初始化"><span class="nav-number">1.</span> <span class="nav-text">指针初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指针和const"><span class="nav-number">2.</span> <span class="nav-text">指针和const</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-函数前和函数后加const修饰符区别"><span class="nav-number">3.</span> <span class="nav-text">C++函数前和函数后加const修饰符区别</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
