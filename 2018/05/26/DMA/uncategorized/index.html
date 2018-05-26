@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="title: Zynq DMAdate: 2018-05-26 10:40:57 tags: FPGA本文用以记录Zynq AXI DMA数据传输遇到的相关问题。   概念 参考文献ug585图5-1,这是一个很重要的关于AXI的系统框图。There are a few notable bottlenecks on the path from the GP ports to DDR (when">
+<meta name="description" content="title: DMAdate: 2018-05-26 12:30:07 tags: FPGA 本文用以记录Zynq AXI DMA数据传输遇到的相关问题。   概念 参考文献ug585图5-1,这是一个很重要的关于AXI的系统框图。There are a few notable bottlenecks on the path from the GP ports to DDR (when comp">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Xingang Yan">
-<meta property="og:url" content="http://yanxingang.com/2018/05/26/Zynq-DMA/uncategorized/index.html">
+<meta property="og:url" content="http://yanxingang.com/2018/05/26/DMA/uncategorized/index.html">
 <meta property="og:site_name" content="Xingang Yan">
-<meta property="og:description" content="title: Zynq DMAdate: 2018-05-26 10:40:57 tags: FPGA本文用以记录Zynq AXI DMA数据传输遇到的相关问题。   概念 参考文献ug585图5-1,这是一个很重要的关于AXI的系统框图。There are a few notable bottlenecks on the path from the GP ports to DDR (when">
+<meta property="og:description" content="title: DMAdate: 2018-05-26 12:30:07 tags: FPGA 本文用以记录Zynq AXI DMA数据传输遇到的相关问题。   概念 参考文献ug585图5-1,这是一个很重要的关于AXI的系统框图。There are a few notable bottlenecks on the path from the GP ports to DDR (when comp">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yanxingang.com/images/DMA.PNG">
-<meta property="og:updated_time" content="2018-05-26T04:25:12.794Z">
+<meta property="og:image" content="http://yanxingang.com/images/DDR.PNG">
+<meta property="og:updated_time" content="2018-05-26T04:33:16.215Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Xingang Yan">
-<meta name="twitter:description" content="title: Zynq DMAdate: 2018-05-26 10:40:57 tags: FPGA本文用以记录Zynq AXI DMA数据传输遇到的相关问题。   概念 参考文献ug585图5-1,这是一个很重要的关于AXI的系统框图。There are a few notable bottlenecks on the path from the GP ports to DDR (when">
-<meta name="twitter:image" content="http://yanxingang.com/images/DMA.PNG">
+<meta name="twitter:description" content="title: DMAdate: 2018-05-26 12:30:07 tags: FPGA 本文用以记录Zynq AXI DMA数据传输遇到的相关问题。   概念 参考文献ug585图5-1,这是一个很重要的关于AXI的系统框图。There are a few notable bottlenecks on the path from the GP ports to DDR (when comp">
+<meta name="twitter:image" content="http://yanxingang.com/images/DDR.PNG">
 
 
 
@@ -121,7 +121,7 @@
 
 
 
-  <link rel="canonical" href="http://yanxingang.com/2018/05/26/Zynq-DMA/uncategorized/"/>
+  <link rel="canonical" href="http://yanxingang.com/2018/05/26/DMA/uncategorized/"/>
 
 
 
@@ -254,7 +254,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yanxingang.com/2018/05/26/Zynq-DMA/uncategorized/">
+    <link itemprop="mainEntityOfPage" href="http://yanxingang.com/2018/05/26/DMA/uncategorized/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Mr Yan">
@@ -283,7 +283,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-26T10:40:57+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-26T12:30:07+08:00">
                 2018-05-26
               </time>
             
@@ -302,8 +302,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/05/26/Zynq-DMA/uncategorized/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/05/26/Zynq-DMA/uncategorized/" itemprop="commentsCount"></span>
+                <a href="/2018/05/26/DMA/uncategorized/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/05/26/DMA/uncategorized/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -311,7 +311,7 @@
 
           
           
-             <span id="/2018/05/26/Zynq-DMA/uncategorized/" class="leancloud_visitors" data-flag-title="">
+             <span id="/2018/05/26/DMA/uncategorized/" class="leancloud_visitors" data-flag-title="">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -343,8 +343,8 @@
 
       
         <hr>
-<p>title: Zynq DMA<br>date: 2018-05-26 10:40:57</p>
-<h2 id="tags-FPGA"><a href="#tags-FPGA" class="headerlink" title="tags: FPGA"></a>tags: FPGA</h2><p>本文用以记录Zynq AXI DMA数据传输遇到的相关问题。  </p>
+<p>title: DMA<br>date: 2018-05-26 12:30:07</p>
+<h2 id="tags-FPGA"><a href="#tags-FPGA" class="headerlink" title="tags: FPGA "></a>tags: FPGA </h2><p>本文用以记录Zynq AXI DMA数据传输遇到的相关问题。  </p>
 <h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><ul>
 <li><p>参考文献ug585图5-1,这是一个很重要的关于AXI的系统框图。<br>There are a few notable bottlenecks on the path from the GP ports to DDR (when compared to the path from the HP ports to DDR). First, you should notice that the HP path only has one interconnect to go through but the GP has two. You should also notice that the Memory Interconnect has two separate ports that can master on the memory controller whereas the Central Interconnect only has one. Also, the Master Interconnect is only 32-bits wide. That’s another bottleneck. The HP path also has FIFOs on each of the HP ports to queue up commands which improves performance.   </p>
 </li>
@@ -357,7 +357,7 @@
 <li>发送地址，这个地址可以提前声明全局变量，然后在后面DMA传送时，直接取址即可，因为此处取址并不冲突。  </li>
 <li>接收地址，这个就有不同了。首先，提前声明全局变量或者局部变量，在DMA传送时，是无法将数据写道该地址上的，数据是没有变化的，这个地方将DDR的数据更新到Cache里面，确定就是DDR的数据没有变化，但是DMA发送接收中断都进了，中断竟然是正常的。怀疑是一旦软件里面使用了该地址，将不允许DMA去改变该内存段中的数据。另一个测试结果是，如果接收DMA数据的内存地址是空白的，未被写过数据，那么DMA可以将数据直接写入。或者该内存地址如果和已经定义的变量地址有冲突，那么数据也是无法写入的。   </li>
 </ul>
-<h3 id="接收数据更新问题"><a href="#接收数据更新问题" class="headerlink" title="接收数据更新问题"></a>接收数据更新问题</h3><p>当前来分析，Cache和DDR数据更新的函数都是正确的，Xil_DCacheInvalidateRange：宣布Cache无效，直接从DDR中获取数据;Xil_DCacheFlushRange：将Cache中的数据推到DDR中。<br>另外一个很奇怪的事情是，DMA接收中断完成之后，立刻读取DDR中接收的数据是不正确的，读取第一个数据都不正确，读取的是上一个周期的接收数据，说明DDR中的数据还没有更新完毕，不过奇怪的是，如果是第一次接收数据的话，就没有这个问题。如果是在Xil_DCacheInvalidateRange之前或者之后delay一段时间，都会有效果，能够接收到正确的数据。可是为什么第一次不必delay呢？<br><img src="\images\DMA.PNG" alt=""><br>是不是，数据经过HP接口后，先经过FIFO缓存了比较久的时间，然后才通过DDR controller写入DDR。  </p>
+<h3 id="接收数据更新问题"><a href="#接收数据更新问题" class="headerlink" title="接收数据更新问题"></a>接收数据更新问题</h3><p>当前来分析，Cache和DDR数据更新的函数都是正确的，Xil_DCacheInvalidateRange：宣布Cache无效，直接从DDR中获取数据;Xil_DCacheFlushRange：将Cache中的数据推到DDR中。<br>另外一个很奇怪的事情是，DMA接收中断完成之后，立刻读取DDR中接收的数据是不正确的，读取第一个数据都不正确，读取的是上一个周期的接收数据，说明DDR中的数据还没有更新完毕，不过奇怪的是，如果是第一次接收数据的话，就没有这个问题。如果是在Xil_DCacheInvalidateRange之前或者之后delay一段时间，都会有效果，能够接收到正确的数据。可是为什么第一次不必delay呢？<br><img src="\images\DDR.PNG" alt=""><br>是不是，数据经过HP接口后，先经过FIFO缓存了比较久的时间，然后才通过DDR controller写入DDR。  </p>
 
       
     </div>
@@ -555,7 +555,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#tags-FPGA"><span class="nav-number">1.</span> <span class="nav-text">tags: FPGA</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念"><span class="nav-number">1.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#地址问题"><span class="nav-number">1.2.</span> <span class="nav-text">地址问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接收数据更新问题"><span class="nav-number">1.3.</span> <span class="nav-text">接收数据更新问题</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#tags-FPGA"><span class="nav-number">1.</span> <span class="nav-text">tags: FPGA </span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念"><span class="nav-number">1.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#地址问题"><span class="nav-number">1.2.</span> <span class="nav-text">地址问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接收数据更新问题"><span class="nav-number">1.3.</span> <span class="nav-text">接收数据更新问题</span></a></li></ol></li></ol></div>
             
 
           </div>
