@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Zynq," />
+  <meta name="keywords" content="FPGA," />
 
 
 
@@ -79,20 +79,18 @@
 
 
 
-<meta name="description" content="寄存器地址问题知乎：https://www.zhihu.com/question/30155201?sort=created细致讲解了寄存器地址的问题。外设寄存器地址，大概与地址总线和数据总线相关吧，毕竟还是要读写的。如果是CPU运行的寄存器，PC\SP\R0\R1等等，是没有地址的,其存储速度是比一二级缓存还快的。PC机的CPU的寄存器是靠寄存器的名字寻址的。所以，CPU中的寄存器是物理寻址，而">
-<meta name="keywords" content="Zynq">
+<meta name="description" content="一直以来，我学习Vivado下的开发都是百度，这是很不好的，因为Xilinx官网上有大量的文档资料，比如想要学习Vivado，只需要再官网上搜索Vivado Design Suite即可，其余东西也是同理，官方文档一定是第一手资料。">
+<meta name="keywords" content="FPGA">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Zynq学习">
-<meta property="og:url" content="http://yanxingang.com/2018/03/21/Zynq学习/uncategorized/index.html">
+<meta property="og:title" content="Vivado使用相关问题">
+<meta property="og:url" content="http://yanxingang.com/2018/05/27/Vivado使用相关问题/uncategorized/index.html">
 <meta property="og:site_name" content="Xingang Yan">
-<meta property="og:description" content="寄存器地址问题知乎：https://www.zhihu.com/question/30155201?sort=created细致讲解了寄存器地址的问题。外设寄存器地址，大概与地址总线和数据总线相关吧，毕竟还是要读写的。如果是CPU运行的寄存器，PC\SP\R0\R1等等，是没有地址的,其存储速度是比一二级缓存还快的。PC机的CPU的寄存器是靠寄存器的名字寻址的。所以，CPU中的寄存器是物理寻址，而">
+<meta property="og:description" content="一直以来，我学习Vivado下的开发都是百度，这是很不好的，因为Xilinx官网上有大量的文档资料，比如想要学习Vivado，只需要再官网上搜索Vivado Design Suite即可，其余东西也是同理，官方文档一定是第一手资料。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yanxingang.com/images/Zynq.PNG">
-<meta property="og:updated_time" content="2018-04-24T09:03:42.841Z">
+<meta property="og:updated_time" content="2018-05-27T04:21:43.794Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Zynq学习">
-<meta name="twitter:description" content="寄存器地址问题知乎：https://www.zhihu.com/question/30155201?sort=created细致讲解了寄存器地址的问题。外设寄存器地址，大概与地址总线和数据总线相关吧，毕竟还是要读写的。如果是CPU运行的寄存器，PC\SP\R0\R1等等，是没有地址的,其存储速度是比一二级缓存还快的。PC机的CPU的寄存器是靠寄存器的名字寻址的。所以，CPU中的寄存器是物理寻址，而">
-<meta name="twitter:image" content="http://yanxingang.com/images/Zynq.PNG">
+<meta name="twitter:title" content="Vivado使用相关问题">
+<meta name="twitter:description" content="一直以来，我学习Vivado下的开发都是百度，这是很不好的，因为Xilinx官网上有大量的文档资料，比如想要学习Vivado，只需要再官网上搜索Vivado Design Suite即可，其余东西也是同理，官方文档一定是第一手资料。">
 
 
 
@@ -122,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yanxingang.com/2018/03/21/Zynq学习/uncategorized/"/>
+  <link rel="canonical" href="http://yanxingang.com/2018/05/27/Vivado使用相关问题/uncategorized/"/>
 
 
 
 
 
-  <title>Zynq学习 | Xingang Yan</title>
+  <title>Vivado使用相关问题 | Xingang Yan</title>
   
 
 
@@ -255,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yanxingang.com/2018/03/21/Zynq学习/uncategorized/">
+    <link itemprop="mainEntityOfPage" href="http://yanxingang.com/2018/05/27/Vivado使用相关问题/uncategorized/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Mr Yan">
@@ -272,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Zynq学习</h1>
+          <h1 class="post-title" itemprop="name headline">Vivado使用相关问题</h1>
         
 
         <div class="post-meta">
@@ -284,8 +282,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-21T14:56:06+08:00">
-                2018-03-21
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-27T11:18:16+08:00">
+                2018-05-27
               </time>
             
 
@@ -303,8 +301,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/03/21/Zynq学习/uncategorized/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/03/21/Zynq学习/uncategorized/" itemprop="commentsCount"></span>
+                <a href="/2018/05/27/Vivado使用相关问题/uncategorized/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/05/27/Vivado使用相关问题/uncategorized/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -312,7 +310,7 @@
 
           
           
-             <span id="/2018/03/21/Zynq学习/uncategorized/" class="leancloud_visitors" data-flag-title="Zynq学习">
+             <span id="/2018/05/27/Vivado使用相关问题/uncategorized/" class="leancloud_visitors" data-flag-title="Vivado使用相关问题">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -343,11 +341,8 @@
       
 
       
-        <h2 id="寄存器地址问题"><a href="#寄存器地址问题" class="headerlink" title="寄存器地址问题"></a>寄存器地址问题</h2><p>知乎：<a href="https://www.zhihu.com/question/30155201?sort=created" target="_blank" rel="noopener">https://www.zhihu.com/question/30155201?sort=created</a><br>细致讲解了寄存器地址的问题。<br>外设寄存器地址，大概与地址总线和数据总线相关吧，毕竟还是要读写的。<br>如果是CPU运行的寄存器，PC\SP\R0\R1等等，是没有地址的,其存储速度是比一二级缓存还快的。PC机的CPU的寄存器是靠寄存器的名字寻址的。所以，CPU中的寄存器是物理寻址，而外设寄存器的地址是逻辑寻址。<br>这篇博客：<a href="https://www.cnblogs.com/kuainiao/archive/2012/12/17/2821697.html" target="_blank" rel="noopener">https://www.cnblogs.com/kuainiao/archive/2012/12/17/2821697.html</a><br>提出了一个更为通俗的理解，就外设寄存器而言，只是寄存器和内存的结构不同，在寻址上没有本质区别。</p>
-<h2 id="MIO和EMIO、AXI-GPIO的区别"><a href="#MIO和EMIO、AXI-GPIO的区别" class="headerlink" title="MIO和EMIO、AXI_GPIO的区别"></a>MIO和EMIO、AXI_GPIO的区别</h2><p>见博客 <a href="http://blog.csdn.net/limoon1212/article/details/45483491" target="_blank" rel="noopener">http://blog.csdn.net/limoon1212/article/details/45483491</a><br>AXI_GPIO见博客： <a href="https://blog.csdn.net/lg2lh/article/details/49499587" target="_blank" rel="noopener">https://blog.csdn.net/lg2lh/article/details/49499587</a>  </p>
-<h2 id="PS与PL端通信问题"><a href="#PS与PL端通信问题" class="headerlink" title="PS与PL端通信问题"></a>PS与PL端通信问题</h2><p>1、PS与PL端通信几种可选的方式<br>见下网址：<a href="http://blog.sina.com.cn/s/blog_b35897360102x4vr.html" target="_blank" rel="noopener">http://blog.sina.com.cn/s/blog_b35897360102x4vr.html</a><br>2、在Zybo板卡中实现PL与PS端通信的教程：<br>见下网址：<a href="http://xilinx.eetop.cn/viewnews-2547" target="_blank" rel="noopener">http://xilinx.eetop.cn/viewnews-2547</a><br>该文章讲了PS与PL之间的通信，步骤详细。<br>该网址：<a href="https://blog.csdn.net/weiweiliulu/article/details/78751538" target="_blank" rel="noopener">https://blog.csdn.net/weiweiliulu/article/details/78751538</a><br>也是很不错的，其中还给了一些AXI总线基础知识的网址.   </p>
-<h2 id="AXI-DMA问题"><a href="#AXI-DMA问题" class="headerlink" title="AXI DMA问题"></a>AXI DMA问题</h2><p><img src="\images\Zynq.PNG" alt=""><br>在设计时使用的IP，包括AXI Interconnect等等都是要在PL端占用资源的，这一点尤其要注意。另外，High-Performance Ports连接到PS端的是一个名为PL to Memory Interconnect的硬件模块，这个模块负责的事情就是将PL端过来的读取数据或者写数据调配到相应的内存上。<br>而AXI DMA IP并不是PS端的东西，而是占用的PL端资源实现的。  </p>
-
+        <p>一直以来，我学习Vivado下的开发都是百度，这是很不好的，因为Xilinx官网上有大量的文档资料，比如想要学习Vivado，只需要再官网上搜索Vivado Design Suite即可，其余东西也是同理，官方文档一定是第一手资料。  </p>
+<h3 id=""><a href="#" class="headerlink" title=" "></a> </h3>
       
     </div>
     
@@ -364,7 +359,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Zynq/" rel="tag"># Zynq</a>
+            <a href="/tags/FPGA/" rel="tag"># FPGA</a>
           
         </div>
       
@@ -392,8 +387,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/13/C-类/uncategorized/" rel="next" title="C++类">
-                <i class="fa fa-chevron-left"></i> C++类
+              <a href="/2018/05/26/DMA/uncategorized/" rel="next" title="DMA">
+                <i class="fa fa-chevron-left"></i> DMA
               </a>
             
           </div>
@@ -402,8 +397,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/25/Windows下Linux使用记录/uncategorized/" rel="prev" title="Windows下Linux使用记录">
-                Windows下Linux使用记录 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/05/27/FPGA时钟/uncategorized/" rel="prev" title="FPGA??">
+                FPGA?? <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -554,7 +549,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#寄存器地址问题"><span class="nav-number">1.</span> <span class="nav-text">寄存器地址问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MIO和EMIO、AXI-GPIO的区别"><span class="nav-number">2.</span> <span class="nav-text">MIO和EMIO、AXI_GPIO的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PS与PL端通信问题"><span class="nav-number">3.</span> <span class="nav-text">PS与PL端通信问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AXI-DMA问题"><span class="nav-number">4.</span> <span class="nav-text">AXI DMA问题</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text"> </span></a></li></ol></div>
             
 
           </div>
