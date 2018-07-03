@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Xingang Yan">
 <meta property="og:description" content="最近遇到了几个奇怪的问题，记录于此：   DMA传送数据32比特高低位问题传送数据时使用的是32bit位宽，而数据是16bit位宽，这就需要取址来操作。此处的问题是，第一个数是高16位，还是低16位？第一概念肯定是高十六位是第一个数，然而并不是，关键之处在于取址这个操作，地址是按照8bit位宽加一的。如果第一个16位数据是地址是0x0000,第二个16位数据的地址就为0x0002,在传送数据的时候">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-05-24T11:09:25.037Z">
+<meta property="og:updated_time" content="2018-05-29T07:59:22.610Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="FPGA慎思">
 <meta name="twitter:description" content="最近遇到了几个奇怪的问题，记录于此：   DMA传送数据32比特高低位问题传送数据时使用的是32bit位宽，而数据是16bit位宽，这就需要取址来操作。此处的问题是，第一个数是高16位，还是低16位？第一概念肯定是高十六位是第一个数，然而并不是，关键之处在于取址这个操作，地址是按照8bit位宽加一的。如果第一个16位数据是地址是0x0000,第二个16位数据的地址就为0x0002,在传送数据的时候">
@@ -347,6 +347,8 @@
 <h3 id="长加法问题"><a href="#长加法问题" class="headerlink" title="长加法问题"></a>长加法问题</h3><p>此处感觉是因为自己用了长加法，数据在一个时钟内无法从组合逻辑电路的输入端到输出端，就会出现部分数据完成的加法，不是全部数据完成了加法。<br>Verilog编程的几个原则，感觉挺有用的：<br>(1)  时序电路建模时，用非阻塞赋值。<br>(2)  锁存器电路建模时，用非阻塞赋值。<br>(3)  用always块建立组合逻辑模型时，用阻塞赋值。<br>(4)  在同一个always块中建立时序和组合逻辑电路时，用非阻塞赋值。<br>(5)  在同一个always块中不要既用非阻塞赋值又用阻塞赋值。<br>(6)  不要在一个以上的always块中为同一个变量赋值。  </p>
 <p>Verilog在做数据选择器的时候，是不会有reg_A=reg_A的，这样的话，就是寄存器将自己的输出连到自己的输入上，有锁存的感觉。  </p>
 <h3 id="关于FPGA综合优化问题"><a href="#关于FPGA综合优化问题" class="headerlink" title="关于FPGA综合优化问题"></a>关于FPGA综合优化问题</h3><p>FPGA综合的时候有时会将很多中间变量优化掉，造成实际综合结果并不符合自己设计的逻辑，我在设计的时候多次遇到这种问题，这些被优化掉的变量集中在数组类型（数量较多）、数据选择器中间变量（A case1为B, case2 为C，可能会将C优化掉）、中间值（先将A赋给B,下一时钟再比较改变后的A与B的值，大的赋给C，可能B就被优化掉了）。所以有些变量前面要加DONT_TOUCH=”TRUE”。   </p>
+<h3 id="中断"><a href="#中断" class="headerlink" title="中断"></a>中断</h3><p>SCU定时器中断好像与DMA中断有冲突，如果使能了SCU定时器中断，那么DMA就无法触发中断。关闭中断，只开计数器看的运行时间。  </p>
+<h3 id="Ram-使能"><a href="#Ram-使能" class="headerlink" title="Ram 使能"></a>Ram 使能</h3><p>开始时，Ram读写是一直使能的，后来数据总是出现读写错误，怀疑是使能的问题，不能一直使能，一直使能容易出现问题。中间的Ram读写加入了使能。  </p>
 
       
     </div>
@@ -506,7 +508,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -554,7 +556,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#DMA传送数据32比特高低位问题"><span class="nav-number">1.</span> <span class="nav-text">DMA传送数据32比特高低位问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FIFO-AXIS-模块有时收不到PL模块的第一个数据"><span class="nav-number">2.</span> <span class="nav-text">FIFO AXIS 模块有时收不到PL模块的第一个数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#长加法问题"><span class="nav-number">3.</span> <span class="nav-text">长加法问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于FPGA综合优化问题"><span class="nav-number">4.</span> <span class="nav-text">关于FPGA综合优化问题</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#DMA传送数据32比特高低位问题"><span class="nav-number">1.</span> <span class="nav-text">DMA传送数据32比特高低位问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FIFO-AXIS-模块有时收不到PL模块的第一个数据"><span class="nav-number">2.</span> <span class="nav-text">FIFO AXIS 模块有时收不到PL模块的第一个数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#长加法问题"><span class="nav-number">3.</span> <span class="nav-text">长加法问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于FPGA综合优化问题"><span class="nav-number">4.</span> <span class="nav-text">关于FPGA综合优化问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中断"><span class="nav-number">5.</span> <span class="nav-text">中断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ram-使能"><span class="nav-number">6.</span> <span class="nav-text">Ram 使能</span></a></li></ol></div>
             
 
           </div>

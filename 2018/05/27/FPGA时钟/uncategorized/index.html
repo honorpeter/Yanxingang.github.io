@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Xingang Yan">
 <meta property="og:description" content="源时钟在Zynq SOC中，如果设计PL模块时，使用了来自PS端的时钟信号和来自PL端的晶振源时钟，那么这就是两个源时钟，在设计时，就是双时钟域设计，使用时并不清楚两个时钟之间的相位差，这时必须采用异步FIFO来解决数据传输的问题。   衍生时钟使用MMCM或者PLL产生的时钟、自己用时序电路组合电路产生的时钟，均属于衍生时钟，而自己产生的衍生时钟是必须要在XDC文件中创建该时钟的，否则，Viva">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-05-27T06:07:55.713Z">
+<meta property="og:updated_time" content="2018-05-28T10:51:43.121Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="FPGA时钟">
 <meta name="twitter:description" content="源时钟在Zynq SOC中，如果设计PL模块时，使用了来自PS端的时钟信号和来自PL端的晶振源时钟，那么这就是两个源时钟，在设计时，就是双时钟域设计，使用时并不清楚两个时钟之间的相位差，这时必须采用异步FIFO来解决数据传输的问题。   衍生时钟使用MMCM或者PLL产生的时钟、自己用时序电路组合电路产生的时钟，均属于衍生时钟，而自己产生的衍生时钟是必须要在XDC文件中创建该时钟的，否则，Viva">
@@ -343,6 +343,10 @@
       
         <h3 id="源时钟"><a href="#源时钟" class="headerlink" title="源时钟"></a>源时钟</h3><p>在Zynq SOC中，如果设计PL模块时，使用了来自PS端的时钟信号和来自PL端的晶振源时钟，那么这就是两个源时钟，在设计时，就是双时钟域设计，使用时并不清楚两个时钟之间的相位差，这时必须采用异步FIFO来解决数据传输的问题。  </p>
 <h3 id="衍生时钟"><a href="#衍生时钟" class="headerlink" title="衍生时钟"></a>衍生时钟</h3><p>使用MMCM或者PLL产生的时钟、自己用时序电路组合电路产生的时钟，均属于衍生时钟，而自己产生的衍生时钟是必须要在XDC文件中创建该时钟的，否则，Vivado实现时并不知道这是一个时钟信号。   </p>
+<p>衍生时钟可以按<vivado进阶与误区>中的说明来约束。这个Bolg也可以作为参考：<a href="https://www.cnblogs.com/chensimin1990/p/6842236.html。" target="_blank" rel="noopener">https://www.cnblogs.com/chensimin1990/p/6842236.html。</a>  </vivado进阶与误区></p>
+<h3 id="PS端产生的时钟相位问题"><a href="#PS端产生的时钟相位问题" class="headerlink" title="PS端产生的时钟相位问题"></a>PS端产生的时钟相位问题</h3><p>如果在PS端产生两个时钟，一个是50M，一个是100M，那么这两个时钟的相位差是零吗？暂时为了消除这个问题产生的影响，<br>利用IP核倍频产生了一个100M的时钟。另外，如果用100M去分频产生50M时钟的话，好像和PS端产生的50M时钟有相位差。<br>又查了一下Xilinx官方社区问答，见<a href="https://forums.xilinx.com/xlnx/board/crawl_message?board.id=7Series&amp;message.id=18711，的确并不能保证时钟" target="_blank" rel="noopener">https://forums.xilinx.com/xlnx/board/crawl_message?board.id=7Series&amp;message.id=18711，的确并不能保证时钟</a><br>同步。   </p>
+<h3 id="PS端PL-CLK-1用的是PL-CLK-0的复位引脚"><a href="#PS端PL-CLK-1用的是PL-CLK-0的复位引脚" class="headerlink" title="PS端PL_CLK_1用的是PL_CLK_0的复位引脚"></a>PS端PL_CLK_1用的是PL_CLK_0的复位引脚</h3><p>在时钟不是整数倍时，实现会有timing报错，这个问题很奇怪，我指的是找不到相应的复位引脚。  </p>
+<h3 id="时钟对齐"><a href="#时钟对齐" class="headerlink" title="时钟对齐"></a>时钟对齐</h3><p>在设计的时候尽量采用对齐的时钟信号，如果不对齐，可能会造成有时正常，有时错误的结果。  </p>
 <p>参考资料：<br><a href="https://www.cnblogs.com/constanto/p/4983075.html" target="_blank" rel="noopener">FPGA异步时序和多时钟模块</a><br><a href="https://www.cnblogs.com/chensimin1990/p/6842236.html" target="_blank" rel="noopener">xdc文件时钟约束的初识</a>  </p>
 
       
@@ -398,6 +402,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/03/2018暑假计划/uncategorized/" rel="prev" title="2018暑假计划">
+                2018暑假计划 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -499,7 +507,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -547,7 +555,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#源时钟"><span class="nav-number">1.</span> <span class="nav-text">源时钟</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#衍生时钟"><span class="nav-number">2.</span> <span class="nav-text">衍生时钟</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#源时钟"><span class="nav-number">1.</span> <span class="nav-text">源时钟</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#衍生时钟"><span class="nav-number">2.</span> <span class="nav-text">衍生时钟</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PS端产生的时钟相位问题"><span class="nav-number">3.</span> <span class="nav-text">PS端产生的时钟相位问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PS端PL-CLK-1用的是PL-CLK-0的复位引脚"><span class="nav-number">4.</span> <span class="nav-text">PS端PL_CLK_1用的是PL_CLK_0的复位引脚</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#时钟对齐"><span class="nav-number">5.</span> <span class="nav-text">时钟对齐</span></a></li></ol></div>
             
 
           </div>
