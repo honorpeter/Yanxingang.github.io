@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="深度学习," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文是阅读《Recent advances in efficient computation of deep convolution neural networks》的笔记。   介绍就是提及了神经网络在相关领域取得了很好的成绩，但是计算量和存储量太大了，对于移动推断来讲不实际。   网络剪枝网络剪枝的方法早在深度学习火之前就有人提出来了。    (下面是CSDN博客上的内容)三个想法：filte">
+<meta name="keywords" content="深度学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="近期高效率深度卷积神经网络研究">
+<meta property="og:url" content="http://yanxingang.com/2018/07/13/近期高效率深度卷积神经网络研究/uncategorized/index.html">
+<meta property="og:site_name" content="Xingang Yan">
+<meta property="og:description" content="本文是阅读《Recent advances in efficient computation of deep convolution neural networks》的笔记。   介绍就是提及了神经网络在相关领域取得了很好的成绩，但是计算量和存储量太大了，对于移动推断来讲不实际。   网络剪枝网络剪枝的方法早在深度学习火之前就有人提出来了。    (下面是CSDN博客上的内容)三个想法：filte">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yanxingang.com/images/翻译/purn.PNG">
+<meta property="og:updated_time" content="2018-07-13T08:37:00.572Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="近期高效率深度卷积神经网络研究">
+<meta name="twitter:description" content="本文是阅读《Recent advances in efficient computation of deep convolution neural networks》的笔记。   介绍就是提及了神经网络在相关领域取得了很好的成绩，但是计算量和存储量太大了，对于移动推断来讲不实际。   网络剪枝网络剪枝的方法早在深度学习火之前就有人提出来了。    (下面是CSDN博客上的内容)三个想法：filte">
+<meta name="twitter:image" content="http://yanxingang.com/images/翻译/purn.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yanxingang.com/2018/07/13/近期高效率深度卷积神经网络研究/uncategorized/"/>
+
+
+
+
+
+  <title>近期高效率深度卷积神经网络研究 | Xingang Yan</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Xingang Yan</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about-me">
+          <a href="https://yanxingang.github.io/2017/12/29/aboutme-md/uncategorized/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About me
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yanxingang.com/2018/07/13/近期高效率深度卷积神经网络研究/uncategorized/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr Yan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xingang Yan">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">近期高效率深度卷积神经网络研究</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-13T12:30:23+08:00">
+                2018-07-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/07/13/近期高效率深度卷积神经网络研究/uncategorized/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/07/13/近期高效率深度卷积神经网络研究/uncategorized/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/07/13/近期高效率深度卷积神经网络研究/uncategorized/" class="leancloud_visitors" data-flag-title="近期高效率深度卷积神经网络研究">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文是阅读《Recent advances in efficient computation of deep convolution neural networks》的笔记。  </p>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>就是提及了神经网络在相关领域取得了很好的成绩，但是计算量和存储量太大了，对于移动推断来讲不实际。  </p>
+<h2 id="网络剪枝"><a href="#网络剪枝" class="headerlink" title="网络剪枝"></a>网络剪枝</h2><p>网络剪枝的方法早在深度学习火之前就有人提出来了。  </p>
+<hr>
+<p>(下面是CSDN博客上的内容)<br>三个想法：<br>filter-level剪枝(如果某一层少了filter，那么输出的特征映射图就会减少，对应到下一层的fIlter的channel数量减少)；<br>Group-level剪枝，减小Kernel的size，将3*3变成3*2或者更小,或者将3*3删成某个固定形状，就是将其中的一些数去除；<br>先不删除参数，而是将没用的参数设置为0，当一个参数矩阵中有很多零时，再用稀疏矩阵乘法。<br>剪枝方法可分为5类：<br><img src="\images\翻译\purn.PNG" alt=""><br>什么样的参数需要裁掉？  </p>
+<ul>
+<li>损失函数对参数的二阶导(<strong>为什么是二阶导，不是一阶导呢？</strong>)越小，说明这个参数的更新对于损失函数的下降贡献越小，说明这个参数不重要。  </li>
+<li>参数的绝对值越小，说明输出特征图与该参数几乎无关。  </li>
+</ul>
+<hr>
+<h3 id="Fine-grained-pruning"><a href="#Fine-grained-pruning" class="headerlink" title="Fine-grained pruning"></a>Fine-grained pruning</h3><p>对于深度学习，求取二阶导数计算量太大了，现在没人用。15年的是时候有人提出了剪枝、量化、霍夫曼编码三步走的方法(《Deep compression: compressing<br>deep neural networks with pruning, trained<br>quantization and huffman coding.》)。这个方法可能会造成准确率下降，所以16年的时候有人提出了改进方法：剪枝、拼接。剪枝就是将不重要的参数去掉，拼接是将不正确的剪枝连接恢复。 </p>
+<hr>
+<p>下面介绍一些概念<br>稀疏矩阵的存储格式：  </p>
+<ul>
+<li><p>Compressed sparse row(CSR)，或者叫做Compressed Row Storage(CRS)。<br>假设有稀疏矩阵A，我们需要创建三个数组，一个浮点型数组val，另外两个为整型数组（col_ind, row_ptr）。<br>val数组，大小为矩阵A的非零元素的个数，保存矩阵A的非零元素（按从上往下，从左往右的行遍历方式访问元素）。<br>col_ind数组，和val数组一样，大小为矩阵A的非零元素的个数，保存val数组中元素的列索引。<br>如: var[k]=a(i,j)，那么col_ind(k)=j。<br>row_ptr数组，大小为矩阵A的行数，保存矩阵A的每行第一个非零元素在val中的索引。<br>按照惯例，一般定义row_ptr(n+1) = nnz + 1,而nnz是A中非零元素的个数。<br>下面是一个示例：<br>var=[1,-1,1,1,1,-1,1,1,-1];<br>col_ind=[1,3,1,2,3,2,3,2,4];<br>row_ptr=[1,3,6,8];  </p>
+<script type="math/tex; mode=display">
+      Matrix=
+      \begin{bmatrix}
+      1 & 0 & -1 & 0\\
+      1 & 1 & 1 & 0\\
+      0 & -1 & 1 & 0\\
+      0 & 1 & 0 & -1
+      \end{bmatrix}</script></li>
+<li>compressed sparse column(CSC) 与上面类似。  </li>
+</ul>
+<p>如果a是非零元素个数，n是行数或者列数，那么上面这两种方法总共需要2a+n+1个存储单元。  </p>
+<hr>
+<p>以下参考了<a href="https://blog.csdn.net/zijin0802034/article/details/53982812" target="_blank" rel="noopener">https://blog.csdn.net/zijin0802034/article/details/53982812</a>中的介绍。<br>《Deep compression: compressing<br>deep neural networks with pruning, trained<br>quantization and huffman coding.》中是怎么处理的：<br>1、剪枝<br>将小于一定阈值的数移除，并用索引的方式表示，当两个相邻索引数大于某一阈值时，在两个索引数中间插入一个0防止过拟合。<br>2、训练量化<br>文中只是将权重进行了处理，将32位的权重值划分到不同的区间段，(这个区间段是不是通过聚类实现的？文中作者是通过K-Means实现的，聚类中心的初始化选择，作者也做了几种不同的研究，发现线性初始化效果最好),每个区间段的代表值为每个区间段的所有数的平均值。这样权重值就会通过这些代表值和索引来表示。<br>讲道理反响传播更新权重值时就将每个区间段的梯度值取平均值加到原来的权重平均值上。但此时权重已经量化了，所以梯度值就是损失函数对这些聚类中心的梯度值<br>3、霍夫曼编码<br>聚类中心，需要中$log_{2}(k)$的位数作为索引。此处可以用霍尔曼编码进一步压缩。举例为例：<br>如果聚类后为四类，需要用2bits表示聚类中心，00，01，10，11。假设假设A，B，C，D数目分别为1000,200,50,1的话，需要总bits数目为(1000+200+50+1)×2 = 2502， 用Huffman编码的话，根据频率聚类中心表示方式为:A, 0; B 10, C 110, D 111。那么总长度为1000 + 200×2 + 50×3 + 3 = 1553bit. 达到了压缩的目的。  </p>
+<hr>
+<p>此坑留给《Dynamic Network Surgery for Efficient DNNs》  </p>
+<hr>
+<h3 id="Vector-level-and-kernel-level-prunings"><a href="#Vector-level-and-kernel-level-prunings" class="headerlink" title="Vector-level and kernel-level prunings"></a>Vector-level and kernel-level prunings</h3><p>大部分研究者都关注于上面的剪枝方法，对于vector和kernel层面的剪枝研究比较少。相对于上面的Fine-grained剪枝方法，vector和kernel、filter-level层面的剪枝方法对于硬件层面更加友好。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/13/ZCU102介绍/uncategorized/" rel="next" title="ZCU102介绍">
+                <i class="fa fa-chevron-left"></i> ZCU102介绍
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div onclick="showGitment()" id="gitment-display-button">显示 Gitment 评论</div>
+        <div id="gitment-container" style="display:none"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/touxiang.jpg"
+                alt="Mr Yan" />
+            
+              <p class="site-author-name" itemprop="name">Mr Yan</p>
+              <p class="site-description motion-element" itemprop="description">This is the story of an idea</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Yanxingang" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1928847546@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-qq"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+            
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#介绍"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络剪枝"><span class="nav-number">2.</span> <span class="nav-text">网络剪枝</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Fine-grained-pruning"><span class="nav-number">2.1.</span> <span class="nav-text">Fine-grained pruning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Vector-level-and-kernel-level-prunings"><span class="nav-number">2.2.</span> <span class="nav-text">Vector-level and kernel-level prunings</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-yanxingang"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yanxingang</span>
+
+  
+</div>
+
+
+  <div class="powered-by"></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info"></div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'Yanxingang',
+            repo: 'mygitment_hexo',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: 'a86bbb5e1222aeea5fce81845dc2dd6d7129c119',
+            
+                client_id: '353225e81e70f8f76366'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      function showGitment(){
+        document.getElementById("gitment-display-button").style.display = "none";
+        document.getElementById("gitment-container").style.display = "block";
+        renderGitment();
+      }
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("kcLakFAl5FIayd5pjiSVwFQj-gzGzoHsz", "vVyw9jgi80os2p6RXolwC604");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "bottomCenter";
+      
+          pbOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+  </script>
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
