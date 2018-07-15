@@ -88,7 +88,7 @@
 <meta property="og:description" content="本文是阅读《Recent advances in efficient computation of deep convolution neural networks》的笔记。   介绍就是提及了神经网络在相关领域取得了很好的成绩，但是计算量和存储量太大了，对于移动推断来讲不实际。   网络剪枝网络剪枝的方法早在深度学习火之前就有人提出来了。    (下面是CSDN博客上的内容)三个想法：filte">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yanxingang.com/images/翻译/purn.PNG">
-<meta property="og:updated_time" content="2018-07-13T08:37:00.572Z">
+<meta property="og:updated_time" content="2018-07-14T06:29:30.056Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="近期高效率深度卷积神经网络研究">
 <meta name="twitter:description" content="本文是阅读《Recent advances in efficient computation of deep convolution neural networks》的笔记。   介绍就是提及了神经网络在相关领域取得了很好的成绩，但是计算量和存储量太大了，对于移动推断来讲不实际。   网络剪枝网络剪枝的方法早在深度学习火之前就有人提出来了。    (下面是CSDN博客上的内容)三个想法：filte">
@@ -353,7 +353,7 @@
 <li>参数的绝对值越小，说明输出特征图与该参数几乎无关。  </li>
 </ul>
 <hr>
-<h3 id="Fine-grained-pruning"><a href="#Fine-grained-pruning" class="headerlink" title="Fine-grained pruning"></a>Fine-grained pruning</h3><p>对于深度学习，求取二阶导数计算量太大了，现在没人用。15年的是时候有人提出了剪枝、量化、霍夫曼编码三步走的方法(《Deep compression: compressing<br>deep neural networks with pruning, trained<br>quantization and huffman coding.》)。这个方法可能会造成准确率下降，所以16年的时候有人提出了改进方法：剪枝、拼接。剪枝就是将不重要的参数去掉，拼接是将不正确的剪枝连接恢复。 </p>
+<h3 id="Fine-grained-pruning"><a href="#Fine-grained-pruning" class="headerlink" title="Fine-grained pruning"></a>Fine-grained pruning</h3><p>对于深度学习，求取二阶导数计算量太大了，现在没人用。15年的是时候有人提出了剪枝、量化、霍夫曼编码三步走的方法(《Deep compression: compressing deep neural networks with pruning, trained quantization and huffman coding.》)。这个方法可能会造成准确率下降，所以16年的时候有人提出了改进方法：剪枝、拼接。剪枝就是将不重要的参数去掉，拼接是将不正确的剪枝连接恢复。 </p>
 <hr>
 <p>下面介绍一些概念<br>稀疏矩阵的存储格式：  </p>
 <ul>
@@ -370,12 +370,22 @@
 </ul>
 <p>如果a是非零元素个数，n是行数或者列数，那么上面这两种方法总共需要2a+n+1个存储单元。  </p>
 <hr>
-<p>以下参考了<a href="https://blog.csdn.net/zijin0802034/article/details/53982812" target="_blank" rel="noopener">https://blog.csdn.net/zijin0802034/article/details/53982812</a>中的介绍。<br>《Deep compression: compressing<br>deep neural networks with pruning, trained<br>quantization and huffman coding.》中是怎么处理的：<br>1、剪枝<br>将小于一定阈值的数移除，并用索引的方式表示，当两个相邻索引数大于某一阈值时，在两个索引数中间插入一个0防止过拟合。<br>2、训练量化<br>文中只是将权重进行了处理，将32位的权重值划分到不同的区间段，(这个区间段是不是通过聚类实现的？文中作者是通过K-Means实现的，聚类中心的初始化选择，作者也做了几种不同的研究，发现线性初始化效果最好),每个区间段的代表值为每个区间段的所有数的平均值。这样权重值就会通过这些代表值和索引来表示。<br>讲道理反响传播更新权重值时就将每个区间段的梯度值取平均值加到原来的权重平均值上。但此时权重已经量化了，所以梯度值就是损失函数对这些聚类中心的梯度值<br>3、霍夫曼编码<br>聚类中心，需要中$log_{2}(k)$的位数作为索引。此处可以用霍尔曼编码进一步压缩。举例为例：<br>如果聚类后为四类，需要用2bits表示聚类中心，00，01，10，11。假设假设A，B，C，D数目分别为1000,200,50,1的话，需要总bits数目为(1000+200+50+1)×2 = 2502， 用Huffman编码的话，根据频率聚类中心表示方式为:A, 0; B 10, C 110, D 111。那么总长度为1000 + 200×2 + 50×3 + 3 = 1553bit. 达到了压缩的目的。  </p>
+<p>以下参考了<a href="https://blog.csdn.net/zijin0802034/article/details/53982812" target="_blank" rel="noopener">https://blog.csdn.net/zijin0802034/article/details/53982812</a>中的介绍。<br>《Deep compression: compressing deep neural networks with pruning,trained quantization and huffman coding.》中是怎么处理的：<br>1、剪枝<br>将小于一定阈值的数移除，并用索引的方式表示，当两个相邻索引数大于某一阈值时，在两个索引数中间插入一个0防止过拟合。<br>2、训练量化<br>文中只是将权重进行了处理，将32位的权重值划分到不同的区间段，(这个区间段是不是通过聚类实现的？文中作者是通过K-Means实现的，聚类中心的初始化选择，作者也做了几种不同的研究，发现线性初始化效果最好),每个区间段的代表值为每个区间段的所有数的平均值。这样权重值就会通过这些代表值和索引来表示。<br>讲道理反响传播更新权重值时就将每个区间段的梯度值取平均值加到原来的权重平均值上。但此时权重已经量化了，所以梯度值就是损失函数对这些聚类中心的梯度值<br>3、霍夫曼编码<br>聚类中心，需要中$log_{2}(k)$的位数作为索引。此处可以用霍尔曼编码进一步压缩。举例为例：<br>如果聚类后为四类，需要用2bits表示聚类中心，00，01，10，11。假设假设A，B，C，D数目分别为1000,200,50,1的话，需要总bits数目为(1000+200+50+1)×2 = 2502， 用Huffman编码的话，根据频率聚类中心表示方式为:A, 0; B 10, C 110, D 111。那么总长度为1000 + 200×2 + 50×3 + 3 = 1553bit. 达到了压缩的目的。  </p>
 <hr>
 <p>此坑留给《Dynamic Network Surgery for Efficient DNNs》  </p>
 <hr>
 <h3 id="Vector-level-and-kernel-level-prunings"><a href="#Vector-level-and-kernel-level-prunings" class="headerlink" title="Vector-level and kernel-level prunings"></a>Vector-level and kernel-level prunings</h3><p>大部分研究者都关注于上面的剪枝方法，对于vector和kernel层面的剪枝研究比较少。相对于上面的Fine-grained剪枝方法，vector和kernel、filter-level层面的剪枝方法对于硬件层面更加友好。</p>
-
+<hr>
+<p>留坑  </p>
+<hr>
+<h3 id="Group-level-pruning"><a href="#Group-level-pruning" class="headerlink" title="Group-level pruning"></a>Group-level pruning</h3><p>就是将卷积核的固定位置上的数据去除，降低卷积核内部的数据量。文中提到这可以使用BLAS(Basic Linear Algebra Subprograms)基础线性代数子程序库，里面拥有大量已经编写好的关于线性代数运算的程序。  </p>
+<hr>
+<p>这个地方和group-level pruning有什么关系？<br>以下参考了<a href="https://blog.csdn.net/wangqingbaidu/article/details/56674076" target="_blank" rel="noopener">https://blog.csdn.net/wangqingbaidu/article/details/56674076</a>中的介绍。该介绍是对论文《Learning Structured Sparsity in Deep Neural Networks》的分析。<br>(未完待续)  </p>
+<hr>
+<h3 id="Filter-level-pruning"><a href="#Filter-level-pruning" class="headerlink" title="Filter-level pruning"></a>Filter-level pruning</h3><hr>
+<p>《Channel Pruning for Accelerating Very Deep Neural Networks》<br>之前的剪枝工作都是针对于权重的参数矩阵，这篇论文从channel的角度进行分析，看是否能够进行剪枝。<br>(本文优点是采用了优化方法去分析剪枝，缺点是需要调节的参数太多了)</p>
+<hr>
+<h2 id="低秩分解"><a href="#低秩分解" class="headerlink" title="低秩分解"></a>低秩分解</h2>
       
     </div>
     
@@ -429,6 +439,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/14/记录2018-7/uncategorized/" rel="prev" title="记录2018.7">
+                记录2018.7 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -517,7 +531,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-count">40</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -530,7 +544,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -578,7 +592,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#介绍"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络剪枝"><span class="nav-number">2.</span> <span class="nav-text">网络剪枝</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Fine-grained-pruning"><span class="nav-number">2.1.</span> <span class="nav-text">Fine-grained pruning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Vector-level-and-kernel-level-prunings"><span class="nav-number">2.2.</span> <span class="nav-text">Vector-level and kernel-level prunings</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#介绍"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络剪枝"><span class="nav-number">2.</span> <span class="nav-text">网络剪枝</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Fine-grained-pruning"><span class="nav-number">2.1.</span> <span class="nav-text">Fine-grained pruning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Vector-level-and-kernel-level-prunings"><span class="nav-number">2.2.</span> <span class="nav-text">Vector-level and kernel-level prunings</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Group-level-pruning"><span class="nav-number">2.3.</span> <span class="nav-text">Group-level pruning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Filter-level-pruning"><span class="nav-number">2.4.</span> <span class="nav-text">Filter-level pruning</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#低秩分解"><span class="nav-number">3.</span> <span class="nav-text">低秩分解</span></a></li></ol></div>
             
 
           </div>
