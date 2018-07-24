@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="FPGA," />
+  <meta name="keywords" content="Pytorch," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="一直以来，我学习Vivado下的开发都是百度，这是很不好的，因为Xilinx官网上有大量的文档资料，比如想要学习Vivado，只需要再官网上搜索Vivado Design Suite即可，其余东西也是同理，官方文档一定是第一手资料。">
-<meta name="keywords" content="FPGA">
+<meta name="description" content="开始时装的是torch0.3.1，后来发现现在官方的文档都是0.4版本的，所以就将版本换到0.4，开始时怎么也下载不下来，后来翻墙了一下，下载速度就快了不少。好像版本0.4和0.3还是有较大去别的，很多东西都做了改进。如下：    Tensor和Variable合并 支持零维张量（标量） 弃用volatile标志 detype,devices和Numpy-style Tensor创建函数 编写一些">
+<meta name="keywords" content="Pytorch">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Vivado使用相关问题">
-<meta property="og:url" content="http://yanxingang.com/2018/05/27/Vivado使用相关问题/uncategorized/index.html">
+<meta property="og:title" content="Pytorch基础">
+<meta property="og:url" content="http://yanxingang.com/2018/07/23/Pytorch基础/uncategorized/index.html">
 <meta property="og:site_name" content="Xingang Yan">
-<meta property="og:description" content="一直以来，我学习Vivado下的开发都是百度，这是很不好的，因为Xilinx官网上有大量的文档资料，比如想要学习Vivado，只需要再官网上搜索Vivado Design Suite即可，其余东西也是同理，官方文档一定是第一手资料。">
+<meta property="og:description" content="开始时装的是torch0.3.1，后来发现现在官方的文档都是0.4版本的，所以就将版本换到0.4，开始时怎么也下载不下来，后来翻墙了一下，下载速度就快了不少。好像版本0.4和0.3还是有较大去别的，很多东西都做了改进。如下：    Tensor和Variable合并 支持零维张量（标量） 弃用volatile标志 detype,devices和Numpy-style Tensor创建函数 编写一些">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-05-27T04:21:43.794Z">
+<meta property="og:updated_time" content="2018-07-24T07:48:16.298Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Vivado使用相关问题">
-<meta name="twitter:description" content="一直以来，我学习Vivado下的开发都是百度，这是很不好的，因为Xilinx官网上有大量的文档资料，比如想要学习Vivado，只需要再官网上搜索Vivado Design Suite即可，其余东西也是同理，官方文档一定是第一手资料。">
+<meta name="twitter:title" content="Pytorch基础">
+<meta name="twitter:description" content="开始时装的是torch0.3.1，后来发现现在官方的文档都是0.4版本的，所以就将版本换到0.4，开始时怎么也下载不下来，后来翻墙了一下，下载速度就快了不少。好像版本0.4和0.3还是有较大去别的，很多东西都做了改进。如下：    Tensor和Variable合并 支持零维张量（标量） 弃用volatile标志 detype,devices和Numpy-style Tensor创建函数 编写一些">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yanxingang.com/2018/05/27/Vivado使用相关问题/uncategorized/"/>
+  <link rel="canonical" href="http://yanxingang.com/2018/07/23/Pytorch基础/uncategorized/"/>
 
 
 
 
 
-  <title>Vivado使用相关问题 | Xingang Yan</title>
+  <title>Pytorch基础 | Xingang Yan</title>
   
 
 
@@ -253,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yanxingang.com/2018/05/27/Vivado使用相关问题/uncategorized/">
+    <link itemprop="mainEntityOfPage" href="http://yanxingang.com/2018/07/23/Pytorch基础/uncategorized/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Mr Yan">
@@ -270,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Vivado使用相关问题</h1>
+          <h1 class="post-title" itemprop="name headline">Pytorch基础</h1>
         
 
         <div class="post-meta">
@@ -282,8 +282,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-27T11:18:16+08:00">
-                2018-05-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-23T11:19:08+08:00">
+                2018-07-23
               </time>
             
 
@@ -301,8 +301,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/05/27/Vivado使用相关问题/uncategorized/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/05/27/Vivado使用相关问题/uncategorized/" itemprop="commentsCount"></span>
+                <a href="/2018/07/23/Pytorch基础/uncategorized/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/07/23/Pytorch基础/uncategorized/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -310,7 +310,7 @@
 
           
           
-             <span id="/2018/05/27/Vivado使用相关问题/uncategorized/" class="leancloud_visitors" data-flag-title="Vivado使用相关问题">
+             <span id="/2018/07/23/Pytorch基础/uncategorized/" class="leancloud_visitors" data-flag-title="Pytorch基础">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -341,8 +341,33 @@
       
 
       
-        <p>一直以来，我学习Vivado下的开发都是百度，这是很不好的，因为Xilinx官网上有大量的文档资料，比如想要学习Vivado，只需要再官网上搜索Vivado Design Suite即可，其余东西也是同理，官方文档一定是第一手资料。  </p>
-<h3 id=""><a href="#" class="headerlink" title=" "></a> </h3>
+        <p>开始时装的是torch0.3.1，后来发现现在官方的文档都是0.4版本的，所以就将版本换到0.4，开始时怎么也下载不下来，后来翻墙了一下，下载速度就快了不少。好像版本0.4和0.3还是有较大去别的，很多东西都做了改进。如下：  </p>
+<ul>
+<li>Tensor和Variable合并</li>
+<li>支持零维张量（标量）</li>
+<li>弃用volatile标志</li>
+<li>detype,devices和Numpy-style Tensor创建函数</li>
+<li>编写一些不依赖设备的代码  </li>
+</ul>
+<h2 id="Tensor"><a href="#Tensor" class="headerlink" title="Tensor"></a>Tensor</h2><p>torch.Tensor是pytorch中最核心的类，如果将其属性.requres_grad设为true，其所有运算都会被track。在完成所有运算之后，可以调用.backward()就会自动计算出所有的梯度值。这个张量的梯度值就会保存在属性.grad中。为了停止对该张量的追踪，可以调用.detach()去分离计算。<br>如果不想去计算梯度值，该数值却需要训练，可以将所需代码包在with torch.no_grad():中。这样可以减少对于内存的占用（不需要再追踪变量了）<br>如果想要计算梯度，可以对张量调用.backward()。  </p>
+<h2 id="Neural-Neatworks"><a href="#Neural-Neatworks" class="headerlink" title="Neural Neatworks"></a>Neural Neatworks</h2><p>‘nn’模块依靠’autograd’模块定义模型、计算梯度，一个’nn.Module’包含层、’forward(input)’,并且返回’output’。<br>一个典型的神经网络训练过程包含以下几个步骤：<br>1、定义网络，同时确定要学习的参数<br>2、根据输入数据集迭代<br>3、前向传播<br>4、计算损失函数<br>5、反向传播计算梯度值<br>6、更新参数  </p>
+<h3 id="python中super的用法"><a href="#python中super的用法" class="headerlink" title="python中super的用法"></a>python中super的用法</h3><p>Note: super() only works for new-style classes.<br>super()函数的一个常见用法是在<strong>init</strong>()方法中确保父类被正确初始化。<br>super()函数是子类用于调用父类的一个方法，用来解决多重继承问题。<br>举例说明：  </p>
+<pre><code>class BasicClassPeople(object):
+    def __init__(self,name,age,gender):
+        self.name = name
+        self.age = age
+        self.gender = gender
+    def short_introduction(self):
+        print &#39;My name is {}, a {}, this year I am {} years old&#39;.format(self.name,self.gender,self.age)
+
+class ExtenClassOne(BasicClassPeople):
+    def __init__(self,name,age,gender,job):
+        super(ExtenClassOne, self).__init__(name,gender,age)
+        self.job = job
+    def short_introduction(self):
+        print &#39;My name is {}, a {}, this year I am {} years old, my job is {}&#39;.format(self.name, self.gender, self.age,self.job)
+</code></pre><p>在上边的程序中ExtenClassOne继承自BasicClassPeople，但是它想在初始化的时候为类新增加一个属性，如果不使用super的话我们就只能重写初始化函数了，但是使用了super之后我们只需要在定义扩展的初始化函数时调用父类初始化函数，然后把自己新增的属性添加到调用语句后面就可以了。  </p>
+
       
     </div>
     
@@ -359,7 +384,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/FPGA/" rel="tag"># FPGA</a>
+            <a href="/tags/Pytorch/" rel="tag"># Pytorch</a>
           
         </div>
       
@@ -387,8 +412,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/26/DMA/uncategorized/" rel="next" title="DMA">
-                <i class="fa fa-chevron-left"></i> DMA
+              <a href="/2018/07/14/记录2018-7/uncategorized/" rel="next" title="记录2018.7">
+                <i class="fa fa-chevron-left"></i> 记录2018.7
               </a>
             
           </div>
@@ -396,10 +421,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/05/27/FPGA时钟/uncategorized/" rel="prev" title="FPGA时钟">
-                FPGA时钟 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -549,7 +570,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text"> </span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Tensor"><span class="nav-number">1.</span> <span class="nav-text">Tensor</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Neural-Neatworks"><span class="nav-number">2.</span> <span class="nav-text">Neural Neatworks</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#python中super的用法"><span class="nav-number">2.1.</span> <span class="nav-text">python中super的用法</span></a></li></ol></li></ol></div>
             
 
           </div>
