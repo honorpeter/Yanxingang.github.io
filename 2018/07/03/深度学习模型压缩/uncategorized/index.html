@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Xingang Yan">
 <meta property="og:description" content="网络上的资料知乎资料程健的一个PPT知乎链接其中程健提到了压缩的三个方法：低秩分解(Low-rank decomposition)、剪枝(Pruning)、低精度(Fixed-point/Binary)。   低秩分解将卷积运算或者是全连接层的矩阵运算全部转换为矩阵相乘的运算，将对于矩阵乘运算的加速方法全部引入进来，包括低秩分解、网络稀疏化、低精度表示等。低秩分解的基本思想，将原来大的权重矩阵分解">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-07-03T10:52:02.504Z">
+<meta property="og:updated_time" content="2018-07-29T07:40:57.225Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深度学习模型压缩">
 <meta name="twitter:description" content="网络上的资料知乎资料程健的一个PPT知乎链接其中程健提到了压缩的三个方法：低秩分解(Low-rank decomposition)、剪枝(Pruning)、低精度(Fixed-point/Binary)。   低秩分解将卷积运算或者是全连接层的矩阵运算全部转换为矩阵相乘的运算，将对于矩阵乘运算的加速方法全部引入进来，包括低秩分解、网络稀疏化、低精度表示等。低秩分解的基本思想，将原来大的权重矩阵分解">
@@ -343,7 +343,8 @@
       
         <h1 id="网络上的资料"><a href="#网络上的资料" class="headerlink" title="网络上的资料"></a>网络上的资料</h1><h2 id="知乎资料"><a href="#知乎资料" class="headerlink" title="知乎资料"></a>知乎资料</h2><h3 id="程健的一个PPT"><a href="#程健的一个PPT" class="headerlink" title="程健的一个PPT"></a>程健的一个PPT</h3><p><a href="https://zhuanlan.zhihu.com/p/38612191" target="_blank" rel="noopener"><strong>知乎链接</strong></a><br>其中程健提到了压缩的三个方法：低秩分解(Low-rank decomposition)、剪枝(Pruning)、低精度(Fixed-point/Binary)。  </p>
 <h2 id="低秩分解"><a href="#低秩分解" class="headerlink" title="低秩分解"></a>低秩分解</h2><p>将卷积运算或者是全连接层的矩阵运算全部转换为矩阵相乘的运算，将对于矩阵乘运算的加速方法全部引入进来，包括低秩分解、网络稀疏化、低精度表示等。<br>低秩分解的基本思想，将原来大的权重矩阵分解成多个小的矩阵，小矩阵的计算量都比原来大矩阵的计算量要小，这是低秩分解的基本出发点。低秩分解有很多方法，最基本的是奇异值分解SVD。   </p>
-<h2 id="剪枝"><a href="#剪枝" class="headerlink" title="剪枝"></a>剪枝</h2>
+<h2 id="剪枝"><a href="#剪枝" class="headerlink" title="剪枝"></a>剪枝</h2><h2 id="三值神经网络"><a href="#三值神经网络" class="headerlink" title="三值神经网络"></a>三值神经网络</h2><p>终于看懂了最简单的三值神经网络。原文是《Ternary weight networks》。<br>三值神经网络就时把权重值量化到${-1,0,1}$。<br>首先找到一个阈值，这个阈值这么算的，就是将一个层的权重值取平均值再乘以0.7，要问这个0.7是怎么来的，现在我也不清楚，好像就是自己给的，但是乘的这个小数值还是有讲究的，分析以下的话，乘完这个小数后，阈值就会往0靠，在平均值在数轴的位置偏左还是偏右都是有用处的。<br>另外为了保证量化后的权值和量化之前的全精度相比更加接近，给这个量化后的权重乘了一个系数，这个系数是多少呢？就是量化后为1的原来权重数据的平均值。<br>后面就是训练了，前向就不用说了，反向计算梯度值得时候也是用的量化后的权重值，不过，在更新权重值得时候就是用的全精度的权重值了，想想也是，更新权重的时候也不能用量化权重值啊，那权重值就$-1,0,1$,怎么梯度下降？<br>后面又有人做了一点改进，通俗来讲就是不是将整个层一起求取阈值了，而是按照选择不同的通道数来计算阈值，话句话说就是更加精细化了。<br>后面还有人用了这种方法《Trained Ternary Quantization TTQ》。不过，这种方法不是-1或者1这中了。  </p>
+<h2 id="Shift-CNN"><a href="#Shift-CNN" class="headerlink" title="Shift CNN"></a>Shift CNN</h2>
       
     </div>
     
@@ -489,7 +490,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-count">47</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -502,7 +503,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -550,7 +551,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#网络上的资料"><span class="nav-number">1.</span> <span class="nav-text">网络上的资料</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#知乎资料"><span class="nav-number">1.1.</span> <span class="nav-text">知乎资料</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#程健的一个PPT"><span class="nav-number">1.1.1.</span> <span class="nav-text">程健的一个PPT</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#低秩分解"><span class="nav-number">1.2.</span> <span class="nav-text">低秩分解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#剪枝"><span class="nav-number">1.3.</span> <span class="nav-text">剪枝</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#网络上的资料"><span class="nav-number">1.</span> <span class="nav-text">网络上的资料</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#知乎资料"><span class="nav-number">1.1.</span> <span class="nav-text">知乎资料</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#程健的一个PPT"><span class="nav-number">1.1.1.</span> <span class="nav-text">程健的一个PPT</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#低秩分解"><span class="nav-number">1.2.</span> <span class="nav-text">低秩分解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#剪枝"><span class="nav-number">1.3.</span> <span class="nav-text">剪枝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三值神经网络"><span class="nav-number">1.4.</span> <span class="nav-text">三值神经网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Shift-CNN"><span class="nav-number">1.5.</span> <span class="nav-text">Shift CNN</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -930,6 +931,26 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 

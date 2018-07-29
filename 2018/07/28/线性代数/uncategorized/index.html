@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="深度学习," />
+  <meta name="keywords" content="线性代数," />
 
 
 
@@ -79,20 +79,18 @@
 
 
 
-<meta name="description" content="本文是阅读《Recent advances in efficient computation of deep convolution neural networks》的笔记。   介绍就是提及了神经网络在相关领域取得了很好的成绩，但是计算量和存储量太大了，对于移动推断来讲不实际。   网络剪枝网络剪枝的方法早在深度学习火之前就有人提出来了。    (下面是CSDN博客上的内容)三个想法：filte">
-<meta name="keywords" content="深度学习">
+<meta name="description" content="本文为阅读《程序员的数学》的笔记，感觉这本书好强啊。竟然能将那么多的内容讲的如此通俗易懂。   对角矩阵对角矩阵是一个很神奇的东西，比如设$x(t)=(x_1(t),x_2(t),x_3(t))^T$,下式中        x(t)=     \begin{bmatrix}     5 &amp; 0 &amp; 0\\     0 &amp;  -3 &amp; 0\\     0 &amp;  0 &amp; 0.8     \end{bm">
+<meta name="keywords" content="线性代数">
 <meta property="og:type" content="article">
-<meta property="og:title" content="近期高效率深度卷积神经网络研究">
-<meta property="og:url" content="http://yanxingang.com/2018/07/13/近期高效率深度卷积神经网络研究/uncategorized/index.html">
+<meta property="og:title" content="线性代数">
+<meta property="og:url" content="http://yanxingang.com/2018/07/28/线性代数/uncategorized/index.html">
 <meta property="og:site_name" content="Xingang Yan">
-<meta property="og:description" content="本文是阅读《Recent advances in efficient computation of deep convolution neural networks》的笔记。   介绍就是提及了神经网络在相关领域取得了很好的成绩，但是计算量和存储量太大了，对于移动推断来讲不实际。   网络剪枝网络剪枝的方法早在深度学习火之前就有人提出来了。    (下面是CSDN博客上的内容)三个想法：filte">
+<meta property="og:description" content="本文为阅读《程序员的数学》的笔记，感觉这本书好强啊。竟然能将那么多的内容讲的如此通俗易懂。   对角矩阵对角矩阵是一个很神奇的东西，比如设$x(t)=(x_1(t),x_2(t),x_3(t))^T$,下式中        x(t)=     \begin{bmatrix}     5 &amp; 0 &amp; 0\\     0 &amp;  -3 &amp; 0\\     0 &amp;  0 &amp; 0.8     \end{bm">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yanxingang.com/images/翻译/purn.PNG">
-<meta property="og:updated_time" content="2018-07-14T06:29:30.056Z">
+<meta property="og:updated_time" content="2018-07-28T11:52:57.021Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="近期高效率深度卷积神经网络研究">
-<meta name="twitter:description" content="本文是阅读《Recent advances in efficient computation of deep convolution neural networks》的笔记。   介绍就是提及了神经网络在相关领域取得了很好的成绩，但是计算量和存储量太大了，对于移动推断来讲不实际。   网络剪枝网络剪枝的方法早在深度学习火之前就有人提出来了。    (下面是CSDN博客上的内容)三个想法：filte">
-<meta name="twitter:image" content="http://yanxingang.com/images/翻译/purn.PNG">
+<meta name="twitter:title" content="线性代数">
+<meta name="twitter:description" content="本文为阅读《程序员的数学》的笔记，感觉这本书好强啊。竟然能将那么多的内容讲的如此通俗易懂。   对角矩阵对角矩阵是一个很神奇的东西，比如设$x(t)=(x_1(t),x_2(t),x_3(t))^T$,下式中        x(t)=     \begin{bmatrix}     5 &amp; 0 &amp; 0\\     0 &amp;  -3 &amp; 0\\     0 &amp;  0 &amp; 0.8     \end{bm">
 
 
 
@@ -122,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yanxingang.com/2018/07/13/近期高效率深度卷积神经网络研究/uncategorized/"/>
+  <link rel="canonical" href="http://yanxingang.com/2018/07/28/线性代数/uncategorized/"/>
 
 
 
 
 
-  <title>近期高效率深度卷积神经网络研究 | Xingang Yan</title>
+  <title>线性代数 | Xingang Yan</title>
   
 
 
@@ -255,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yanxingang.com/2018/07/13/近期高效率深度卷积神经网络研究/uncategorized/">
+    <link itemprop="mainEntityOfPage" href="http://yanxingang.com/2018/07/28/线性代数/uncategorized/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Mr Yan">
@@ -272,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">近期高效率深度卷积神经网络研究</h1>
+          <h1 class="post-title" itemprop="name headline">线性代数</h1>
         
 
         <div class="post-meta">
@@ -284,8 +282,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-13T12:30:23+08:00">
-                2018-07-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-28T18:11:37+08:00">
+                2018-07-28
               </time>
             
 
@@ -303,8 +301,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/07/13/近期高效率深度卷积神经网络研究/uncategorized/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/07/13/近期高效率深度卷积神经网络研究/uncategorized/" itemprop="commentsCount"></span>
+                <a href="/2018/07/28/线性代数/uncategorized/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/07/28/线性代数/uncategorized/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -312,7 +310,7 @@
 
           
           
-             <span id="/2018/07/13/近期高效率深度卷积神经网络研究/uncategorized/" class="leancloud_visitors" data-flag-title="近期高效率深度卷积神经网络研究">
+             <span id="/2018/07/28/线性代数/uncategorized/" class="leancloud_visitors" data-flag-title="线性代数">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -343,49 +341,112 @@
       
 
       
-        <p>本文是阅读《Recent advances in efficient computation of deep convolution neural networks》的笔记。  </p>
-<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>就是提及了神经网络在相关领域取得了很好的成绩，但是计算量和存储量太大了，对于移动推断来讲不实际。  </p>
-<h2 id="网络剪枝"><a href="#网络剪枝" class="headerlink" title="网络剪枝"></a>网络剪枝</h2><p>网络剪枝的方法早在深度学习火之前就有人提出来了。  </p>
-<hr>
-<p>(下面是CSDN博客上的内容)<br>三个想法：<br>filter-level剪枝(如果某一层少了filter，那么输出的特征映射图就会减少，对应到下一层的fIlter的channel数量减少)；<br>Group-level剪枝，减小Kernel的size，将3*3变成3*2或者更小,或者将3*3删成某个固定形状，就是将其中的一些数去除；<br>先不删除参数，而是将没用的参数设置为0，当一个参数矩阵中有很多零时，再用稀疏矩阵乘法。<br>剪枝方法可分为5类：<br><img src="\images\翻译\purn.PNG" alt=""><br>什么样的参数需要裁掉？  </p>
-<ul>
-<li>损失函数对参数的二阶导(<strong>为什么是二阶导，不是一阶导呢？</strong>)越小，说明这个参数的更新对于损失函数的下降贡献越小，说明这个参数不重要。  </li>
-<li>参数的绝对值越小，说明输出特征图与该参数几乎无关。  </li>
-</ul>
-<hr>
-<h3 id="Fine-grained-pruning"><a href="#Fine-grained-pruning" class="headerlink" title="Fine-grained pruning"></a>Fine-grained pruning</h3><p>对于深度学习，求取二阶导数计算量太大了，现在没人用。15年的是时候有人提出了剪枝、量化、霍夫曼编码三步走的方法(《Deep compression: compressing deep neural networks with pruning, trained quantization and huffman coding.》)。这个方法可能会造成准确率下降，所以16年的时候有人提出了改进方法：剪枝、拼接。剪枝就是将不重要的参数去掉，拼接是将不正确的剪枝连接恢复。 </p>
-<hr>
-<p>下面介绍一些概念<br>稀疏矩阵的存储格式：  </p>
-<ul>
-<li><p>Compressed sparse row(CSR)，或者叫做Compressed Row Storage(CRS)。<br>假设有稀疏矩阵A，我们需要创建三个数组，一个浮点型数组val，另外两个为整型数组（col_ind, row_ptr）。<br>val数组，大小为矩阵A的非零元素的个数，保存矩阵A的非零元素（按从上往下，从左往右的行遍历方式访问元素）。<br>col_ind数组，和val数组一样，大小为矩阵A的非零元素的个数，保存val数组中元素的列索引。<br>如: var[k]=a(i,j)，那么col_ind(k)=j。<br>row_ptr数组，大小为矩阵A的行数，保存矩阵A的每行第一个非零元素在val中的索引。<br>按照惯例，一般定义row_ptr(n+1) = nnz + 1,而nnz是A中非零元素的个数。<br>下面是一个示例：<br>var=[1,-1,1,1,1,-1,1,1,-1];<br>col_ind=[1,3,1,2,3,2,3,2,4];<br>row_ptr=[1,3,6,8];  </p>
+        <p>本文为阅读《程序员的数学》的笔记，感觉这本书好强啊。竟然能将那么多的内容讲的如此通俗易懂。  </p>
+<h2 id="对角矩阵"><a href="#对角矩阵" class="headerlink" title="对角矩阵"></a>对角矩阵</h2><p>对角矩阵是一个很神奇的东西，比如设$x(t)=(x_1(t),x_2(t),x_3(t))^T$,下式中  </p>
 <script type="math/tex; mode=display">
-      Matrix=
-      \begin{bmatrix}
-      1 & 0 & -1 & 0\\
-      1 & 1 & 1 & 0\\
-      0 & -1 & 1 & 0\\
-      0 & 1 & 0 & -1
-      \end{bmatrix}</script></li>
-<li>compressed sparse column(CSC) 与上面类似。  </li>
-</ul>
-<p>如果a是非零元素个数，n是行数或者列数，那么上面这两种方法总共需要2a+n+1个存储单元。  </p>
-<hr>
-<p>以下参考了<a href="https://blog.csdn.net/zijin0802034/article/details/53982812" target="_blank" rel="noopener">https://blog.csdn.net/zijin0802034/article/details/53982812</a>中的介绍。<br>《Deep compression: compressing deep neural networks with pruning,trained quantization and huffman coding.》中是怎么处理的：<br>1、剪枝<br>将小于一定阈值的数移除，并用索引的方式表示，当两个相邻索引数大于某一阈值时，在两个索引数中间插入一个0防止过拟合。<br>2、训练量化<br>文中只是将权重进行了处理，将32位的权重值划分到不同的区间段，(这个区间段是不是通过聚类实现的？文中作者是通过K-Means实现的，聚类中心的初始化选择，作者也做了几种不同的研究，发现线性初始化效果最好),每个区间段的代表值为每个区间段的所有数的平均值。这样权重值就会通过这些代表值和索引来表示。<br>讲道理反响传播更新权重值时就将每个区间段的梯度值取平均值加到原来的权重平均值上。但此时权重已经量化了，所以梯度值就是损失函数对这些聚类中心的梯度值<br>3、霍夫曼编码<br>聚类中心，需要中$log_{2}(k)$的位数作为索引。此处可以用霍尔曼编码进一步压缩。举例为例：<br>如果聚类后为四类，需要用2bits表示聚类中心，00，01，10，11。假设假设A，B，C，D数目分别为1000,200,50,1的话，需要总bits数目为(1000+200+50+1)×2 = 2502， 用Huffman编码的话，根据频率聚类中心表示方式为:A, 0; B 10, C 110, D 111。那么总长度为1000 + 200×2 + 50×3 + 3 = 1553bit. 达到了压缩的目的。  </p>
-<hr>
-<p>此坑留给《Dynamic Network Surgery for Efficient DNNs》  </p>
-<hr>
-<h3 id="Vector-level-and-kernel-level-prunings"><a href="#Vector-level-and-kernel-level-prunings" class="headerlink" title="Vector-level and kernel-level prunings"></a>Vector-level and kernel-level prunings</h3><p>大部分研究者都关注于上面的剪枝方法，对于vector和kernel层面的剪枝研究比较少。相对于上面的Fine-grained剪枝方法，vector和kernel、filter-level层面的剪枝方法对于硬件层面更加友好。</p>
-<hr>
-<p>留坑  </p>
-<hr>
-<h3 id="Group-level-pruning"><a href="#Group-level-pruning" class="headerlink" title="Group-level pruning"></a>Group-level pruning</h3><p>就是将卷积核的固定位置上的数据去除，降低卷积核内部的数据量。文中提到这可以使用BLAS(Basic Linear Algebra Subprograms)基础线性代数子程序库，里面拥有大量已经编写好的关于线性代数运算的程序。  </p>
-<hr>
-<p>这个地方和group-level pruning有什么关系？<br>以下参考了<a href="https://blog.csdn.net/wangqingbaidu/article/details/56674076" target="_blank" rel="noopener">https://blog.csdn.net/wangqingbaidu/article/details/56674076</a>中的介绍。该介绍是对论文《Learning Structured Sparsity in Deep Neural Networks》的分析。<br>(未完待续)  </p>
-<hr>
-<h3 id="Filter-level-pruning"><a href="#Filter-level-pruning" class="headerlink" title="Filter-level pruning"></a>Filter-level pruning</h3><hr>
-<p>《Channel Pruning for Accelerating Very Deep Neural Networks》<br>之前的剪枝工作都是针对于权重的参数矩阵，这篇论文从channel的角度进行分析，看是否能够进行剪枝。<br>(本文优点是采用了优化方法去分析剪枝，缺点是需要调节的参数太多了)</p>
-<hr>
-<h2 id="低秩分解"><a href="#低秩分解" class="headerlink" title="低秩分解"></a>低秩分解</h2>
+    x(t)=
+    \begin{bmatrix}
+    5 & 0 & 0\\
+    0 &  -3 & 0\\
+    0 &  0 & 0.8
+    \end{bmatrix}x(t-1)</script><p>确实比较装模做样，实际上却是下式：  </p>
+<script type="math/tex; mode=display">
+    \begin{pmatrix}
+    x_1(t)\\
+    x_2(t)\\
+    x_3(t)
+    \end{pmatrix}=
+    \begin{pmatrix}
+    5x_1(t-1)\\
+    -3x_2(t-1)\\
+    0.8x_3(t-1)
+    \end{pmatrix}</script><p>也就是仅仅把三个式子组合起来了。<br>如果把这个问题想象成一个控制问题，要想保证当t趋近于无穷时，$x(t)$不发散，那么保证其对角系数矩阵上的每一个数值都必须要小于0。  </p>
+<h2 id="问题扩展"><a href="#问题扩展" class="headerlink" title="问题扩展"></a>问题扩展</h2><p>如果一个系统可以这么表示：  </p>
+<script type="math/tex; mode=display">
+    \begin{pmatrix}
+    x_1(t)\\
+    x_2(t)
+    \end{pmatrix}=
+    \begin{pmatrix}
+    5 & 1\\
+    1 & 5
+    \end{pmatrix}
+    \begin{pmatrix}
+    x_1(t-1)\\
+    x_2(t-1)
+    \end{pmatrix}</script><script type="math/tex; mode=display">
+    A=\begin{pmatrix}
+    5 & 1\\
+    1 & 5
+    \end{pmatrix}</script><p>把矩阵展开可以得到下式：  </p>
+<script type="math/tex; mode=display">
+    x_1(t)=5x_1(t-1)+x_2(t-1)</script><script type="math/tex; mode=display">
+    x_2(t)=x_1(t-1)+5x_2(t-1)</script><p>此时没有解决方法，可以变换下未知数。  </p>
+<script type="math/tex; mode=display">
+    y_1(t)=x_1(t)+x_2(t)</script><script type="math/tex; mode=display">
+    y_2(t)=x_1(t)-x_2(t)</script><p>带入上式可得：  </p>
+<script type="math/tex; mode=display">
+    y_1(t)=6y_1(t-1)</script><script type="math/tex; mode=display">
+    y_2(t)=4y_2(t-1)</script><p>从中可知$y_1$和$y_2$都是不稳定的。再用</p>
+<script type="math/tex; mode=display">
+    x_1(t)=\frac {y_1(t)+y_2(t)}{2}</script><script type="math/tex; mode=display">
+    x_2(t)=\frac {y_1(t)-y_2(t)}{2}</script><p>将$x_1,x_2$解出。  </p>
+<script type="math/tex; mode=display">
+    x_1(t)=\frac {6^ty_1(0)+4^ty_2(0)}{2}=\frac {6^t+4^t}{2}x_1(0)+\frac {6^t-4^t}{2}x_2(0)</script><script type="math/tex; mode=display">
+    x_2(t)=\frac {6^ty_1(0)-4^ty_2(0)}{2}=\frac {6^t-4^t}{2}x_1(0)+\frac {6^t+4^t}{2}x_2(0)</script><p>由此可得$x_1,x_2$的系统一样不稳定。<br>把上面的问题翻译成矩阵语言。  </p>
+<script type="math/tex; mode=display">
+    y(t)=Cx(t),C= 
+    \begin{pmatrix}
+    1 & 1\\
+    1 & -1
+    \end{pmatrix}</script><p>这个地方怎么感觉和现代控制理论这么像。这不就是线性变换吗，但是说的好像是线性变化不会改变系统的稳定性。<br>原问题变成了下面的这种数学形式。  </p>
+<script type="math/tex; mode=display">
+    y(t)={\Lambda}{y(t-1)},{\Lambda}=
+    \begin{pmatrix}
+    6 & 0\\
+    0 & 4
+    \end{pmatrix}</script><p>这里的${\Lambda}$就变成了对角矩阵，就能够轻松判断系统是否稳定了。<br>把$y$再还原为$x$就是这个式子啊：  </p>
+<script type="math/tex; mode=display">
+    x(t)=C^{-1}y(t)=
+    \begin{pmatrix}
+    1/2 & 1/2\\
+    1/2 & -1/2
+    \end{pmatrix}
+    \begin{pmatrix}
+    y_1(t)\\
+    y_2(t)
+    \end{pmatrix}</script><p>进一步将  </p>
+<script type="math/tex; mode=display">
+    \begin{pmatrix}
+    y_1(t)\\
+    y_2(t)
+    \end{pmatrix}=
+    \begin{pmatrix}
+    6^t & 0\\
+    0 & 4^t
+    \end{pmatrix}
+    \begin{pmatrix}
+    y_1(0)\\
+    y_2(0)
+    \end{pmatrix}</script><script type="math/tex; mode=display">
+    y(0)=Cx(0)</script><p>带入可得</p>
+<script type="math/tex; mode=display">
+    x(t)=C^{-1}{\Lambda}Cx(0)</script><p>上面变换的关键在于$C$这个矩阵，将一个系数非对角的矩阵变成了系数对角的矩阵。对角的矩阵就是${\Lambda}$ 。<br>如果$P=C^{-1}$，那么</p>
+<script type="math/tex; mode=display">
+    y(t)=P^{-1}x(t)=P^{-1}Ax(t-1)=P^{-1}APy(t-1)</script><p>即${\Lambda}=P^{-1}AP$,我们需要寻找合适的矩阵$P$来构造对角矩阵。  </p>
+<h2 id="特征值与特征向量"><a href="#特征值与特征向量" class="headerlink" title="特征值与特征向量"></a>特征值与特征向量</h2><p>接着上面的问题。将$P$作为列向量来考虑。$P=(p_1,p_2,{\cdots},p_n)$。我们的任务是找到对角化所需的$P$。即：  </p>
+<script type="math/tex; mode=display">
+    P^{-1}AP={Lambda}=diag({\lambda}_1,{\lambda}_2,{\cdots},{\lambda}_n)</script><p>两边左乘$P$，就变成了$AP=P{\Lambda}$,即为</p>
+<script type="math/tex; mode=display">
+    A(p_1,p_2,{\cdots},p_n)=(p_1,p_2,{\cdots},p_n)
+    \begin{pmatrix}
+    {\lambda}_1 & &\\
+    &{\ddots} &\\
+    & & {\lambda}_n
+    \end{pmatrix}</script><p>即：  </p>
+<script type="math/tex; mode=display">
+    Ap_n={\lambda}_np_n</script><p>卧槽，这竟然就是特征值和特征向量。<br><strong>上面两部分是从变量替换的角度去分析了对角化，还可以从坐标变换的角度去分析</strong>   </p>
+
       
     </div>
     
@@ -402,7 +463,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
+            <a href="/tags/线性代数/" rel="tag"># 线性代数</a>
           
         </div>
       
@@ -430,8 +491,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/07/13/ZCU102介绍/uncategorized/" rel="next" title="ZCU102介绍">
-                <i class="fa fa-chevron-left"></i> ZCU102介绍
+              <a href="/2018/07/27/这一天我什么都不想干/uncategorized/" rel="next" title="这一天我什么都不想干">
+                <i class="fa fa-chevron-left"></i> 这一天我什么都不想干
               </a>
             
           </div>
@@ -439,10 +500,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/07/14/记录2018-7/uncategorized/" rel="prev" title="记录2018.7">
-                记录2018.7 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -592,7 +649,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#介绍"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络剪枝"><span class="nav-number">2.</span> <span class="nav-text">网络剪枝</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Fine-grained-pruning"><span class="nav-number">2.1.</span> <span class="nav-text">Fine-grained pruning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Vector-level-and-kernel-level-prunings"><span class="nav-number">2.2.</span> <span class="nav-text">Vector-level and kernel-level prunings</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Group-level-pruning"><span class="nav-number">2.3.</span> <span class="nav-text">Group-level pruning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Filter-level-pruning"><span class="nav-number">2.4.</span> <span class="nav-text">Filter-level pruning</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#低秩分解"><span class="nav-number">3.</span> <span class="nav-text">低秩分解</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#对角矩阵"><span class="nav-number">1.</span> <span class="nav-text">对角矩阵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题扩展"><span class="nav-number">2.</span> <span class="nav-text">问题扩展</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特征值与特征向量"><span class="nav-number">3.</span> <span class="nav-text">特征值与特征向量</span></a></li></ol></div>
             
 
           </div>
