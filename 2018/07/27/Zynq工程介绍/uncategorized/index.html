@@ -342,7 +342,7 @@
 
       
         <h2 id="AMP模式，双CPU同时运行"><a href="#AMP模式，双CPU同时运行" class="headerlink" title="AMP模式，双CPU同时运行"></a>AMP模式，双CPU同时运行</h2><p>(1)建立两个BSP，在CPU1的BSP SETTING中，在extra_compier_flags中的value值的地方添加<strong>-DUSE_AMP=1</strong>。<br>(2)分配DDR地址，是两个DDR的地址不重合。<br>(3)设置Debug Configuration,Apllicatoin的两个CPU都选中。<br>(4)固化到SD卡中启动：<br>在FSBL的src中找到main.c，在其中添加CPU1的启动函数。  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#define sev() __asm__(&quot;sev&quot;)</span><br><span class="line">#define CPU1STARTADR 0xFFFFFFF0  //与实际DDR地址保持一直</span><br><span class="line">#define CPU1STARTMEM 0x20000000</span><br><span class="line">void StartCpu1(void)</span><br><span class="line">&#123;</span><br><span class="line">    #if 1</span><br><span class="line">    fsbl_printf(DEBUG_GENERAL,&quot;FSBL: Write the address of the application for CPU 1 to 0xFFFFFFF0\n\r&quot;);</span><br><span class="line">    Xil_Out32(CPU1STARTADR, CPU1STARTMEM);</span><br><span class="line">    dmb(); //waits until write has finished</span><br><span class="line">    fsbl_printf(DEBUG_GENERAL,&quot;FSBL: Execute the SEV instruction to cause CPU 1 to wake up and jump to the application\n\r&quot;);</span><br><span class="line">    sev();</span><br><span class="line">    #endif</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> sev() __asm__(<span class="meta-string">"sev"</span>)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CPU1STARTADR 0xFFFFFFF0  <span class="comment">//与实际DDR地址保持一直</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CPU1STARTMEM 0x20000000</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">StartCpu1</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="meta">#<span class="meta-keyword">if</span> 1</span></span><br><span class="line">    fsbl_printf(DEBUG_GENERAL,<span class="string">"FSBL: Write the address of the application for CPU 1 to 0xFFFFFFF0\n\r"</span>);</span><br><span class="line">    Xil_Out32(CPU1STARTADR, CPU1STARTMEM);</span><br><span class="line">    dmb(); <span class="comment">//waits until write has finished</span></span><br><span class="line">    fsbl_printf(DEBUG_GENERAL,<span class="string">"FSBL: Execute the SEV instruction to cause CPU 1 to wake up and jump to the application\n\r"</span>);</span><br><span class="line">    sev();</span><br><span class="line">    <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>然后再找到Load boot image的位置，将将CPU1的启动函数，放置于此位置，改动后的代码段如下：  </p>
 <pre><code>/*
     * Load boot image
@@ -506,7 +506,7 @@ StartCpu1();   /*add starting cpu1*/
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">50</span>
+                  <span class="site-state-item-count">51</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -519,7 +519,7 @@ StartCpu1();   /*add starting cpu1*/
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">25</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
