@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="该部分所有的示例代码都是使用的torch0.4版本。下面是两个全连接层带反向传播的神经网络。   import torch  dtype = torch.float  #float型数据 #device = torch.device(&amp;quot;cpu&amp;quot;) #在CPU上运行 device = torch.device(&amp;quot;cuda:0&amp;quot;) #在GPU0上运行  # N">
+<meta name="description" content="该部分所有的示例代码都是使用的torch0.4版本。下面是两个全连接层带反向传播的神经网络。   “` pythonimport torch dtype = torch.float  #float型数据 device = torch.device(“cpu”) #在CPU上运行device = torch.device(“cuda:0”) #在GPU0上运行 N is batch size; D_">
 <meta name="keywords" content="pytorch">
 <meta property="og:type" content="article">
 <meta property="og:title" content="pytorch代码分析">
 <meta property="og:url" content="http://yanxingang.com/2018/07/30/pytorch代码分析/uncategorized/index.html">
 <meta property="og:site_name" content="Xingang Yan">
-<meta property="og:description" content="该部分所有的示例代码都是使用的torch0.4版本。下面是两个全连接层带反向传播的神经网络。   import torch  dtype = torch.float  #float型数据 #device = torch.device(&amp;quot;cpu&amp;quot;) #在CPU上运行 device = torch.device(&amp;quot;cuda:0&amp;quot;) #在GPU0上运行  # N">
+<meta property="og:description" content="该部分所有的示例代码都是使用的torch0.4版本。下面是两个全连接层带反向传播的神经网络。   “` pythonimport torch dtype = torch.float  #float型数据 device = torch.device(“cpu”) #在CPU上运行device = torch.device(“cuda:0”) #在GPU0上运行 N is batch size; D_">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-07-30T12:53:52.158Z">
+<meta property="og:updated_time" content="2018-07-30T12:56:33.990Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="pytorch代码分析">
-<meta name="twitter:description" content="该部分所有的示例代码都是使用的torch0.4版本。下面是两个全连接层带反向传播的神经网络。   import torch  dtype = torch.float  #float型数据 #device = torch.device(&amp;quot;cpu&amp;quot;) #在CPU上运行 device = torch.device(&amp;quot;cuda:0&amp;quot;) #在GPU0上运行  # N">
+<meta name="twitter:description" content="该部分所有的示例代码都是使用的torch0.4版本。下面是两个全连接层带反向传播的神经网络。   “` pythonimport torch dtype = torch.float  #float型数据 device = torch.device(“cpu”) #在CPU上运行device = torch.device(“cuda:0”) #在GPU0上运行 N is batch size; D_">
 
 
 
@@ -342,50 +342,37 @@
 
       
         <p>该部分所有的示例代码都是使用的torch0.4版本。<br>下面是两个全连接层带反向传播的神经网络。  </p>
-<pre><code class="lang-python">import torch
+<p>“` python<br>import torch</p>
+<p>dtype = torch.float  #float型数据</p>
+<h1 id="device-torch-device-“cpu”-在CPU上运行"><a href="#device-torch-device-“cpu”-在CPU上运行" class="headerlink" title="device = torch.device(“cpu”) #在CPU上运行"></a>device = torch.device(“cpu”) #在CPU上运行</h1><p>device = torch.device(“cuda:0”) #在GPU0上运行</p>
+<h1 id="N-is-batch-size-D-in-is-input-dimension"><a href="#N-is-batch-size-D-in-is-input-dimension" class="headerlink" title="N is batch size; D_in is input dimension;"></a>N is batch size; D_in is input dimension;</h1><h1 id="H-is-hidden-dimension-D-out-is-output-dimension"><a href="#H-is-hidden-dimension-D-out-is-output-dimension" class="headerlink" title="H is hidden dimension; D_out is output dimension."></a>H is hidden dimension; D_out is output dimension.</h1><p>N, D_in, H, D_out = 64, 1000, 100, 10</p>
+<h1 id="Create-random-input-and-output-data"><a href="#Create-random-input-and-output-data" class="headerlink" title="Create random input and output data"></a>Create random input and output data</h1><p>x = torch.randn(N, D_in, device=device, dtype=dtype)<br>y = torch.randn(N, D_out, device=device, dtype=dtype)</p>
+<h1 id="Randomly-initialize-weights"><a href="#Randomly-initialize-weights" class="headerlink" title="Randomly initialize weights"></a>Randomly initialize weights</h1><p>w1 = torch.randn(D_in, H, device=device, dtype=dtype)<br>w2 = torch.randn(H, D_out, device=device, dtype=dtype)</p>
+<p>learning_rate = 1e-6<br>for t in range(500):</p>
+<pre><code># Forward pass: compute predicted y
+h = x.mm(w1)  #在torch中，mm是矩阵乘法，dot是点乘
+#clamp表示夹紧，夹住的意思
+#torch.clamp(input,min,max,out=None)-&gt; Tensor
+#将input中的元素限制在[min,max]范围内并返回一个Tensor
+h_relu = h.clamp(min=0) 
+y_pred = h_relu.mm(w2)
 
-dtype = torch.float  #float型数据
-#device = torch.device(&quot;cpu&quot;) #在CPU上运行
-device = torch.device(&quot;cuda:0&quot;) #在GPU0上运行
+# Compute and print loss
+loss = (y_pred - y).pow(2).sum().item()
+print(t, loss)
 
-# N is batch size; D_in is input dimension;
-# H is hidden dimension; D_out is output dimension.
-N, D_in, H, D_out = 64, 1000, 100, 10
+# Backprop to compute gradients of w1 and w2 with respect to loss
+grad_y_pred = 2.0 * (y_pred - y)
+grad_w2 = h_relu.t().mm(grad_y_pred)
+grad_h_relu = grad_y_pred.mm(w2.t())
+grad_h = grad_h_relu.clone()
+grad_h[h &lt; 0] = 0
+grad_w1 = x.t().mm(grad_h)
 
-# Create random input and output data
-x = torch.randn(N, D_in, device=device, dtype=dtype)
-y = torch.randn(N, D_out, device=device, dtype=dtype)
-
-# Randomly initialize weights
-w1 = torch.randn(D_in, H, device=device, dtype=dtype)
-w2 = torch.randn(H, D_out, device=device, dtype=dtype)
-
-learning_rate = 1e-6
-for t in range(500):
-    # Forward pass: compute predicted y
-    h = x.mm(w1)  #在torch中，mm是矩阵乘法，dot是点乘
-    #clamp表示夹紧，夹住的意思
-    #torch.clamp(input,min,max,out=None)-&gt; Tensor
-    #将input中的元素限制在[min,max]范围内并返回一个Tensor
-    h_relu = h.clamp(min=0) 
-    y_pred = h_relu.mm(w2)
-
-    # Compute and print loss
-    loss = (y_pred - y).pow(2).sum().item()
-    print(t, loss)
-
-    # Backprop to compute gradients of w1 and w2 with respect to loss
-    grad_y_pred = 2.0 * (y_pred - y)
-    grad_w2 = h_relu.t().mm(grad_y_pred)
-    grad_h_relu = grad_y_pred.mm(w2.t())
-    grad_h = grad_h_relu.clone()
-    grad_h[h &lt; 0] = 0
-    grad_w1 = x.t().mm(grad_h)
-
-    # Update weights using gradient descent
-    w1 -= learning_rate * grad_w1
-    w2 -= learning_rate * grad_w2
-</code></pre>
+# Update weights using gradient descent
+w1 -= learning_rate * grad_w1
+w2 -= learning_rate * grad_w2
+</code></pre><p>“`  </p>
 
       
     </div>
@@ -499,8 +486,17 @@ for t in range(500):
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -570,6 +566,22 @@ for t in range(500):
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#device-torch-device-“cpu”-在CPU上运行"><span class="nav-number">1.</span> <span class="nav-text">device = torch.device(“cpu”) #在CPU上运行</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#N-is-batch-size-D-in-is-input-dimension"><span class="nav-number">2.</span> <span class="nav-text">N is batch size; D_in is input dimension;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#H-is-hidden-dimension-D-out-is-output-dimension"><span class="nav-number">3.</span> <span class="nav-text">H is hidden dimension; D_out is output dimension.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Create-random-input-and-output-data"><span class="nav-number">4.</span> <span class="nav-text">Create random input and output data</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Randomly-initialize-weights"><span class="nav-number">5.</span> <span class="nav-text">Randomly initialize weights</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
