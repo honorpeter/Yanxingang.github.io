@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="数学," />
+  <meta name="keywords" content="FPGA," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="定义质数（$Prime number$），又称素数，指在大于1的自然数中，除了1和该数自身外，无法被其他自然数整除的数（也可定义为只有1与该数本身两个正因数的数）。   米勒-拉宾素性检验米勒-拉宾素性检验是一种素数判定法则，利用随机化算法判断一个数是合数还是可能是素数。 备注：     $mod$运算，即求余运算。">
-<meta name="keywords" content="数学">
+<meta name="description" content="FIFO使用在使用时，使用的异步FIFO，读时钟频率是写时钟频率的四倍，写数据位宽是读数据位宽的四倍。从仿真的时序图上来看，写数据的时候，只要在上升沿的当时使能，那么立刻就会有数据写入。读数据是是按照写入数据的高位向低位读出，也就是先读出的高位。检测到读数据的empty信号变为低电平后，当时还没有输出数据，等到上升1沿完事后的高电平后，输出数据有效，如果是assign赋值的话，empty低电平检测">
+<meta name="keywords" content="FPGA">
 <meta property="og:type" content="article">
-<meta property="og:title" content="素数">
-<meta property="og:url" content="http://yanxingang.com/2018/01/07/sushu/uncategorized/index.html">
+<meta property="og:title" content="Yolo_ZCU102接口构建">
+<meta property="og:url" content="http://yanxingang.com/2018/07/30/Yolo-ZCU102接口构建/uncategorized/index.html">
 <meta property="og:site_name" content="Xingang Yan">
-<meta property="og:description" content="定义质数（$Prime number$），又称素数，指在大于1的自然数中，除了1和该数自身外，无法被其他自然数整除的数（也可定义为只有1与该数本身两个正因数的数）。   米勒-拉宾素性检验米勒-拉宾素性检验是一种素数判定法则，利用随机化算法判断一个数是合数还是可能是素数。 备注：     $mod$运算，即求余运算。">
+<meta property="og:description" content="FIFO使用在使用时，使用的异步FIFO，读时钟频率是写时钟频率的四倍，写数据位宽是读数据位宽的四倍。从仿真的时序图上来看，写数据的时候，只要在上升沿的当时使能，那么立刻就会有数据写入。读数据是是按照写入数据的高位向低位读出，也就是先读出的高位。检测到读数据的empty信号变为低电平后，当时还没有输出数据，等到上升1沿完事后的高电平后，输出数据有效，如果是assign赋值的话，empty低电平检测">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-01-07T13:41:02.553Z">
+<meta property="og:updated_time" content="2018-07-30T02:27:26.087Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="素数">
-<meta name="twitter:description" content="定义质数（$Prime number$），又称素数，指在大于1的自然数中，除了1和该数自身外，无法被其他自然数整除的数（也可定义为只有1与该数本身两个正因数的数）。   米勒-拉宾素性检验米勒-拉宾素性检验是一种素数判定法则，利用随机化算法判断一个数是合数还是可能是素数。 备注：     $mod$运算，即求余运算。">
+<meta name="twitter:title" content="Yolo_ZCU102接口构建">
+<meta name="twitter:description" content="FIFO使用在使用时，使用的异步FIFO，读时钟频率是写时钟频率的四倍，写数据位宽是读数据位宽的四倍。从仿真的时序图上来看，写数据的时候，只要在上升沿的当时使能，那么立刻就会有数据写入。读数据是是按照写入数据的高位向低位读出，也就是先读出的高位。检测到读数据的empty信号变为低电平后，当时还没有输出数据，等到上升1沿完事后的高电平后，输出数据有效，如果是assign赋值的话，empty低电平检测">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yanxingang.com/2018/01/07/sushu/uncategorized/"/>
+  <link rel="canonical" href="http://yanxingang.com/2018/07/30/Yolo-ZCU102接口构建/uncategorized/"/>
 
 
 
 
 
-  <title>素数 | Xingang Yan</title>
+  <title>Yolo_ZCU102接口构建 | Xingang Yan</title>
   
 
 
@@ -253,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yanxingang.com/2018/01/07/sushu/uncategorized/">
+    <link itemprop="mainEntityOfPage" href="http://yanxingang.com/2018/07/30/Yolo-ZCU102接口构建/uncategorized/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Mr Yan">
@@ -270,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">素数</h1>
+          <h1 class="post-title" itemprop="name headline">Yolo_ZCU102接口构建</h1>
         
 
         <div class="post-meta">
@@ -282,8 +282,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-07T19:38:40+08:00">
-                2018-01-07
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-30T10:13:52+08:00">
+                2018-07-30
               </time>
             
 
@@ -301,8 +301,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/01/07/sushu/uncategorized/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/01/07/sushu/uncategorized/" itemprop="commentsCount"></span>
+                <a href="/2018/07/30/Yolo-ZCU102接口构建/uncategorized/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/07/30/Yolo-ZCU102接口构建/uncategorized/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -310,7 +310,7 @@
 
           
           
-             <span id="/2018/01/07/sushu/uncategorized/" class="leancloud_visitors" data-flag-title="素数">
+             <span id="/2018/07/30/Yolo-ZCU102接口构建/uncategorized/" class="leancloud_visitors" data-flag-title="Yolo_ZCU102接口构建">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -341,14 +341,7 @@
       
 
       
-        <h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>质数（$Prime number$），又称素数，指在大于1的自然数中，除了1和该数自身外，无法被其他自然数整除的数（也可定义为只有1与该数本身两个正因数的数）。  </p>
-<h3 id="米勒-拉宾素性检验"><a href="#米勒-拉宾素性检验" class="headerlink" title="米勒-拉宾素性检验"></a>米勒-拉宾素性检验</h3><p>米勒-拉宾素性检验是一种素数判定法则，利用随机化算法判断一个数是合数还是可能是素数。</p>
-<p><strong>备注：</strong>  </p>
-<blockquote>
-<ul>
-<li>$mod$运算，即求余运算。</li>
-</ul>
-</blockquote>
+        <h3 id="FIFO使用"><a href="#FIFO使用" class="headerlink" title="FIFO使用"></a>FIFO使用</h3><p>在使用时，使用的异步FIFO，读时钟频率是写时钟频率的四倍，写数据位宽是读数据位宽的四倍。<br>从仿真的时序图上来看，写数据的时候，只要在上升沿的当时使能，那么立刻就会有数据写入。读数据是是按照写入数据的高位向低位读出，也就是先读出的高位。检测到读数据的empty信号变为低电平后，当时还没有输出数据，等到上升1沿完事后的高电平后，输出数据有效，如果是assign赋值的话，empty低电平检测到之后即可有效，但如果是用always @ (posedge clk)，那么得等到下个时钟才能用reg=dout。  </p>
 
       
     </div>
@@ -366,7 +359,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/数学/" rel="tag"># 数学</a>
+            <a href="/tags/FPGA/" rel="tag"># FPGA</a>
           
         </div>
       
@@ -394,8 +387,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/07/cpp/uncategorized/" rel="next" title="C++作用域">
-                <i class="fa fa-chevron-left"></i> C++作用域
+              <a href="/2018/07/28/线性代数/uncategorized/" rel="next" title="线性代数">
+                <i class="fa fa-chevron-left"></i> 线性代数
               </a>
             
           </div>
@@ -404,8 +397,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/11/台式机改动记录/uncategorized/" rel="prev" title="台式机改动记录">
-                台式机改动记录 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/07/30/7-30与卓老师汇报所存在的问题/uncategorized/" rel="prev" title="7.30与卓老师汇报所存在的问题">
+                7.30与卓老师汇报所存在的问题 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -556,7 +549,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-number">1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#米勒-拉宾素性检验"><span class="nav-number">2.</span> <span class="nav-text">米勒-拉宾素性检验</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#FIFO使用"><span class="nav-number">1.</span> <span class="nav-text">FIFO使用</span></a></li></ol></div>
             
 
           </div>
@@ -936,26 +929,6 @@
   
 
   
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
