@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[pytorch代码分析]]></title>
+    <url>%2F2018%2F07%2F30%2Fpytorch%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[该部分所有的示例代码都是使用的torch0.4版本。下面是两个全连接层带反向传播的神经网络。 import torch dtype = torch.float #float型数据 #device = torch.device(&quot;cpu&quot;) #在CPU上运行 device = torch.device(&quot;cuda:0&quot;) #在GPU0上运行 # N is batch size; D_in is input dimension; # H is hidden dimension; D_out is output dimension. N, D_in, H, D_out = 64, 1000, 100, 10 # Create random input and output data x = torch.randn(N, D_in, device=device, dtype=dtype) y = torch.randn(N, D_out, device=device, dtype=dtype) # Randomly initialize weights w1 = torch.randn(D_in, H, device=device, dtype=dtype) w2 = torch.randn(H, D_out, device=device, dtype=dtype) learning_rate = 1e-6 for t in range(500): # Forward pass: compute predicted y h = x.mm(w1) #在torch中，mm是矩阵乘法，dot是点乘 #clamp表示夹紧，夹住的意思 #torch.clamp(input,min,max,out=None)-&gt; Tensor #将input中的元素限制在[min,max]范围内并返回一个Tensor h_relu = h.clamp(min=0) y_pred = h_relu.mm(w2) # Compute and print loss loss = (y_pred - y).pow(2).sum().item() print(t, loss) # Backprop to compute gradients of w1 and w2 with respect to loss grad_y_pred = 2.0 * (y_pred - y) grad_w2 = h_relu.t().mm(grad_y_pred) grad_h_relu = grad_y_pred.mm(w2.t()) grad_h = grad_h_relu.clone() grad_h[h &lt; 0] = 0 grad_w1 = x.t().mm(grad_h) # Update weights using gradient descent w1 -= learning_rate * grad_w1 w2 -= learning_rate * grad_w2]]></content>
+      <tags>
+        <tag>pytorch</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[python argparse用法]]></title>
+    <url>%2F2018%2F07%2F30%2Fpython-argparse%E7%94%A8%E6%B3%95%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[python中有个argparse包，可以用来配置参数 简单使用1、创建 ArgumentParser() 对象2、调用 add_argument() 方法添加参数3、使用 parse_args() 解析添加的参数 import argparse parser=argparse.ArgumentParser() /#创建对象 parser.add_argument(&#39;integer&#39;,type=int,help=&#39;display the integer&#39;) //添加int型参数 args=parser.parse_args() /#解析添加的参数 print(args.integer) //integer是上面的参数 上面的Py文件在调用时必须在文件名后面跟上整数型参数。另外一点就是’integer’前面没有—，说明是定位参数不是可选参数，也就是说是必须要有一个参数的，而下面的可选参数是可以选择输入哪个参数的。 可选参数import argparse parser=argparse.ArgumentParser() /#创建对象 parser.add_argument(&quot;--square&quot;, help=&quot;display a square of a given number&quot;, type=int) parser.add_argument(&quot;--cubic&quot;,help=&quot;display a cubic of a given number&quot;,type=int) args=parser.parse_args() if args.square: print(args.square**2) if args.cubic: print(args.cubic**3) 运行时，如下： $ python argparse_usage.py --h #查看帮助 usage: argparse_usage.py [-h] [--square SQUARE] [--cubic CUBIC] $ python argparse_usage.py --square 8 #选择一个参数输入 64 其中： help - 参数的帮助信息 type - 命令行参数应该被转换成的类型 default - 不指定参数时的默认值 required - 可选参数是否可以省略]]></content>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[7.30与卓老师汇报所存在的问题]]></title>
+    <url>%2F2018%2F07%2F30%2F7-30%E4%B8%8E%E5%8D%93%E8%80%81%E5%B8%88%E6%B1%87%E6%8A%A5%E6%89%80%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[1、第一个问题：${\gamma}$和${\beta}$有什么用？第一个作用是可以恢复没有归一化前的模型(在合理选择${\gamma}$和${\beta}$参数的条件下)。在增加新操作的时候，可能改变原来的输入，也可能不改变，这样的话，可以保持原输入，模型的容纳能力提升了。]]></content>
+      <tags>
+        <tag>生活</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Yolo_ZCU102接口构建]]></title>
+    <url>%2F2018%2F07%2F30%2FYolo-ZCU102%E6%8E%A5%E5%8F%A3%E6%9E%84%E5%BB%BA%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[FIFO使用在使用时，使用的异步FIFO，读时钟频率是写时钟频率的四倍，写数据位宽是读数据位宽的四倍。从仿真的时序图上来看，写数据的时候，只要在上升沿的当时使能，那么立刻就会有数据写入。读数据是是按照写入数据的高位向低位读出，也就是先读出的高位。检测到读数据的empty信号变为低电平后，当时还没有输出数据，等到上升1沿完事后的高电平后，输出数据有效，如果是assign赋值的话，empty低电平检测到之后即可有效，但如果是用always @ (posedge clk)，那么得等到下个时钟才能用reg=dout。]]></content>
+      <tags>
+        <tag>FPGA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[线性代数]]></title>
+    <url>%2F2018%2F07%2F28%2F%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[本文为阅读《程序员的数学》的笔记，感觉这本书好强啊。竟然能将那么多的内容讲的如此通俗易懂。 对角矩阵对角矩阵是一个很神奇的东西，比如设$x(t)=(x_1(t),x_2(t),x_3(t))^T$,下式中 x(t)= \begin{bmatrix} 5 & 0 & 0\\ 0 & -3 & 0\\ 0 & 0 & 0.8 \end{bmatrix}x(t-1)确实比较装模做样，实际上却是下式： \begin{pmatrix} x_1(t)\\ x_2(t)\\ x_3(t) \end{pmatrix}= \begin{pmatrix} 5x_1(t-1)\\ -3x_2(t-1)\\ 0.8x_3(t-1) \end{pmatrix}也就是仅仅把三个式子组合起来了。如果把这个问题想象成一个控制问题，要想保证当t趋近于无穷时，$x(t)$不发散，那么保证其对角系数矩阵上的每一个数值都必须要小于0。 问题扩展如果一个系统可以这么表示： \begin{pmatrix} x_1(t)\\ x_2(t) \end{pmatrix}= \begin{pmatrix} 5 & 1\\ 1 & 5 \end{pmatrix} \begin{pmatrix} x_1(t-1)\\ x_2(t-1) \end{pmatrix} A=\begin{pmatrix} 5 & 1\\ 1 & 5 \end{pmatrix}把矩阵展开可以得到下式： x_1(t)=5x_1(t-1)+x_2(t-1) x_2(t)=x_1(t-1)+5x_2(t-1)此时没有解决方法，可以变换下未知数。 y_1(t)=x_1(t)+x_2(t) y_2(t)=x_1(t)-x_2(t)带入上式可得： y_1(t)=6y_1(t-1) y_2(t)=4y_2(t-1)从中可知$y_1$和$y_2$都是不稳定的。再用 x_1(t)=\frac {y_1(t)+y_2(t)}{2} x_2(t)=\frac {y_1(t)-y_2(t)}{2}将$x_1,x_2$解出。 x_1(t)=\frac {6^ty_1(0)+4^ty_2(0)}{2}=\frac {6^t+4^t}{2}x_1(0)+\frac {6^t-4^t}{2}x_2(0) x_2(t)=\frac {6^ty_1(0)-4^ty_2(0)}{2}=\frac {6^t-4^t}{2}x_1(0)+\frac {6^t+4^t}{2}x_2(0)由此可得$x_1,x_2$的系统一样不稳定。把上面的问题翻译成矩阵语言。 y(t)=Cx(t),C= \begin{pmatrix} 1 & 1\\ 1 & -1 \end{pmatrix}这个地方怎么感觉和现代控制理论这么像。这不就是线性变换吗，但是说的好像是线性变化不会改变系统的稳定性。原问题变成了下面的这种数学形式。 y(t)={\Lambda}{y(t-1)},{\Lambda}= \begin{pmatrix} 6 & 0\\ 0 & 4 \end{pmatrix}这里的${\Lambda}$就变成了对角矩阵，就能够轻松判断系统是否稳定了。把$y$再还原为$x$就是这个式子啊： x(t)=C^{-1}y(t)= \begin{pmatrix} 1/2 & 1/2\\ 1/2 & -1/2 \end{pmatrix} \begin{pmatrix} y_1(t)\\ y_2(t) \end{pmatrix}进一步将 \begin{pmatrix} y_1(t)\\ y_2(t) \end{pmatrix}= \begin{pmatrix} 6^t & 0\\ 0 & 4^t \end{pmatrix} \begin{pmatrix} y_1(0)\\ y_2(0) \end{pmatrix} y(0)=Cx(0)带入可得 x(t)=C^{-1}{\Lambda}Cx(0)上面变换的关键在于$C$这个矩阵，将一个系数非对角的矩阵变成了系数对角的矩阵。对角的矩阵就是${\Lambda}$ 。如果$P=C^{-1}$，那么 y(t)=P^{-1}x(t)=P^{-1}Ax(t-1)=P^{-1}APy(t-1)即${\Lambda}=P^{-1}AP$,我们需要寻找合适的矩阵$P$来构造对角矩阵。 特征值与特征向量接着上面的问题。将$P$作为列向量来考虑。$P=(p_1,p_2,{\cdots},p_n)$。我们的任务是找到对角化所需的$P$。即： P^{-1}AP={Lambda}=diag({\lambda}_1,{\lambda}_2,{\cdots},{\lambda}_n)两边左乘$P$，就变成了$AP=P{\Lambda}$,即为 A(p_1,p_2,{\cdots},p_n)=(p_1,p_2,{\cdots},p_n) \begin{pmatrix} {\lambda}_1 & &\\ &{\ddots} &\\ & & {\lambda}_n \end{pmatrix}即： Ap_n={\lambda}_np_n卧槽，这竟然就是特征值和特征向量。上面两部分是从变量替换的角度去分析了对角化，还可以从坐标变换的角度去分析]]></content>
+      <tags>
+        <tag>线性代数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[这一天我什么都不想干]]></title>
+    <url>%2F2018%2F07%2F27%2F%E8%BF%99%E4%B8%80%E5%A4%A9%E6%88%91%E4%BB%80%E4%B9%88%E9%83%BD%E4%B8%8D%E6%83%B3%E5%B9%B2%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[是困倦？是烦闷？是厌恶？还是虚无？ 仿佛感受不到自己的存在没有希望没有寄托 如蝼蚁般驱赶着自己的生活心如死灰]]></content>
+      <tags>
+        <tag>生活</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Zynq工程介绍]]></title>
+    <url>%2F2018%2F07%2F27%2FZynq%E5%B7%A5%E7%A8%8B%E4%BB%8B%E7%BB%8D%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[AMP模式，双CPU同时运行(1)建立两个BSP，在CPU1的BSP SETTING中，在extra_compier_flags中的value值的地方添加-DUSE_AMP=1。(2)分配DDR地址，是两个DDR的地址不重合。(3)设置Debug Configuration,Apllicatoin的两个CPU都选中。(4)固化到SD卡中启动：在FSBL的src中找到main.c，在其中添加CPU1的启动函数。 12345678910111213#define sev() __asm__("sev")#define CPU1STARTADR 0xFFFFFFF0 //与实际DDR地址保持一直#define CPU1STARTMEM 0x20000000void StartCpu1(void)&#123; #if 1 fsbl_printf(DEBUG_GENERAL,"FSBL: Write the address of the application for CPU 1 to 0xFFFFFFF0\n\r"); Xil_Out32(CPU1STARTADR, CPU1STARTMEM); dmb(); //waits until write has finished fsbl_printf(DEBUG_GENERAL,"FSBL: Execute the SEV instruction to cause CPU 1 to wake up and jump to the application\n\r"); sev(); #endif&#125; 然后再找到Load boot image的位置，将将CPU1的启动函数，放置于此位置，改动后的代码段如下： /* * Load boot image */ HandoffAddress = LoadBootImage(); fsbl_printf(DEBUG_INFO,&quot;Handoff Address: 0x%08lx\r\n&quot;,HandoffAddress); StartCpu1(); /*add starting cpu1*/ 在Create Boot image的地方将两个CPU的elf文件都添加。 利用Zynq SoC的片上存储空间实现AMP通信片上存储空间，即为OCM，ZynqSOC上有256K字节的SRAM存储空间，有四个资源可以访问他。ZCU102好像在这个地方与Zynq架构不同1.通过SCU（监听控制单元）片上的两个ARM Cortex-A9 MPcore处理器都可以访问OCM2.通过SCU（监听控制单元）PL（可编程逻辑）部分利用AXI ACP接口可以访问OCM3.通过OCM interconnect结构PL部分利用AXI High Performance接口可以访问 OCM4.通过OCM interconnect结构，Central Interconnect可以访问OCM这么多种复用接口的资源都可以访问OCM，所以定义访问协议的仲裁和优先级机制是非常有必要的。SCU的读写操作具有最高的优先级（读操作的优先级比写操作要高）。由OCM interconnect发起的读写操作具有第二高的优先级。注：你可以翻转SCU写操作的优先级与OCM interconnect访问的优先级，方法是修改OCM控制寄存器，将SCU写操作的优先级设置的低一些。OCM可以组织成128位的字存储空间，根据PS部分定义的地址空间OCM存储空间可以划分为四块64k字节的不同位置的存储区域。初始配置是将前三个64k字节的存储块映射到PS部分起始的地址空间，最后一个64K字节存储块映射到PS部分的末端的地址空间。这个在设置内存地址的那个文件中可以看到。显然我们首先要做的事就是设置要使用的内存地址，我们将只传递8位无符号整数，所以我们只需要申请一个地址空间，这里我已经选择使用ZynqSoC的OCM的最高的64K字节的存储区完成这个工作，我禁止了这块存储空间的cache（缓存）功能，在应用程序中我们可以使用下面的函数命令来实现。Xil_SetTlbAttributes(0xFFFF0000,0x14de2); 我将利用0XFFFF0000这个内存地址作为介质实现在CPU0与CPU1之间传递一个字节的数据，当然有很多方式可以实现这个功能，下面我们将介绍两种最常用的方式： 第一种方法是利用通用的Xilinx I/O接口函数实现对制定地址的读取与写入，这些函数包含在Xil_IO.h头文件中，允许在CPU的地址空间内实现存储与访问8位、16位或者32位的字符型、短整型或整型的数值数据。使用这些函数你就可以读取指定地址的数据，或者像指定地址写入指定的数据。Xil_Out8(0xFFFF0000,0x55);read_char = Xil_In8(0xFFFF0000);为了确保这些地址指向的是同一个OCM位置，尤其是当不同的人编写不同的应用程序，他们将会调用共同的头文件，头文件中包含的对这个地址的宏定义，这是一个非常好的工程实践的例子，例如下面所示： define LED_PAT 0xFFFF0000第二种方法是在两个程序中使用指针指向通一个存储位置。我们可以定义一个指针指向一个常量地址，使用C语言我们会定义一个宏，如下所示 define LED_OP ((volatileunsignedint )(0xFFFF0000))这种方法不需要再调用Xilinx I/O接口的库函数，通过指针就可以实现访问功能。 中断和AMP中断自己，中断另一个处理器核或者中断两者。例如，我们使用Core 0产生一个中断，通知Core1接收到了一个LED模式的更新。使用软件中断跟硬件中断没有太大区别，只有我们怎样触发中断不同。我们有16个软件产生的中断可以选择，因此我们必须定义软件中断编号： define SW_INT_ID 0我们需要为每个处理器核在代码的共享头文件中声明这个选项。如果一个处理器核处理16个软件产生的中断之一而另一个处理器核正在等待另一个发生，这种情况是很尴尬的。详情见《Adam Taylor玩转MicroZed系列》教程http://www.openhw.org/blog-383这个网址。原文见https://forums.xilinx.com/t5/Xcell-Daily-Blog-Archived/Adam-Taylor-s-MicroZed-Chronicles-Part-51-Interrupts-and-AMP/ba-p/525489这个网址。 VDMAhttps://forums.xilinx.com/t5/Xcell-Daily-Blog-Archived/Adam-Taylor-s-MicroZed-Chronicles-UltraZed-Edition-Part-218-The/ba-p/798084]]></content>
+      <tags>
+        <tag>FPGA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[numpy基础]]></title>
+    <url>%2F2018%2F07%2F26%2Fnumpy%E5%9F%BA%E7%A1%80%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[Numpy是应用Python进行科学计算时的基础模块。它是一个提供多维数组对象的Python库，除此之外，还包含了多种衍生的对象（比如掩码式数组(masked arrays)或矩阵）以及一系列的为快速计算数组而生的例程，包括数学运算，逻辑运算，形状操作，排序，选择，I/O，离散傅里叶变换，基本线性代数，基本统计运算，随机模拟等等。 矩阵乘与元素乘dot是矩阵乘，乘号”*”是元素乘。 for循环python中的for一般借用range函数实现，如下： 1for i in range(100) range就是一个从0到99的数组 常用函数 函数 说明 abs、fabs 计算整数和浮点数或复数的绝对值 sqrt 计算各元素的平方根 线性代数函数 函数 说明 dot 矩阵乘法 trace 计算对角线元素的和 det 计算矩阵行列式 inv 计算方阵的逆]]></content>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[DDR读写]]></title>
+    <url>%2F2018%2F07%2F25%2FDDR%E8%AF%BB%E5%86%99%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[DDR中的基本概念 SODIMM是笔记本内存，RDIMM是服务器内存，UDIMM是台式机内存，component是贴片内存片 SDRAM是内存颗粒，DDR是将这些颗粒集成在一起，再加一个控制器 SDRAM的内部是一个存储阵列，类似于一张表格，需要先指定行(row)，再指定一个列(col)，就可以准确的找到所需要的单元格，这就是内存芯片寻址的基本原理。对于内存，这个单元格叫做存储单元，存储阵列叫做逻辑Bank。 CPU在DDR中读取数据时，一般为64bits，但是SDRAM一般没有64bits位宽的，就需要将多个颗粒凑在一起组成一组，这个名字叫做rank。 MIG用户接口app_cmd:操作命令，写入3’b000,读出3’b001。要和地址同时出现时有效app_addr:操作地址，按照rank+bank+row+column的顺序app_en:操作地址app_addr使能，只有在拉高的情况下，对应的地址才能有效app_wdf_data:写入的数据接口app_wdf_wren:写入的数据接口app_wdf_data的使能，只有在其拉高的情况下，写入数据接口有效app_wdf_end:一般与app_wdf_wren保持一致？ 还有两个信号是DDR部分有效信号：app_rdy:就是DDR的ready信号，只有在DDR的ready信号时高电平时，地址app_addr才是有效的app_wdf_rdy:只有在该信号为高电平时，写入的数据app_wdf_data才是有效的]]></content>
+      <tags>
+        <tag>FPGA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[python中的类]]></title>
+    <url>%2F2018%2F07%2F24%2Fpython%E4%B8%AD%E7%9A%84%E7%B1%BB%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[解答自己的疑惑： 定义类时，在类名后面的(object)的意思是派生自object类。 在定义类的成员名时，可以通过(__)两个下划线表示是私有成员，但是Pyhton并没有对私有成员提供严格的访问保护机制。 数据成员可以分为两类，属于对象的数据成员和属于类的数据成员。属于对象的数据成员主要指的是在构造函数init()中定义的，也可以在其他成员方法中定义，但是必须要以self作为前缀，同一个类的不同对象之间的数据成员之间互不影响。属于类的数据成员是该类所有的对象共享的，不属于任何一个对象。在定义类时，这类数据成员不在任何一个成员方法中定义。在主程序中或类的外部中，对象数据成员属于实例（对象），只能通过对象名访问，而类数据成员属于类，可以通过类名或者对象访问。另外，在python中可以动态地为类和对象增加成员。 类中地方法粗略可以分为四类：公有方法、私有方法、静态方法和类方法，共有方法和私有方法一般属于对象的实例方法，其中私有方法以两个下划线(__)开始。共有方法通过对象名直接调用，私有方法不能通过对象名直接调用，只能在实例方法中通过self调用或者在外部通过Python支持地特殊方法调用。 类的所有实例方法都必须至少有一个名为self的参数，并且必须是方法的第一个形参，self参数代表对象自身。在类的实例方法中访问实例属性时必须要以self为前缀，但在外部通过对象名调用对象方法时并不需要传递这个参数。 静态方法和类方法都可以通过类名和对象名调用，但不能直接访问属于对象的成员，只能访问属于类的成员，一般将cls作为类方法的第一个参数，表示该类自身，在调用类方法时不需要为该参数传递值。 在定义类时，__xx定义的成员为私有成员 关于继承的问题 派生类可以继承父类的共有成员，但是不能继承其私有成员。如果需要在派生类中调用基类的方法，可以使用内置函数super()或者通过”基类名.方法名”的方式来实现这一目标。]]></content>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Pytorch基础]]></title>
+    <url>%2F2018%2F07%2F23%2FPytorch%E5%9F%BA%E7%A1%80%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[开始时装的是torch0.3.1，后来发现现在官方的文档都是0.4版本的，所以就将版本换到0.4，开始时怎么也下载不下来，后来翻墙了一下，下载速度就快了不少。好像版本0.4和0.3还是有较大去别的，很多东西都做了改进。如下： Tensor和Variable合并 支持零维张量（标量） 弃用volatile标志 detype,devices和Numpy-style Tensor创建函数 编写一些不依赖设备的代码 Tensortorch.Tensor是pytorch中最核心的类，如果将其属性.requres_grad设为true，其所有运算都会被track。在完成所有运算之后，可以调用.backward()就会自动计算出所有的梯度值。这个张量的梯度值就会保存在属性.grad中。为了停止对该张量的追踪，可以调用.detach()去分离计算。如果不想去计算梯度值，该数值却需要训练，可以将所需代码包在with torch.no_grad():中。这样可以减少对于内存的占用（不需要再追踪变量了）如果想要计算梯度，可以对张量调用.backward()。 Neural Neatworks‘nn’模块依靠’autograd’模块定义模型、计算梯度，一个’nn.Module’包含层、’forward(input)’,并且返回’output’。一个典型的神经网络训练过程包含以下几个步骤：1、定义网络，同时确定要学习的参数2、根据输入数据集迭代3、前向传播4、计算损失函数5、反向传播计算梯度值6、更新参数 torch.nn中包含网络相关内容，nn.Module中包含层相关内容(如卷积层Conv2d、全连接层Linear)，nn.functional中包含神经网络网络中使用的函数(激活函数relu、MAX函数max_pool2d等) torch.nn中只支持mini-batch，整个torch.nn只支持mini-batch样本，不支持单样本。例如，nn.Conv2d输入输出是一个四维张量nSamples×nChannels×Height×Width。如果使用单样本的话，使用input.unsqueeze(0) python中super的用法Note: super() only works for new-style classes.super()函数的一个常见用法是在init()方法中确保父类被正确初始化。super()函数是子类用于调用父类的一个方法，用来解决多重继承问题。举例说明： class BasicClassPeople(object): def __init__(self,name,age,gender): self.name = name self.age = age self.gender = gender def short_introduction(self): print &#39;My name is {}, a {}, this year I am {} years old&#39;.format(self.name,self.gender,self.age) class ExtenClassOne(BasicClassPeople): def __init__(self,name,age,gender,job): super(ExtenClassOne, self).__init__(name,gender,age) self.job = job def short_introduction(self): print &#39;My name is {}, a {}, this year I am {} years old, my job is {}&#39;.format(self.name, self.gender, self.age,self.job) 在上边的程序中ExtenClassOne继承自BasicClassPeople，但是它想在初始化的时候为类新增加一个属性，如果不使用super的话我们就只能重写初始化函数了，但是使用了super之后我们只需要在定义扩展的初始化函数时调用父类初始化函数，然后把自己新增的属性添加到调用语句后面就可以了。]]></content>
+      <tags>
+        <tag>Pytorch</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[记录2018.7]]></title>
+    <url>%2F2018%2F07%2F14%2F%E8%AE%B0%E5%BD%952018-7%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[14号(1)概念：凸集、凸函数、共轭函数、拉格朗日乘子法(2)L1、L2规范型，Droupout方法(半数神经元失活) 24号距上次写记录已是10天的时光，真是可怕啊！！！！(1)构思出了该怎么设计FPGA接口部分，还是AXI_Stream接口，不过是加上数据选择器，分别传输权重和图像，MIG部分也粗略看了下，感觉并不困难。流程，malloc连续内存，设计一个很大的值给AXI_Stream的Slave接口，数据选择器，还有一个AXI-Lite的配置接口(不用Block RAM的)。(2)看了下Pytorch的nn模块，感觉自己还是不怎么会用类。计划以后白天处理FPGA的事情，综合的时候学习Pytorch,这几天的晚上用来学习Python]]></content>
+      <tags>
+        <tag>记录</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[近期高效率深度卷积神经网络研究]]></title>
+    <url>%2F2018%2F07%2F13%2F%E8%BF%91%E6%9C%9F%E9%AB%98%E6%95%88%E7%8E%87%E6%B7%B1%E5%BA%A6%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%A0%94%E7%A9%B6%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[本文是阅读《Recent advances in efficient computation of deep convolution neural networks》的笔记。 介绍就是提及了神经网络在相关领域取得了很好的成绩，但是计算量和存储量太大了，对于移动推断来讲不实际。 网络剪枝网络剪枝的方法早在深度学习火之前就有人提出来了。 (下面是CSDN博客上的内容)三个想法：filter-level剪枝(如果某一层少了filter，那么输出的特征映射图就会减少，对应到下一层的fIlter的channel数量减少)；Group-level剪枝，减小Kernel的size，将3*3变成3*2或者更小,或者将3*3删成某个固定形状，就是将其中的一些数去除；先不删除参数，而是将没用的参数设置为0，当一个参数矩阵中有很多零时，再用稀疏矩阵乘法。剪枝方法可分为5类：什么样的参数需要裁掉？ 损失函数对参数的二阶导(为什么是二阶导，不是一阶导呢？)越小，说明这个参数的更新对于损失函数的下降贡献越小，说明这个参数不重要。 参数的绝对值越小，说明输出特征图与该参数几乎无关。 Fine-grained pruning对于深度学习，求取二阶导数计算量太大了，现在没人用。15年的是时候有人提出了剪枝、量化、霍夫曼编码三步走的方法(《Deep compression: compressing deep neural networks with pruning, trained quantization and huffman coding.》)。这个方法可能会造成准确率下降，所以16年的时候有人提出了改进方法：剪枝、拼接。剪枝就是将不重要的参数去掉，拼接是将不正确的剪枝连接恢复。 下面介绍一些概念稀疏矩阵的存储格式： Compressed sparse row(CSR)，或者叫做Compressed Row Storage(CRS)。假设有稀疏矩阵A，我们需要创建三个数组，一个浮点型数组val，另外两个为整型数组（col_ind, row_ptr）。val数组，大小为矩阵A的非零元素的个数，保存矩阵A的非零元素（按从上往下，从左往右的行遍历方式访问元素）。col_ind数组，和val数组一样，大小为矩阵A的非零元素的个数，保存val数组中元素的列索引。如: var[k]=a(i,j)，那么col_ind(k)=j。row_ptr数组，大小为矩阵A的行数，保存矩阵A的每行第一个非零元素在val中的索引。按照惯例，一般定义row_ptr(n+1) = nnz + 1,而nnz是A中非零元素的个数。下面是一个示例：var=[1,-1,1,1,1,-1,1,1,-1];col_ind=[1,3,1,2,3,2,3,2,4];row_ptr=[1,3,6,8]; Matrix= \begin{bmatrix} 1 & 0 & -1 & 0\\ 1 & 1 & 1 & 0\\ 0 & -1 & 1 & 0\\ 0 & 1 & 0 & -1 \end{bmatrix} compressed sparse column(CSC) 与上面类似。 如果a是非零元素个数，n是行数或者列数，那么上面这两种方法总共需要2a+n+1个存储单元。 以下参考了https://blog.csdn.net/zijin0802034/article/details/53982812中的介绍。《Deep compression: compressing deep neural networks with pruning,trained quantization and huffman coding.》中是怎么处理的：1、剪枝将小于一定阈值的数移除，并用索引的方式表示，当两个相邻索引数大于某一阈值时，在两个索引数中间插入一个0防止过拟合。2、训练量化文中只是将权重进行了处理，将32位的权重值划分到不同的区间段，(这个区间段是不是通过聚类实现的？文中作者是通过K-Means实现的，聚类中心的初始化选择，作者也做了几种不同的研究，发现线性初始化效果最好),每个区间段的代表值为每个区间段的所有数的平均值。这样权重值就会通过这些代表值和索引来表示。讲道理反响传播更新权重值时就将每个区间段的梯度值取平均值加到原来的权重平均值上。但此时权重已经量化了，所以梯度值就是损失函数对这些聚类中心的梯度值3、霍夫曼编码聚类中心，需要中$log_{2}(k)$的位数作为索引。此处可以用霍尔曼编码进一步压缩。举例为例：如果聚类后为四类，需要用2bits表示聚类中心，00，01，10，11。假设假设A，B，C，D数目分别为1000,200,50,1的话，需要总bits数目为(1000+200+50+1)×2 = 2502， 用Huffman编码的话，根据频率聚类中心表示方式为:A, 0; B 10, C 110, D 111。那么总长度为1000 + 200×2 + 50×3 + 3 = 1553bit. 达到了压缩的目的。 此坑留给《Dynamic Network Surgery for Efficient DNNs》 Vector-level and kernel-level prunings大部分研究者都关注于上面的剪枝方法，对于vector和kernel层面的剪枝研究比较少。相对于上面的Fine-grained剪枝方法，vector和kernel、filter-level层面的剪枝方法对于硬件层面更加友好。 留坑 Group-level pruning就是将卷积核的固定位置上的数据去除，降低卷积核内部的数据量。文中提到这可以使用BLAS(Basic Linear Algebra Subprograms)基础线性代数子程序库，里面拥有大量已经编写好的关于线性代数运算的程序。 这个地方和group-level pruning有什么关系？以下参考了https://blog.csdn.net/wangqingbaidu/article/details/56674076中的介绍。该介绍是对论文《Learning Structured Sparsity in Deep Neural Networks》的分析。(未完待续) Filter-level pruning 《Channel Pruning for Accelerating Very Deep Neural Networks》之前的剪枝工作都是针对于权重的参数矩阵，这篇论文从channel的角度进行分析，看是否能够进行剪枝。(本文优点是采用了优化方法去分析剪枝，缺点是需要调节的参数太多了) 低秩分解]]></content>
+      <tags>
+        <tag>深度学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[ZCU102介绍]]></title>
+    <url>%2F2018%2F07%2F13%2FZCU102%E4%BB%8B%E7%BB%8D%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[结构图 USB-UART一条线提供了四个串口，芯片是CP2108，串口1、2是连接到A53的Uart0和Uart1上，串口3连接到PL端，串口4连接到MSP430上。 时钟PS_REF_CLK 是33.33MHz AXI接口PL端有4个HP(High Performance) Slave AXI interfaces能够将数据搬运到PS端的DDR上，当然都要通过DDRC(C即Controller的意思)。这个Slave是相对与PL端的可编程逻辑而言的，意思是PL端要想使用这个接口，需要有Master的AXI总线。PL端还有2个HPC(High Performance coherent) Slave AXI interfaces 端口直接连接到了CCI(cache coherent interconnect)上。PS端有两个HP Master AXI interfaces能够与PL端直接联系。PL端要想与之通信，需要有Slave的AXI总线与之相连。这两个Master AXI是连接到到了Central Switch上，Central Switch又连接到到SMMU/CCI上，SMMU(System Memory Manager Unit)/CCI(cache coherent interconnect)再连接到APU的Cache上。从控制角度来讲，该AXI线必须由APU进行控制。一个PL_LPD接口和一个LPD_PL接口。LPD的意思为Low Power Switch,这个接口是与Central Switch相对应的。这个接口为PL端和RPU端的通信提供了基础。（以上接口可以配置为128/64/32位）——————————-华丽分割线—————————-（以下接口只能为128位）AXI-ACP:是PL端到APU Cache端的I/O相干通道。AXI-ACE:是PL端到APU Cache端的全相关通道。（这个地方我也没搞懂） DDRPS端有4GB DDR4，PL端有512MB DDR4。 电源域Which brings us nicely to the MPSoC power domains. There are four in total; three within the PS; and one in the PL: Battery Power Domain (BPD) – Lowest power mode, allows the maintenance of information when the power is removed, for instance in the BBRAM and RTC. Low Power Domain (LPD) – Mid power mode of the PS, powering a subset of the PS including the RPU. Full Power Domain (FPD) – Highest power mode of the PS with all the components of the PS powered up. In this mode we can still have the PL powered down if desired. PL Power Domain (PLPD) – Final Power mode which powers the PL. We should remember that in these modes, the power dissipation will depend upon which of the components within the domain are currently being used and their operating frequency. These power domains are operated under the control of the Platform Management Unit (PMU). The PMU is a triple-redundant processor. It controls the power-up, reset and system monitoring for the Zynq UltraScale+ MPSoC. The PMU is a very interesting resource as it is also capable of running user-developed programs to provide more detailed system monitoring for safety and security applications. RPU双核RPU可以运行在两个模式下，一个是独立模式，一个是lockstep模式，lockstep模式就是同步模式。]]></content>
+      <tags>
+        <tag>FPGA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[深度学习模型压缩]]></title>
+    <url>%2F2018%2F07%2F03%2F%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E5%8E%8B%E7%BC%A9%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[网络上的资料知乎资料程健的一个PPT知乎链接其中程健提到了压缩的三个方法：低秩分解(Low-rank decomposition)、剪枝(Pruning)、低精度(Fixed-point/Binary)。 低秩分解将卷积运算或者是全连接层的矩阵运算全部转换为矩阵相乘的运算，将对于矩阵乘运算的加速方法全部引入进来，包括低秩分解、网络稀疏化、低精度表示等。低秩分解的基本思想，将原来大的权重矩阵分解成多个小的矩阵，小矩阵的计算量都比原来大矩阵的计算量要小，这是低秩分解的基本出发点。低秩分解有很多方法，最基本的是奇异值分解SVD。 剪枝三值神经网络终于看懂了最简单的三值神经网络。原文是《Ternary weight networks》。三值神经网络就时把权重值量化到${-1,0,1}$。首先找到一个阈值，这个阈值这么算的，就是将一个层的权重值取平均值再乘以0.7，要问这个0.7是怎么来的，现在我也不清楚，好像就是自己给的，但是乘的这个小数值还是有讲究的，分析以下的话，乘完这个小数后，阈值就会往0靠，在平均值在数轴的位置偏左还是偏右都是有用处的。另外为了保证量化后的权值和量化之前的全精度相比更加接近，给这个量化后的权重乘了一个系数，这个系数是多少呢？就是量化后为1的原来权重数据的平均值。后面就是训练了，前向就不用说了，反向计算梯度值得时候也是用的量化后的权重值，不过，在更新权重值得时候就是用的全精度的权重值了，想想也是，更新权重的时候也不能用量化权重值啊，那权重值就$-1,0,1$,怎么梯度下降？后面又有人做了一点改进，通俗来讲就是不是将整个层一起求取阈值了，而是按照选择不同的通道数来计算阈值，话句话说就是更加精细化了。后面还有人用了这种方法《Trained Ternary Quantization TTQ》。不过，这种方法不是-1或者1这中了。 Shift CNN]]></content>
+      <tags>
+        <tag>深度学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[2018暑假计划]]></title>
+    <url>%2F2018%2F07%2F03%2F2018%E6%9A%91%E5%81%87%E8%AE%A1%E5%88%92%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[老师安排的工作老师上午安排的工作有： 模型压缩:总结前人的方法，总结论文，暂时不侧重于量化，模型采用tiny-yolo。 FPGA加速工作，协助柏鑫学长完成接口相关工作。 对于无人机获取的图像，有哪些压缩的方法。 针对tiny-yolo，还有哪些模型架构上的修改进步。 学习计划 yolo与tiny-yolo模型学习 Darknet或着Caffe得学习一个，跟着邓加宁学长学习 总结模型压缩的方法，弄清楚相关的原理 可能需要巩固下C++或者学习下Cuda 时间List]]></content>
+      <tags>
+        <tag>学习计划</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[FPGA时钟]]></title>
+    <url>%2F2018%2F05%2F27%2FFPGA%E6%97%B6%E9%92%9F%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[源时钟在Zynq SOC中，如果设计PL模块时，使用了来自PS端的时钟信号和来自PL端的晶振源时钟，那么这就是两个源时钟，在设计时，就是双时钟域设计，使用时并不清楚两个时钟之间的相位差，这时必须采用异步FIFO来解决数据传输的问题。 衍生时钟使用MMCM或者PLL产生的时钟、自己用时序电路组合电路产生的时钟，均属于衍生时钟，而自己产生的衍生时钟是必须要在XDC文件中创建该时钟的，否则，Vivado实现时并不知道这是一个时钟信号。 衍生时钟可以按中的说明来约束。这个Bolg也可以作为参考：https://www.cnblogs.com/chensimin1990/p/6842236.html。 PS端产生的时钟相位问题如果在PS端产生两个时钟，一个是50M，一个是100M，那么这两个时钟的相位差是零吗？暂时为了消除这个问题产生的影响，利用IP核倍频产生了一个100M的时钟。另外，如果用100M去分频产生50M时钟的话，好像和PS端产生的50M时钟有相位差。又查了一下Xilinx官方社区问答，见https://forums.xilinx.com/xlnx/board/crawl_message?board.id=7Series&amp;message.id=18711，的确并不能保证时钟同步。 PS端PL_CLK_1用的是PL_CLK_0的复位引脚在时钟不是整数倍时，实现会有timing报错，这个问题很奇怪，我指的是找不到相应的复位引脚。 时钟对齐在设计的时候尽量采用对齐的时钟信号，如果不对齐，可能会造成有时正常，有时错误的结果。 参考资料：FPGA异步时序和多时钟模块xdc文件时钟约束的初识]]></content>
+      <tags>
+        <tag>FPGA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Vivado使用相关问题]]></title>
+    <url>%2F2018%2F05%2F27%2FVivado%E4%BD%BF%E7%94%A8%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[一直以来，我学习Vivado下的开发都是百度，这是很不好的，因为Xilinx官网上有大量的文档资料，比如想要学习Vivado，只需要再官网上搜索Vivado Design Suite即可，其余东西也是同理，官方文档一定是第一手资料。]]></content>
+      <tags>
+        <tag>FPGA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[DMA]]></title>
+    <url>%2F2018%2F05%2F26%2FDMA%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[本文用以记录Zynq AXI DMA数据传输遇到的相关问题。 概念 参考文献ug585图5-1,这是一个很重要的关于AXI的系统框图。There are a few notable bottlenecks on the path from the GP ports to DDR (when compared to the path from the HP ports to DDR). First, you should notice that the HP path only has one interconnect to go through but the GP has two. You should also notice that the Memory Interconnect has two separate ports that can master on the memory controller whereas the Central Interconnect only has one. Also, the Master Interconnect is only 32-bits wide. That’s another bottleneck. The HP path also has FIFOs on each of the HP ports to queue up commands which improves performance. 一个很重要的缩写，叫做BD，看了下手册才明白，Buffer Descriptor，这个东西好像是按照链表的方式来存储的要传输的内存地址。会有一个寄存器存储着当前的Descriptor Pointer for the Stream to Memory Map DMA Scatter Gather Descriptor Management。并且Buffer Descriptors must be 16-word aligned, that is, 0x00, 0x40, 0x80, and so forth. Any other alignment has undefined results。下面是这个链表的叙述AXI DMA operation requires a memory-resident data structure that holds the list of DMA operations to be performed. This list of instructions is organized into what is referred to as a descriptor chain. Each descriptor has a pointer to the next descriptor to be processed. The last descriptor in the chain then points back to the first descriptor in the chain。 SG模式暂时没有调出来，换用Simple模式。 地址问题关于发送接收地址的问题，有了新的认识。 发送地址，这个地址可以提前声明全局变量，然后在后面DMA传送时，直接取址即可，因为此处取址并不冲突。 接收地址，这个就有不同了。首先，提前声明全局变量或者局部变量，在DMA传送时，是无法将数据写道该地址上的，数据是没有变化的，这个地方将DDR的数据更新到Cache里面，确定就是DDR的数据没有变化，但是DMA发送接收中断都进了，中断竟然是正常的。怀疑是一旦软件里面使用了该地址，将不允许DMA去改变该内存段中的数据。另一个测试结果是，如果接收DMA数据的内存地址是空白的，未被写过数据，那么DMA可以将数据直接写入。或者该内存地址如果和已经定义的变量地址有冲突，那么数据也是无法写入的。 接收数据更新问题当前来分析，Cache和DDR数据更新的函数都是正确的，Xil_DCacheInvalidateRange：宣布Cache无效，直接从DDR中获取数据;Xil_DCacheFlushRange：将Cache中的数据推到DDR中。另外一个很奇怪的事情是，DMA接收中断完成之后，立刻读取DDR中接收的数据是不正确的，读取第一个数据都不正确，读取的是上一个周期的接收数据，说明DDR中的数据还没有更新完毕，不过奇怪的是，如果是第一次接收数据的话，就没有这个问题。如果是在Xil_DCacheInvalidateRange之前或者之后delay一段时间，都会有效果，能够接收到正确的数据。可是为什么第一次不必delay呢？是不是，数据经过HP接口后，先经过FIFO缓存了比较久的时间，然后才通过DDR controller写入DDR。 Simple模式下关于数据分批传送的问题对于DMA将DDR中的数据传送到自己的IP模块中，当自己的IP模块AXI stream模块Ready信号变为低电平时，Data数据线就会保持不变，直到Ready信号重新变为高电平。而自己的IP模块返回数据到DDR中时，注意Last信号，有Last信号传输即终止，所以只有到最终数据传输完毕后再将Last信号拉高。 关于Ram读写与AXI接口相配合的问题暂时感觉把握两点： Ram时钟与AXI Stream 接口时钟的相位问题; Ram所谓的两个时钟delay是读取数据时的延迟时钟，写并不是，除此之外，如果不勾选输出寄存器，那么只需要一个时钟即可读取数据。 史诗级巨大Bug找到了DMA中断完成后，不能立刻进行数据的读取，必须要延迟足够长的时间，等到Memory Controller将数据完全写入之后才能进行数据的读取。]]></content>
+      <tags>
+        <tag>FPGA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[volatile与指针]]></title>
+    <url>%2F2018%2F05%2F25%2Fvolatile%E4%B8%8E%E6%8C%87%E9%92%88%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[volatile并不能解决Cache的问题，也就是说用volatile定义的变量并不会越过Cache直接从DDR中获取数据，因为对于volatile而言，Cache也是内存的一部分。如果需要更新Cache里面的数据，或者更新DDR中的数据，就需要使用相应的函数才能实现。]]></content>
+      <tags>
+        <tag>C</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[FPGA慎思]]></title>
+    <url>%2F2018%2F05%2F23%2FFPGA%E6%85%8E%E6%80%9D%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[最近遇到了几个奇怪的问题，记录于此： DMA传送数据32比特高低位问题传送数据时使用的是32bit位宽，而数据是16bit位宽，这就需要取址来操作。此处的问题是，第一个数是高16位，还是低16位？第一概念肯定是高十六位是第一个数，然而并不是，关键之处在于取址这个操作，地址是按照8bit位宽加一的。如果第一个16位数据是地址是0x0000,第二个16位数据的地址就为0x0002,在传送数据的时候，将两个16为数据合并为一个32位数据，那么这个32位数据占据了这几个地址：0x0003,0x0002,0x0001,0x0000; 从高到低排列，高16位是第一个数。 FIFO AXIS 模块有时收不到PL模块的第一个数据这是个bug，暂时还没找到原因，所以就造成有时正确，有时错误。 长加法问题此处感觉是因为自己用了长加法，数据在一个时钟内无法从组合逻辑电路的输入端到输出端，就会出现部分数据完成的加法，不是全部数据完成了加法。Verilog编程的几个原则，感觉挺有用的：(1) 时序电路建模时，用非阻塞赋值。(2) 锁存器电路建模时，用非阻塞赋值。(3) 用always块建立组合逻辑模型时，用阻塞赋值。(4) 在同一个always块中建立时序和组合逻辑电路时，用非阻塞赋值。(5) 在同一个always块中不要既用非阻塞赋值又用阻塞赋值。(6) 不要在一个以上的always块中为同一个变量赋值。 Verilog在做数据选择器的时候，是不会有reg_A=reg_A的，这样的话，就是寄存器将自己的输出连到自己的输入上，有锁存的感觉。 关于FPGA综合优化问题FPGA综合的时候有时会将很多中间变量优化掉，造成实际综合结果并不符合自己设计的逻辑，我在设计的时候多次遇到这种问题，这些被优化掉的变量集中在数组类型（数量较多）、数据选择器中间变量（A case1为B, case2 为C，可能会将C优化掉）、中间值（先将A赋给B,下一时钟再比较改变后的A与B的值，大的赋给C，可能B就被优化掉了）。所以有些变量前面要加DONT_TOUCH=”TRUE”。 中断SCU定时器中断好像与DMA中断有冲突，如果使能了SCU定时器中断，那么DMA就无法触发中断。关闭中断，只开计数器看的运行时间。 Ram 使能开始时，Ram读写是一直使能的，后来数据总是出现读写错误，怀疑是使能的问题，不能一直使能，一直使能容易出现问题。中间的Ram读写加入了使能。]]></content>
+      <tags>
+        <tag>FPGA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[AXIS Bug]]></title>
+    <url>%2F2018%2F05%2F19%2FAXIS-Bug%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[很久没有更新博客了，最近一直在解一个Bug，基本快要崩溃了，不过好在现在已经有些眉目了。自己写的AXI Stream发送接口好像有些问题，只有在模块与DMA之间接入相对较深的FIFO时才能正常使用，比如Depth为1024或者512好使，Depth为16就不好使，另外，DMA接收时的Ready信号总是不连续，思考了一下，感觉原因可能是PS端在处理数据，占用了数据总线。还有就是如果我将Ram输出的数据直接给AXI Stream接口，是有问题的，Ready信号不连续的时候会丢失数据。现在在考虑在Ram与AXI Stream接口之间加上FIFO。最近思考了一下，自己Verilog写起来特别费劲的原因是自己框架搭建的不好，很多地方不合理。 1、没有利用FIFO这个东西，这个东西直接就有现成的IP，使用起来应该很方便。它可以实现数据时钟不匹配以及数据位宽不匹配的问题，在设计中大有用处。 2、顺序流的模块，关键的Start、Done信号，要统一标准，配合状态机一起使用，要么都是上升沿开始，要么都是高电平触发，如果都有的话，逻辑上容易不清晰，产生混乱。 3、很多时候实现的时钟建立时间不满足要求是自己设计有问题，这次就是自己想当然的认为100MHz和200MHz相差一定相位来设计的，实际上相当于将频率提到了400MHz。 4、TestBench仿真是一定要做的，否则的话，更容易找不到问题了，Simulation是自己Debug时的一个参考，另外Simulation是很快的，很容易修改错误，Debug是非常慢的，容易造成心态崩。 另外，以自己做了这么一段时间的FPGA加速CNN的感受来说，这个东西就是在做FPGA，而不是CNN算法，如果之前熟悉FPGA，做起来就快，如果不熟悉FPGA，做起来就慢很多。现在，我并不想以后就做IC前端的工作，感觉自己优势不大，我有可能的话想要走物联网的道路，又要借助上FPGA的优势。以后可以重点关注下面的方面： FPGA有关图像处理的事情，就是用摄像头输入图像，然后完成相应的功能，识别、检测等等。但是感觉很多半导体厂商(英伟达、Arm)正在发力物联网应用，不清楚仅仅就FPGA而言能够走多远。 Linux系统，在Linux系统上完成相应的功能，但是我有不想研究太多驱动的内容，如果能最少的时间完成移植相关的工作就好了，自己可以专注于应用程序的开发。 系统级开发，神经网络层出不穷，做和神经网络相关的研究，研究跟适合FPGA加速的网络。 2018.5.21更新(2018.5.21)中午躺在椅子上休息了将近1个小时吧，感觉下午精神状态很饱满。上午看了下Xilinx最新的发展愿景，三大发展方向：云计算、八大主流应用(汽车、通信等等)、ACAP(异构计算平台)，感觉Xilinx接下来才是真正推出软件易用产品，预计年底量产，感觉如果成本可以降下来，又是对于行业的一次洗牌，毕竟现在Xilinx的营业额不是特别高，虽然一直在增长。 有时间的话得重点关注如何使用Zynq上的Linux系统了，感觉裸机不是未来，以太网驱动看看怎么用，以后可能会先用以太网建一个网络。 有时间多看看Xilinx有哪些IP可以使用，这可以大大减小自己开发的时间。 将网上自己找的相关的资料、视频等等，得看看了，这有助于自己后面对于架构的设计，有些很传统的跟Verilog相关的就不必看了，感觉没什么用。]]></content>
+      <tags>
+        <tag>FPAG</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Zynq PS-PL CNN联调]]></title>
+    <url>%2F2018%2F04%2F25%2FZynq-PS-PL-CNN%E8%81%94%E8%B0%83%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[基本放弃了用纯FPGA实现CNN的想法，现在打算PS-PL配合实现CNN网络。 基本思路 16bits权重测试，准确率为 ，将中间数据保存为数组形式，然后去掉malloc，因为malloc的数据也是在堆上，全局变量也是在堆上。不妨都保存成多维数组的形式。这也是为后面为DMA地址做准备。]]></content>
+      <tags>
+        <tag>FPGA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[毛泽东与鲁迅]]></title>
+    <url>%2F2018%2F04%2F24%2F%E6%AF%9B%E6%B3%BD%E4%B8%9C%E4%B8%8E%E9%B2%81%E8%BF%85%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[偶然发现的一篇很有意思的文章。好了如今很多口述历史的文章，感觉这些文章的真实性早已不可考了。不过这也是正常，且不论历史的事情，就是如今的事情，你了解到的，看到的，听到的，又有多少是真实的呢。如今读点东西，做点东西，不过仅图一乐罢了。不过，有件事情还是真的，随着时间的推移，真相，或许会离我们越来越远，我们了解到的真相不过是别人口中的真相罢了。]]></content>
+      <tags>
+        <tag>读书</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[FPGA RTL 电路分析]]></title>
+    <url>%2F2018%2F04%2F24%2FFPGA-RTL-%E7%94%B5%E8%B7%AF%E5%88%86%E6%9E%90%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[本文用以记录Verilog转换为RTL电路分析。 累加问题12345678910111213141516171819202122232425262728module test(input clk,input reg [15:0] a [0:4],output reg [15:0] c);always @ (posedge clk)begin c=a[0]+a[1]+a[2]+a[3]+a[4];endendmodule``` RTL电路： ![](\images\FPGA_RTL\FPGA_RTL1.PNG) 从上图可以看出，RTL层没有使用尽量少的加法器，使用了N-1个加法器。 改变代码，观察结果： ``` Creg [15:0] midlle_c [0:1];always @ (posedge clk)begin midlle_c[0]=a[0]+a[1]; midlle_c[1]=a[2]+a[3]; c=midlle_c[0]+midlle_c[1]+a[4];end RTL电路：并没有减少加法器数量，还是N-1个加法器，但是如果该电路是时序电路的话，这样相加会明显减少Latency，也就是这样相加，从开始到得到相加结果，时延是最小的。]]></content>
+      <tags>
+        <tag>FPGA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[嵌入式平台性能分析]]></title>
+    <url>%2F2018%2F04%2F23%2F%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%B9%B3%E5%8F%B0%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[NVIDIA TX系列Jetson TX11 TeraFLOPs 是1万亿次浮点运算，也就是1G的频率，表中好像有错误。256核心，也就是以1G的频率可以算256个浮点运算。CPU为A57,64位，多核。板上资源有LPDDR4,CSI,HDMI,WIFI,PCIE,USB,GPIO,以太网等等。 Jetson TX2架构不同了，这个是Pascal架构。内存、存储都增加了一倍，提供了 8G 内存、32G 固态存储器。支持802.11ac WLAN和蓝牙。 Batch size如果使用 GPU 来加速，要想充分利用 GPU 的计算能力，batch size 就不能太小，延迟将高达毫秒量级。 Zynq系列ZyboARM 端为Cortex A9,双核心。PL端有80个DSP单元，DSP资源还是27*18位的，另外就是LUT资源了。 ZedboardARM 端为Cortex A9,双核心。PL端有220个DSP单元，另外就是LUT资源了。能够实现一些逻辑运算。 Zynq UltraScale + MPSOC系列XCZU7EVARM为Cortex A53，DSP资源能到1728，开发板价格大约在1000美元左右。 Upboard系列Up Board是Intel联合华硕制作的一块性能强悍的卡片电脑。CPU为Intel 凌动z8350系列处理器，最高频率可达1.92Ghz，内核GPU是400核心显卡。搭配了1GB/2GB/4GB DDR3 RAM 和16GB/32GB/64GB eMMC。但是核显是不是只能用来显示用。]]></content>
+      <tags>
+        <tag>嵌入式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[名言警句]]></title>
+    <url>%2F2018%2F04%2F22%2F%E5%90%8D%E8%A8%80%E8%AD%A6%E5%8F%A5%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[面壁十年图破壁，难酬蹈海亦英雄。]]></content>
+      <tags>
+        <tag>名言警句</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Vivado for 循环测试]]></title>
+    <url>%2F2018%2F04%2F18%2FVivado-for-%E5%BE%AA%E7%8E%AF%E6%B5%8B%E8%AF%95%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[关于for循环使用的问题。 Shifttest bench 12345678910111213141516171819202122232425module test_sim( );reg clk;reg reset;reg [7:0] key;wire [7:0] signal;initial beginclk=0;reset=1;key=1;#100 reset=0;endalways #10 clk=~clk;test test_U(.clk(clk),.reset(reset),.key(key),.signal(signal));endmodule Code 1 123456789101112131415161718192021222324252627282930313233343536373839module test(input clk,input reset,input [7:0] key,output reg [7:0] signal);reg [7:0] shift [0:10];integer i;integer j;integer w;always @ (posedge clk)begin if(reset) begin for(i=0;i&lt;=10;i=i+1) shift[i]=0; signal=0; end else begin shift[0]=key; for(j=0;j&lt;10;j=j+1) shift[j+1]=shift[j]; if(shift [10] == 8'b 11111111) begin for(w=0;w&lt;8;w=w+1) signal[w]=1; end else begin for(j=0;j&lt;8;j=j+1) signal[j]=0; end endendendmodule 仿真结果：for(j=0;j&lt;10;j=j+1) shift[j+1]=shift[j];展开成了shift[10]=shift[9]=shift[8]…的形式。阻塞赋值，他们的值相等。用for在reset处初始化值却是正确的。 Code 2 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748module test(input clk,input reset,input [7:0] key,output reg [7:0] signal);reg [7:0] shift [0:10];integer i;integer j;integer w;always @ (posedge clk)begin if(reset) begin for(i=0;i&lt;=10;i=i+1) shift[i]=0; signal=0; end else begin shift[10]=shift[9]; shift[9]=shift[8]; shift[8]=shift[7]; shift[7]=shift[6]; shift[6]=shift[5]; shift[5]=shift[4]; shift[4]=shift[3]; shift[3]=shift[2]; shift[2]=shift[1]; shift[1]=shift[0]; shift[0]=key; if(shift [10] == 8'b 11111111) begin for(w=0;w&lt;8;w=w+1) signal[w]=1; end else begin for(j=0;j&lt;8;j=j+1) signal[j]=0; end endendendmodule 仿真结果：资源占用率： Code 3将Code 1的第26行改为 12for(j=0;j&lt;10;j=j+1) shift[j+1]&lt;=shift[j]; 仿真结果：实现Shift功能，只是将&lt;=改为=,区别就如此之大。资源占用率：打开implement看实现后的Nets和Leaf Cells，没有发现和i,j,w相关的线或硬件单元。]]></content>
+      <tags>
+        <tag>FPGA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Zedboard-CNN资源分析List]]></title>
+    <url>%2F2018%2F04%2F16%2FZedboard-CNN%E8%B5%84%E6%BA%90%E5%88%86%E6%9E%90List%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[Zedboard资源分析 Zynq7020 DSP资源220个，一个PE单元是25个乘法器，（8个PE单元是完全可以通过DSP资源实现的；1个PE是用了20个DSP，剩余用LUT实现；最后一个PE完全通过LUT来实现。 一个LUT实现的16位乘法器至少需要LUT大约 134个,按照上面的分析，LUT实现的乘法器有30个，需要LUT为3960个，占用比率7.4%。 LUT 6输入， 一个16位Reg类型是不是至少需要3个LUT? 实现结果粗略用Zedboard实现两层卷积核两层池化层，发现第二层卷积是最占用计算时间的，耗时非常长。整个逻辑控制部分占用资源达到LUT的70%，明显超过预期。 Zybo Zybo DSP资源只有80个，只能支持实现80个乘法器。按实现125个乘法器考虑，还有45个乘法器需要用LUT实现，粗略估计LUT乘法器占用资源30%。]]></content>
+      <tags>
+        <tag>FPGA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[C-plus-String]]></title>
+    <url>%2F2018%2F04%2F16%2FC-plus-String%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[ostringstreamC++通过ostringstream实现任意类型转string #include &lt;iostream&gt; #include &lt;string&gt; using namespace std; int main() { int a = 55; double b = 65.123; string oss = &quot;&quot;; std::ostringstream oss; oss &lt;&lt; a &lt;&lt; &quot;---&quot; &lt;&lt; b; str = oss.str(); cout &lt;&lt; str &lt;&lt; endl; return 0; } 输出55—-65.123]]></content>
+      <tags>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[VivadoSynthesis]]></title>
+    <url>%2F2018%2F04%2F16%2FVivadoSynthesis%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[Introduction综合就是一个将RTL级描述转化为门级表达的过程。Vivado 支持对以下文件的综合：System verilog,Verilog,HDL,Mixed Language。 综合Attributes见Vivado_Synthesis pdf第二章，其中讲解了很多命令，如( MARL_DEBUG=”TRUE” )即可将该端口添加到debug。 Verilog Code 示例 32位移位寄存器 1234567891011121314151617module v_shift_registers_0 (clk, clken, SI, SO);parameter WIDTH = 32;input clk, clken, SI;output SO;reg[WIDTH-1:0] shreg;always @(posedge clk) begin if (clken) shreg = &#123;shreg[WIDTH-2:0], SI&#125;; endassign SO = shreg[WIDTH-1];endmodule 无符号型乘法器 //1 latency stage on operands //3 latency stage after the multiplication module multiplier#( parameter WIDTHA=16, parameter WIDTHB=24 ) ( input clk, input [WIDTHA-1:0]A, input [WIDTHB-1:0]B, output [WIDTHA+WIDTHB-1:0]RES ); reg [WIDTHA-1:0] reg_A; reg [WIDTHB-1:0] reg_B; reg [WIDTHA+WIDTHB-1:0] reg_RES [3:0]; integer i; always @ (posedge clk) begin reg_A&lt;=A; reg_B&lt;=B; reg_RES[0]&lt;=reg_A*reg_B; for(i=0;i&lt;3;i=i+1) reg_RES[i+1]&lt;=reg_RES[i]; end assign RES=reg_RES[3]; endmodule 上面这个例子的关键体会点在于for循环这个地方。]]></content>
+      <tags>
+        <tag>Vivado</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[C-plus-problems]]></title>
+    <url>%2F2018%2F04%2F16%2FC-plus-problems%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[本文用以记录自己在C++编程过程中遇到的C++问题 指针初始化一般定义一个指针都要初始化为NULL。如果指针为全局变量，会自动初始化为NULL,但是局部变量不一定。 指针和const 见下代码：const int a=0;const int *p=&a;此处的意思为指针p所指向的地址处a变量是const型，是不能改变其值的。 见下代码：int a=0;int *const p=&a;此处指的是指针p是const型，其存储的地址是不可变的。所以指向常量的指针和常量指针是不同的。 C++函数前和函数后加const修饰符区别在函数前加const只是说明该函数的返回值是一个const类型，在函数后加const是。。。（此问题先留着）]]></content>
+      <tags>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[终于搬到校内了]]></title>
+    <url>%2F2018%2F04%2F09%2F%E7%BB%88%E4%BA%8E%E6%90%AC%E5%88%B0%E6%A0%A1%E5%86%85%E4%BA%86%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[在校外住了一个月多一点点，终于申到校内的房子了，累的一批。下午陈叔开了个会，说了下毕业的要求，感觉完全就是批斗会啊。后面就是一个博士生讲了他的研究工作，就是没听懂了，也不想听。]]></content>
+      <tags>
+        <tag>生活</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[FPGA加速CNN计算过程]]></title>
+    <url>%2F2018%2F04%2F08%2FFPGA%E5%8A%A0%E9%80%9FCNN%E8%AE%A1%E7%AE%97%E8%BF%87%E7%A8%8B%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[类型转换需要将float型参数转换成signed char 型再传入FPGA端。 定义为signed char型，可以将后四位作为小数位，这样计算原来模型各层数据不能超过7，否则将会溢出。 权重统一乘以16后传入FPGA端，图片数据也要缩小16倍 不过开始训练的模型不能压缩到8位，否则会溢出，只能采用16位的形式。这样的话，按照下面的方式计算： 定义为16位有符号型，将后8位作为小数位，这样计算不能原来数据模型不能超过127. 权重统一乘以256后传入FPGA端，图片数据不必压缩。 定点数IP计算测试了定点数乘法模块，选择输入输出位宽均为16位，测试结果正确无误，所耗时间为一个时钟周期，可以选择速度优先还是面积优先。开始时，我仿真错误是因为两个数都给的256，结果输出溢出了。同理定点数乘加运算IP应该也没有什么问题。 时钟打算使用时钟频率为 50M,100M,200M。在Xilinx 7系列中，一个CMT包含一个MMCM(混合模式时钟管理器)和一个PLL(锁相环)，MMCM主要用于在与给定输入时钟有设定相位和频率关系的情况下，生成不同的时钟信号。PLL主要用于频率综合，使用一个PLL可以从一个输入时钟信号生成多个时钟信号。 矩阵以及卷积运算 采用了for循环嵌套的方式，原来for只是多次例化，资源占用这么大，不过计算速度是很快的。通过写一个小矩阵对应元素相乘，了解到：（1）System Verilog,在verilog 2001的基础上扩展了C语言数据类型、非压缩数组等等，很强大。（2）如果在Verilog中定义数组，综合出来就是RAM，利用的应该也是BRAM资源。（3）数组的初始化可以用generate / endgenerate初始化，也可以用txt文件初始化。 在资源占用情况上看，两个22矩阵对应元素的乘法，只占用一个LUT和一个FF，以及BUFG时钟资源。此处先介绍下BUFG，BUFG是全局时钟网络，可以驱动所有的IO和逻辑，并且可以被Transciever所驱动。*中间没有定义顶层模块的输出端口，出现了错误，好像输出端口必须要有。 关于使用readmemh读取数据的问题（1）readmemh只能读取一维数据，多维数组只将最后一列数据赋值为文本中的值。（2）用fopen和fscanf ，initial 里面定义int型，逐个赋值如 12345678int k,w; fd=\$fopen("A.mem","r"); for(k=0;k&lt;ROW;k=k+1) begin for(w=0;w&lt;COL;w=w+1) rv=$fscanf(fd,"%d",A[k][w]); end $fclose(fd); 但是用这种方式初始化是不可综合的。（3）用generate endgenerate的方式初始化可以综合。 暂时采取了直接用C语言写程序打印变量初始化的语句。文件类型设为Sysyem Verilog类型。（1）在定义内存的时候，前面可以指定使用的RAM或者ROM类型，如：( ram_style = “distributed” ) reg [data_size-1:0] myram [2addr_size-1:0];其中，”distributedz”指的是LUT RAM,”block”是block RAM,”registers”是registers instead of RAMs。在程序中使用了上面Block Ram 的命令，但是实现的结果并不是Block RAM而是LUT，重新查找了相关文档，发现可以用IP了配置Block RAM。RAM分为单端口RAM和双端口RAM,单端口RAM只有一个端口，同时只能读或写，双端口RAM读端口和写端口分开，一个端口能写，一个端口能读，能够同时读写，还有一种RAM，叫做dual RAM，是RAM有两个双端口*。（2）如果一个module要使用DSP资源，下面是示例:( use_dsp48 = “yes” *) module test(clk, in1, in2, out1); 打算用RAM IP，来配置生成RAM。选择了IP生成ROM的方式，如果是ROM的话就不用写的端口了。端口上要简洁些。这个地方需要注意下，ROM的接口，地址线和数据线，如果都接到reg数组每个元素上，线还是很密集的。而且用reg数组的方式，LUT资源占用还是很多的。所以很多设计中都是用的buffer而不是直接很大的一块reg数组。下面打算考虑怎么设计buffer的问题。 计算两个5*5的累成加，Z7020的资源只够生成8个这样的PE单元，剩余12个用LUT实现，资源占用也非常高，得占了Z7020资源的70%的LUT资源。现在想的是，通过数据选择器，在不同的时间阶段调用这些PE单元。 Vivado实现优化问题如果不想优化，需要在端口前加上，(* DONT_TOUCH = “TRUE” *) ，注意KEEP好像没有用。但是如果在一个工程中，如果原来有(* DONT_TOUCH = “TRUE” *) ，实现过，再去掉(* DONT_TOUCH = “TRUE” *) ，好像也不会优化了。Vivado具有极强的实现优化能力，如果一个module中的很多reg,例化的module对于输出结果没有影响或者输出结果是确定的，那么这些reg、例化的module都会被优化掉。 这个地方我犯过一个错误，就是一个reg型只能在一个always块中被初始化或者赋值。这是综合只是出现critical warning,而实现就会直接报错。 Buffer 测试Buffer和Cache的区别是什么Cache是为了解决两边处理速度不同而引入的中间层，比如两边时钟频率不同。Buffer是将很大的数据流平整为小的数据块，一块一块的处理数据。 PS、PL通过Block RAM共享数据PS端通过Master GP0将数据从PS端传到PL端，AXI位宽为32，对于PS端而言，GP0的地址为32位，GP0地址只有低位连到了Block RAM的地址上，也就是说32位地址是相对于PS端而言的，实际到了PL电路层，需要多宽的地址就连了多少线。双端口RAM，每个端口既可读又可写。一个端口连到AXI BRAM Controller上，AXI BRAM Controller的BRAM interface配置为1，意思为AXI BRAM Controller只有一个BRAM控制端口。AXI BRAM Controller的RAM clk和AXI clk是相同的。一般都连在FCK_CLK0上，FCK_CLK0在Zynq IP上可以配置，默认是50MHz。只有一个地址，如何确定此时是读或者写的问题？we端口即为写使能端口，写使能端口可以按位使能。具体见Block Memory Generator文档。为了保证PS端数据能够及时传送到PL端，打算测试下PL端触发PS端的中断。 softmax函数softmax函数实现最好放在PS端实现，因为放在PL端实现可能会造成未知的溢出问题，另外Softmax函数放在PL端加速的意义不大。 思路变化 做完一层卷积和一层池化后，发现资源LUT占用率达到86%，正在考虑合理的方式来降低资源占用，除了计算单元PE外，过多的reg类型和逻辑判断也占用了太多资源。感觉之所以占用率如此之高的问题在于我当前想将整个CNN过程流水话，这样使得我控制逻辑、计算逻辑、数据读取逻辑有些混乱。现在想参考下别人的论文，重新整理下自己的思路。 重新画了整个系统的框图，但是又遇到了新的问题。PL端的BRam资源不够，打算用AXI线将全连接第一层的参数从PS端传到PL端。 将两层卷积和两层池化层实现之后，发现FPGA做控制逻辑是真的复杂，所以决定换个思路，还是FPGA端做计算加速的事情，PS端完成逻辑控制。 Bug list 定义reg忘记加signed，都变成无符号型了。 文件名要与module名字一致，否则无法方阵。 编辑器编辑完成后要在Vivado里面检查一下，否则拼写错误和未定义变量是检查不出来的。 Xilinx的Block Ram竟然是Mb单位，不是MB为单位，Mb是10的6次方个bits,MB是10的6次方个byte。Xilinx 真TM坑B。 Verilog编程技巧 always块里面队列生成，不必一个一个的写，用for循环即可生成相应电路。 关注的参数 FPS(每秒处理多少图片) 准确率 功耗]]></content>
+      <tags>
+        <tag>FPGA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[CNN中卷积运算实现]]></title>
+    <url>%2F2018%2F04%2F08%2FCNN%E4%B8%AD%E5%8D%B7%E7%A7%AF%E8%BF%90%E7%AE%97%E5%AE%9E%E7%8E%B0%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[本文主要针对于CNN中的卷积运算实现进行讲解。 caffe卷积操作底层实现caffe的卷积操作是通过im2col_cpu和caffe_cpu_gemm函数实现，im2col_cpu实现卷积操作到矩阵乘法的转换，caffe_cpu_gemm实现矩阵乘法。卷积操作，将卷积核与特征图的对应位置相乘再相加，类似于向量内积，而向量内积即为矩阵运算。但是这样将卷积操作展开为矩阵相乘的形式会造成内存占用增加。]]></content>
+      <tags>
+        <tag>CNN</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Linux 命令]]></title>
+    <url>%2F2018%2F04%2F05%2FLinux-%E5%91%BD%E4%BB%A4%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[利用fdisk识别USB设备名fdisk -l (注意是小写的l不是数字1) U盘挂载mkdir /mnt/usbmount /dev/(U盘名) /mnt/usb MMC挂载mkdir /mnt/mmcmount /dev/(MMC名) /mnt/mmc tar.gz解压tar -xvf file.tar //解压tar包tar -xzvf file.tar.gz //解压tar.gztar -xjvf file.tar.bz2 //解压tar.bz2 Linux下源文件安装1、如果有makefile文件，直接在该目录下make,然后make install2、如果没有makefile文件，有configure文件，在该文件下执行该脚本./configuremakemake install]]></content>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[K-means]]></title>
+    <url>%2F2018%2F04%2F04%2FK-means%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[自己写了一个一维的K-means聚类算法。123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110#pragma once#include &lt;iostream&gt;#include &lt;cmath&gt;using namespace std;template &lt;typename T, int K&gt;class K_means&#123; float *distance=NULL; T *cluster[K] = &#123;NULL&#125;; int cluster_data_num[K] = &#123;0&#125;; float min_distance; float *cluster_center_next = NULL; int flag=0;public: T *data=NULL; int data_num; float *cluster_center=NULL; K_means(T *data_get, int data_num_get, float *cluster_center_get) &#123; data = data_get; data_num = data_num_get; cluster_center = cluster_center_get; &#125; void Memory_malloc() &#123; distance = (float *)malloc(sizeof(float)*K*data_num); cluster_center_next = (float *)malloc(sizeof(float)*K); for (int i = 0; i &lt; K; i++) cluster[i] = (T *)malloc(sizeof(T)); &#125; void Distance_get() &#123; for (int i = 0; i &lt; K; i++) for (int j = 0; j &lt; data_num; j++) &#123; distance[i*data_num + j] = fabs((float)data[j] - cluster_center[i]); &#125; cout &lt;&lt; "距离计算完毕" &lt;&lt; endl; &#125; void Update_cluster() &#123; int K_rank; float sum; for (int j = 0; j &lt; data_num; j++) &#123; min_distance = distance[j]; K_rank = 0; for (int i = 0; i &lt; K; i++) &#123; if (min_distance &gt; distance[i*data_num + j]) &#123; min_distance = distance[i*data_num + j]; K_rank = i; &#125; &#125; cluster_data_num[K_rank]++; cluster[K_rank] = (T *)realloc(cluster[K_rank], sizeof(T) * cluster_data_num[K_rank]); (cluster[K_rank])[(cluster_data_num[K_rank] - 1)] = data[j]; &#125; for (int i = 0; i &lt; K; i++) &#123; sum = (float)0; for (int j = 0; j &lt; cluster_data_num[i]; j++) sum += (cluster[i])[j]; cluster_center_next[i] = sum / cluster_data_num[i]; &#125; cout &lt;&lt; "中心点更新完毕" &lt;&lt; endl; &#125; void End_or_not() &#123; for (int i = 0; i &lt; K; i++) if (cluster_center[i] == cluster_center_next[i]) flag++; if (flag == K) &#123; flag = 1; for (int i = 0; i &lt; K; i++) cout &lt;&lt; cluster_center[i] &lt;&lt; endl; &#125; else &#123; flag = 0; for (int i = 0; i &lt; K; i++) cluster_center[i] = cluster_center_next[i]; &#125; &#125; void Loop_Kmeans() &#123; Memory_malloc(); while (flag == 0) &#123; Distance_get(); Update_cluster(); End_or_not(); &#125; &#125;&#125;;]]></content>
+      <tags>
+        <tag>聚类</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Windows下Linux使用记录]]></title>
+    <url>%2F2018%2F03%2F25%2FWindows%E4%B8%8BLinux%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[VNC使用VNC登陆Linux子系统时，有时会关闭当前端口1234567891011121314151617181920vncserver -kill :1 ``` 此时会报错 ``` cWarning: DESKTOP-I3A9G05:1 is taken because of /tmp/.X1-lockRemove this file if there is no X server DESKTOP-I3A9G05:1 ``` 删除该文件即可 ``` c rm -f /tmp/.X1-lock ``` 调节分辨率 ``` cvncserver -geometry 1920x1080 :1]]></content>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Zynq学习]]></title>
+    <url>%2F2018%2F03%2F21%2FZynq%E5%AD%A6%E4%B9%A0%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[寄存器地址问题知乎：https://www.zhihu.com/question/30155201?sort=created细致讲解了寄存器地址的问题。外设寄存器地址，大概与地址总线和数据总线相关吧，毕竟还是要读写的。如果是CPU运行的寄存器，PC\SP\R0\R1等等，是没有地址的,其存储速度是比一二级缓存还快的。PC机的CPU的寄存器是靠寄存器的名字寻址的。所以，CPU中的寄存器是物理寻址，而外设寄存器的地址是逻辑寻址。这篇博客：https://www.cnblogs.com/kuainiao/archive/2012/12/17/2821697.html提出了一个更为通俗的理解，就外设寄存器而言，只是寄存器和内存的结构不同，在寻址上没有本质区别。 MIO和EMIO、AXI_GPIO的区别见博客 http://blog.csdn.net/limoon1212/article/details/45483491AXI_GPIO见博客： https://blog.csdn.net/lg2lh/article/details/49499587 PS与PL端通信问题1、PS与PL端通信几种可选的方式见下网址：http://blog.sina.com.cn/s/blog_b35897360102x4vr.html2、在Zybo板卡中实现PL与PS端通信的教程：见下网址：http://xilinx.eetop.cn/viewnews-2547该文章讲了PS与PL之间的通信，步骤详细。该网址：https://blog.csdn.net/weiweiliulu/article/details/78751538也是很不错的，其中还给了一些AXI总线基础知识的网址. AXI DMA问题在设计时使用的IP，包括AXI Interconnect等等都是要在PL端占用资源的，这一点尤其要注意。另外，High-Performance Ports连接到PS端的是一个名为PL to Memory Interconnect的硬件模块，这个模块负责的事情就是将PL端过来的读取数据或者写数据调配到相应的内存上。而AXI DMA IP并不是PS端的东西，而是占用的PL端资源实现的。]]></content>
+      <tags>
+        <tag>Zynq</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[C++类]]></title>
+    <url>%2F2018%2F03%2F13%2FC-%E7%B1%BB%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[构造函数用类定义一个对象，编译时，内存要知道分配多少空间，也就是初始化。构造函数就是用以初始化分配内存空间的。C++中的构造函数可以分为4类： 默认构造函数。以Student类为例，默认构造函数的原型为Student(）；//没有参数 初始化构造函数Student(int num，int age）；//有参数 复制（拷贝）构造函数Student(Student&amp;）；//形参是本类对象的引用 转换构造函数Student(int r) ；//形参时其他类型变量，且只有一个形参 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849class Student&#123;public: //默认构造函数 Student() &#123; num=1001; age=18; &#125; //初始化构造函数 Student(int n,int a):num(n),age(a)&#123;&#125;private: int num; int age;&#125;;int main()&#123; //用默认构造函数初始化对象S1 Student s1; //用初始化构造函数初始化对象S2 Student s2(1002,18); return 0;&#125;``` ## vector 在c++中，vector是一个十分有用的容器。 作用：它能够像容器一样存放各种类型的对象，简单地说，vector是一个能够存放任意类型的动态数组，能够增加和压缩数据。 vector在C++标准模板库中的部分内容，它是一个多功能的，能够操作多种数据结构和算法的模板类和函数库。**Tips** * 如果你要表示的向量长度较长（需要为向量内部保存很多数），容易导致内存泄漏，而且效率会很低。 * Vector作为函数的参数或者返回值时，需要注意它的写法：``` c double Distance(vector&lt;int&gt;&amp;a,vector&lt;int&gt;&amp;b) //其中的“&amp;”绝对不能少！！！``` **实例**：``` cvector&lt;int&gt;test; //建立一个vector，int为数组元素的数据类型，test为动态数组名//简单的使用方法如下：vector&lt;int&gt;test;//建立一个vectortest.push_back(1);test.push_back(2);//把1和2压入vector，这样test[0]就是1,test[1]就是2``` **基本操作** (1)头文件 include.1(2)创建vector对象 vector vec;1(3)尾部插入数字： vec.push_back(a);1(4)使用下标访问元素， cout&lt;]]></content>
+      <tags>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Doxygen]]></title>
+    <url>%2F2018%2F03%2F13%2FDoxygen%2Funcategorized%2F</url>
+    <content type="text"></content>
+      <tags>
+        <tag>注释</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Caffe 结构]]></title>
+    <url>%2F2018%2F03%2F12%2FCaffe-%E7%BB%93%E6%9E%84%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[本文来自 BlobBlob是Caffe里面最基本的数据包，这种数据形式能够保证CPU以及GPU之间数据交换没有同步上的问题，数学上，是以C连续方式存储的N维数组。Caffe存储数据和交换数据都是采用的Blob的形式，Blob提供了保存数据的统一的存储器接口; 例如批量的图像，模型参数和用于优化的派生物。Blob通过根据需要从CPU主机同步到GPU设备来隐藏混合CPU / GPU操作的计算。主机和设备上的内存按需分配以提高内存使用率。Blob几个参数各代表什么意思？ Implementation DetailsBlob存储了两大块数据： data: 传递的正常的数据 diff: 网络的梯度 这些数据既能够存储在CPU也可以存储在GPU中，有两种使用他们的方式：常量方式和指针方式： const Dtype* cpu_data() const; Dtype* mutable_cpu_data(); 这样设计的原因在于，Blob使用SyncedMem类去同步CPU和GPU之间的值，以隐藏同步的细节、减少数据传输。**要点：如果不想让值改变，就使用常量回调，不要在自己的object中存储指针。每次操作Blob的时候，回调函数得到指针，因为SyncedMem需要其来弄清楚我什么时候去copy数据。在练习的时候，如果GPU存在，首先数据从硬盘中被传入CPU代码中的Blob，调用一个device kernel来让GPU计算，并且将Blob送往下一层，要达到高层级性能会忽略底层级的细节。只要所有的层都用GPU实现，所有的中间数据、梯度值都会保存在GPU中。如果想要查看何时Blob将会copy数据，下面是一个示例： // Assuming that data are on the CPU initially, and we have a blob. const Dtype* foo; Dtype* bar; foo = blob.gpu_data(); // data copied cpu-&gt;gpu. foo = blob.cpu_data(); // no data copied since both have up-to-date contents. bar = blob.mutable_gpu_data(); // no data copied. // ... some operations ... bar = blob.mutable_gpu_data(); // no data copied when we are still on GPU. foo = blob.cpu_data(); // data copied gpu-&gt;cpu, since the gpu side has modified the data foo = blob.gpu_data(); // no data copied since both have up-to-date contents bar = blob.mutable_cpu_data(); // still no data copied. bar = blob.mutable_gpu_data(); // data copied cpu-&gt;gpu. bar = blob.mutable_cpu_data(); // data copied gpu-&gt;cpu. Layer computation and connections层是一个模型的本质和最基础的计算单元。查看layer catalogue。Caffe中的层是按照从底层往顶层的连接方式。每一层定义了三个关键计算步骤： Setup:在模型初始化的时候初始化层和连接。 Forward:从底层到高层的前向传播。 Backward:从高层到底层的反向传播。一个层将在内部存储这些梯度值：w.r.t。 要点：有两个正向和反向的函数实现，一个为CPU计算，一个为GPU计算。如果不用GPU，Caffe就只用CPU计算。 Net definition and operationCaffe的模型是端对端的机器学习模型。一个网络中的每层是按照计算图表的方式连接（DAC）。 name: &quot;LogReg&quot; layer { name: &quot;mnist&quot; type: &quot;Data&quot; top: &quot;data&quot; top: &quot;label&quot; data_param { source: &quot;input_leveldb&quot; batch_size: 64 } } layer { name: &quot;ip&quot; type: &quot;InnerProduct&quot; bottom: &quot;data&quot; top: &quot;ip&quot; inner_product_param { num_output: 2 } } layer { name: &quot;loss&quot; type: &quot;SoftmaxWithLoss&quot; bottom: &quot;ip&quot; bottom: &quot;label&quot; top: &quot;loss&quot; } 下面是初始化程序。 Net::Init() 初始化做两件事情： 通过创建Blob和图层来支持整个DAG（对于C ++极客：网络将在其生命周期中保留blob和图层的所有权），并调用图层的SetUp（）函数。 它还做了一系列其他簿记工作，比如验证整个网络架构的正确性。 另外，在初始化过程中，Net通过登录到INFO来解释它的初始化。 请注意，网络的构建是设备不可知的 - 回想一下我们先前的解释，blob和图层隐藏了模型定义中的实现细节。构建完成后，可通过Caffe :: set_mode（），设置在GPU还是CPU,还是GPU&amp;CPU上运行。 Model format模型保存在 plaintext protocol buffer schema (prototxt)中。]]></content>
+      <tags>
+        <tag>Caffe</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Caffe学习-Mnist]]></title>
+    <url>%2F2018%2F03%2F12%2FCaffe%E5%AD%A6%E4%B9%A0-Mnist%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[训练数据集data\mnist下有一个脚本文件”get_mnist.sh”，运行该文件即可获得训练数据。]]></content>
+      <tags>
+        <tag>Caffe</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[台式机改动记录]]></title>
+    <url>%2F2018%2F03%2F11%2F%E5%8F%B0%E5%BC%8F%E6%9C%BA%E6%94%B9%E5%8A%A8%E8%AE%B0%E5%BD%95%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[2018-3-11由于要装Caffe的原因，需要暂时将环境变量Path中的12C:\MinGW\bin %MINGW_HOME%\bin 两项删去，可能会造成VS code 暂时不能编译C++。]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[素数]]></title>
+    <url>%2F2018%2F01%2F07%2Fsushu%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[定义质数（$Prime number$），又称素数，指在大于1的自然数中，除了1和该数自身外，无法被其他自然数整除的数（也可定义为只有1与该数本身两个正因数的数）。 米勒-拉宾素性检验米勒-拉宾素性检验是一种素数判定法则，利用随机化算法判断一个数是合数还是可能是素数。 备注： $mod$运算，即求余运算。]]></content>
+      <tags>
+        <tag>数学</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[C++作用域]]></title>
+    <url>%2F2018%2F01%2F07%2Fcpp%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[本文部分为转载 名字空间$namespace$ 名字空间将全局作用域细分为独立的, 具名的作用域, 可有效防止全局作用域的命名冲突。 在头文件中使用匿名空间导致违背 C++ 的唯一定义原则 (One Definition Rule (ODR))。 匿名名字空间在$cpp$文件中, 允许甚至鼓励使用匿名名字空间, 以避免运行时的命名冲突。 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889namespce &#123;char c;int i;double d;&#125;``` 编译器在内部会为这个命名空间生成一个唯一的名字，而且还会为这个匿名的命名空间生成一条using指令。所以上面的代码在效果上等同于： ```cnamespace __UNIQUE_NAME_ &#123;char c;int i;double d;&#125;using namespace __UNIQUE_NAME_;``` 在匿名命名空间中声明的名称也将被编译器转换，与编译器为这个匿名命名空间生成的唯一内部名称(即这里的__UNIQUE_NAME_)绑定在一起。还有一点很重要，**就是这些名称具有internal链接属性，这和声明为static的全局名称的链接属性是相同的，即名称的作用域被限制在当前文件中，无法通过在另外的文件中使用extern声明来进行链接**。如果不提倡使用全局static声明一个名称拥有internal链接属性，则匿名命名空间可以作为一种更好的达到相同效果的方法。 注意： &gt; * **命名空间都是具有external连接属性的,只是匿名的命名空间产生的__UNIQUE_NAME__在别的文件中无法得到,这个唯一的名字是不可见的**。 &gt; * C++ 新的标准中提倡使用匿名命名空间,而不推荐使用static,因为static用在不同的地方,涵义不同,容易造成混淆.另外,static不能修饰class。 #### 具名的名字空间 ```cnamespace mynamespace &#123;class MyClass &#123; public: … void Foo();&#125;;&#125; ``` ### #### 单链表定义 ```cstruct ListNode &#123;int val;ListNode *next;ListNode(int x) : val(x), next(NULL) &#123;&#125;&#125;;``` 最后一行的意思为结构体的构造函数，与类的构造函数相同，冒号后面的是初始化列表，也就是给成员val初始化为传入的参数x，next初始化为NULL。 **删除链表中的元素** ```cListNode *removeElements(ListNode *head, int val)&#123; // write your code here int num = val; ListNode *p; if (head == NULL) return head; else &#123; while (head-&gt;val == num) &#123; if (head-&gt;next != NULL) head=head-&gt;next; else &#123; head=NULL; return head; &#125; &#125; p=head; while(p-&gt;next != NULL) &#123; if(p-&gt;next-&gt;val==num) &#123; if(p-&gt;next-&gt;next != NULL) &#123; p-&gt;next=p-&gt;next-&gt;next; &#125; else &#123; p-&gt;next=NULL; return head; &#125; &#125; else p = p-&gt;next; &#125; return head; &#125;&#125;]]></content>
+      <tags>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[强化学习基本概念]]></title>
+    <url>%2F2018%2F01%2F06%2Fqianghuaxuexi%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[机器学习学习可以分为三类：监督学习、非监督学习以及强化学习。监督学习又可以分为回归分析以及分类。区别在于回归分析的输出为连续的，分类输出为离散的。无监督学习主要为聚类，无需给样本贴标签。强化学习也属于机器学习，强化学习需要与“环境”进行交互，逐步进行学习。 虽然强化学习并没有对应的标签，但是强化学习并不能称为无监督学习的一个子集。无监督学习是挖掘数据潜在的价值，而强化学习则是通过与环境的交互获得最优解。 强化学习中，机器会与环境进行交互，根据当前的环境状态获得“即时奖励”以及“延迟奖励”，然后采取行动，依次不断的往复、试错，寻找能够最大化积累奖励信号的测略。强化学习又分为基于模型和无模型两类，基于模型的学习认为环境有确切的模型，需要大量计算进行建模，并根据模型选择合适的策略；无模型的学习中需要大量的经验，通过反复试错过程来评价行动的优劣。基于模型的强化学习方法，通常都发展于动态规划理念，此类方法需要一个可以被称为马尔可夫决策的环境模型。动态规划方法常通过策略迭代来求解最优策略，这一过程可以分为两部分：策略评估和策略提升。无模型的强化方法主要包括：蒙特卡洛方法和时序差分学习方法。]]></content>
+      <tags>
+        <tag>machine learning</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Going Deeper with Embedded FPGA Platform for Convolutional Neural Network]]></title>
+    <url>%2F2018%2F01%2F05%2Ftranslation2%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[论文网址摘要&emsp;&emsp;近来，基于$CNN$的方法在很多应用场合都取得了很大成功并且已经成为计算机视觉中最有力、最广泛的技术。然而，基于$CNN$的方法是计算密集型和资源消耗型的，并因此很难集成到像手机、机器人等嵌入式系统中。$FPGA$是最有潜力的加速$CNN$的平台，但是有限的带宽和片上内存限制了$FPGA$对$CNN$的加速。&emsp;&emsp;在本文中，我们深入研究了关于在嵌入式$FPGA$平台上加速$CNN$的问题，并且提出了一个嵌入式$FPGA$平台$CNN$加速器设计，用于$ImageNet$大规模图像分类。我们首先对最先进的$CNN$模型进行深入分析，并且发现卷积层为计算中心型，全连接层为内存中心型。而后提出动态数据量化方法和对于$CNN$中所有层均有效的卷积设计方法，用以提高宽带和资源利用率。结果显示，当我们使用$8/4$位量化时，对于非常深的$VGG16$模型，我们的数据量化流程只引入了$0.4\%$的精度损失。提出了一种数据布局方法，以进一步确保外部存储器带宽的高利用率。最后，作为一个研究示例，在嵌入式$FPGA$平台实现了最先进的$CNN$，$VGG16-SVD$。$VGG16-SVD$是迄今为止在FPGA端到端实现的最大、最精确的网络。赛灵思Zynq ZC706板上的系统用16位量化，实现了4.45 fps的帧速率，且$top5$精度为$86.66\%$。在$150MHz$的工作频率下，卷积层和整个$CNN$的平均性能分别为$187.8GOP/s$和$137.0GOP/s$，这显着优于以前的方法。 关键字嵌入式$FPGA$、$CNN$、动态数据量化、带宽利用率 概述&emsp;&emsp;图像分类是在$CV$领域的一个基本问题。近年来，$CNN$已在图象分类准确度方法取得了巨大的进步。在$2012$年的$ILSVRC$中，$Krizhevsky$等人通过在分类任务中达到$top5$精度$84.7\%$展现了$CNN$有很大的能力，其远远高于其他传统的分类方法。在接下来的几年里，$ILSVRC$ $2013$，$2014$，$2015$分别达到了$88.8\%$、$93.3\%$、$96.4\%$的精度。&emsp;&emsp;然而要达到最好的性能，$CNN$这种方法相对于传统方法需要更多的计算和内存资源。以这种方式，大多数基于CNN的方法必须依赖于大型服务器。然而有一个需要高精度和高实时性的嵌入式系统的市场是不可忽视的，如自动驾驶汽车、机器人。但是对于嵌入式系统，有限的电池和资源是严重的问题。&emsp;&emsp;为了解决这个问题，许多研究人员已经从计算或存储访问方面提出了各种$CNN$加速技术[6，7，8，9，10，11，12，13]。然而，以前的大多数技术只考虑小的CNN模型，例如5层$LeNet$，用于$MNIST$手写数字识别等简单任务[14]。用于大规模图像分类的最新的$CNN$模型具有极高的复杂度，因此只能存储在外部存储器中。以这种方式，储存器带宽成为加速$CNN$最严重的问题，特别是对于嵌入式系统。此外，以前的研究集中在加速卷积层，而全连接层没有得到很好的研究。因此，我们需要深入研究嵌入式$FPGA$平台以解决这个问题。&emsp;&emsp;本文就如何在嵌入式$FPGA$平台上部署全$CNN$加速器进行深入研究。本文提出了一种应用于$ImageNet$大规模分类的$CNN$加速器，其能够以$4.45fps$的速度执行非常深的$VGG16-SVD$模型。具体来说，本文作出以下贡献： 我们对大规模图像分类的最新$CNN$模型进行了深入的分析。我们展示了最好的$CNN$模型是非常复杂的（例如，$VGG16$模型有1.38亿个权重，需要超过$30GOP$），卷积层是计算中心型，全连接层是内存中心型。 我们首次提出了一种用于动态精确数据量化的自动流程，并探索了各种数据量化配置。结果表明，在$8/4$位动态精度量化下，仅对$VGG16$模型引入了$0.4\%$的精度损失。为了动态精确的数据量化，设计了特定的硬件。 我们发现，全连接层的性能主要受嵌入式FPGA平台上的内存带宽的限制，这与卷积层不同。以这种方式，我们将$SVD$应用于第一个全连接层的权重矩阵，这减少了该层的$85.8\%$的内存占用量，同时设计了可以计算全连接层的卷积器来减少资源消耗，并提出了一种数据布局方案来加速全连接层。 我们提出了基于嵌入式FPGA平台上的$CNN$加速器设计，进行$ImageNet$大规模分类。 在$Xilinx$ $Zynq$平台上，我们的系统在$150 MHz$频率下分别在卷积层和全$CNN$上达到$187.8 GOP/s$和$137.0 GOP / s$的性能。 采用$VGG16-SVD$网络，我们以$4.45 fps$的速度实现了$86.66\%$的$top5$精度。 &emsp;&emsp;论文的剩余部分组织如下：第二部分介绍了$CNN$的背景；第三部分介绍和讨论相关工作，第四部分分析了最新$CNN$模型的复杂度分布，第五部分提出了动态精度数据量化流程，第六节介绍了所提出的图像分类系统的设计和实现细节，第七部分介绍了全连接层的存储系统和数据布局方法，第八部分对所提出的系统的性能进行了评估和讨论，最后，在第九部分我们总结了本文。 背景深度卷积神经网路在众多视觉相关任务中达到了最好的性能。为了帮助理解本文中分析的基于$CNN$的图像分类算法，在本部分，我们介绍$CNN$的基础，同时介绍了$ImageNet$数据集和最新的$CNN$模型。 CNN入门&emsp;&emsp;一个典型的$CNN$是由大量按顺序运行的层组成的。一个$CNN$模型的参数被称为“&amp;weights&amp;”。$CNN$的第一层读取输入图像，并输出一系列的$fearture$ $map$。接下来的层读取上一层生成的$fearture$ $map$，并输出新的$fearture$ $map$。最后一个分类器输出该输入图像属于哪个类别的可能性。卷积层和全连接层是$CNN$中两种非常重要的层。在卷积层之后，通常由池化层。图1展示了一个典型的$CNN$例子。&emsp;&emsp;在本文中，对于一个$CNN$中的层，$f^{in}_{j}$表示其第$j$个输入特征映射，$f^{out}_{i}$表示其第$i$个输出特征映射，$b_{i}$表示第$i$个输出映射的偏移量。对于卷积层，$n_{in}$和$n_{out}$分别表示输入和输出的特征映射数量。对于全连接层，$n_{in}$和$n_{out}$分别表示输入和输出的特征向量长度。&emsp;&emsp;卷积层将一系列的特征映射作为输入，并与卷积核卷积以获得输出特征映射。非线性层一般与卷积层在一起，其将非线性函数应用于特征映射的元素输出上。卷积层可以用等式1表示： f^{out}_{i}=\sum_{j=1}^{n_{in}}f^{in}_{j} \otimes g_{i,j}+b_{i} \quad (1 \leq i \leq n_{out}) \tag{1}此处$g_{i,j}$是应用于第$j$次输入核第$i$次输出特征映射的卷积核。&emsp;&emsp;全连接层对输入特征向量做了一个线性变换。 f^{out}=Wf^{in}+b \tag{2}此处$W$为一个$n_{out} \times n_{in}$的变换矩阵，而$b$是一个偏移量。特别注意，对于全连接层，输入不是几个二维特征图的组合而是一个特征向量。因此，在等式2中，参数$n_{in}$和$n_{out}$实际上对应于输入输出特征向量的长度。&emsp;&emsp;池化层通常附加到卷积层，其每个特征映射中分区的最大值或平均值。最大池化能够用等式3表达： f^{out}_{i,j}=\max \limits_{p \times p} \begin{bmatrix} f^{in}_{m,n} & \cdots & f^{in}_{m,n+p-1} \\ \vdots & & \vdots \\ f^{in}_{m+p-1,n} & \cdots & f^{in}_{m+p-1,n+p-1} \end{bmatrix} \tag{3}此处$p$为池化核的大小。这种非线性的“下降采样”不仅减少了特征映射的大小和后续层的计算量，而且还提供了平移不变性。&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; 词汇 English Chinese $in-depth$ 深入 $state-of-the-art$ 最新的，最先进的 $dynamic-precision$ 动态精度 $address$ $this$ $problem$ 解决这个问题 $handwritten$ $digits$ $recognition$ 手写数字识别 $large-scale$ 大规模的 $deploy$ 部署 $Specifically$ 特别，具体 $translation$ $invariance$ 平移不变性 $in-depth$ 深入 $in-depth$ 深入 $in-depth$ 深入 $in-depth$ 深入 $in-depth$ 深入 $in-depth$ 深入 $in-depth$ 深入 $in-depth$ 深入 $in-depth$ 深入 概念$top-5 accuracy$]]></content>
+      <tags>
+        <tag>翻译</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[2018！I'm coming]]></title>
+    <url>%2F2018%2F01%2F01%2F2018%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[A Survey of FPGA Based Neural Network Accelerator]]></title>
+    <url>%2F2017%2F12%2F30%2Ftranslation6%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[论文网址摘要&emsp;&emsp;最近有关神经网络的研究已经表明其在计算机视觉领域相对于传统的基于手工标记特征和模型的算法有很大优势。神经网络现在被广泛应用于图像、语音以及视频识别等领域。但是神经网络算法计算和存储的巨大复杂度造成其应用上存在很大困难。$CPU$平台不足以提供足够的计算能力。$GPU$平台对于神经网络训练而言是第一选择，因为$GPU$有很高的计算能力和易于使用的开发框架。&emsp;&emsp;另一方面，基于$FPGA$的神经网络加速器正成为一个研究的热点。因为特殊设计的硬件是下一个可能在速度和功耗上超过$GPU$的解决方案。为了提高速度、降低功耗，各种各样软硬件同时优化的$FPGA$的加速器设计被提出来。在本文中，我们概括了过去关于$FPGA$神经网络加速器的研究，并且总结了使用的主要技术。为了完成$FPGA$神经网络加速器设计的分析并为未来的研究提供指导，探究方式采用从软件到硬件、从电路层到系统层的模式。 概述&emsp;&emsp;最近有关神经网络(NN)的研究表明其相对于传统计算机视觉算法的优势。各种各样的神经网络模型，如卷积神经网络(CNN)、循环神经网络(RNN)，被提出应用于图像、视频和语音处理上。CNN[22]将前5名对于ImageNet[41]数据集的图像分类精度从73.8%提高到84.7%，并且由于其在特征提取上卓越的表现大大促进了物体检测发展。RNN[16]实现了对语音识别最高水准的字错误率。一般来说，神经网络具有较高的拟合能力，广泛适用于模式识别问题。这使得神经网络成为许多人工智能应用的希望候选。&emsp;&emsp;但是神经网络模型计算和存储的复杂性是很高的。当前对于神经网络的研究仍然是增加神经网络模型的规模。以卷积神经网络为例，应用于$224\times224$图像分类的最大规模神经网络模型需要达到$390$亿次浮点运算(FLOP)和超过$500M$的模型参数[46]。因为计算复杂度是与输入图像的大小成比例的，所以处理更高分辨率的图像可能需要超过$1000$亿次运算。&emsp;&emsp;因此，根据应用去选择合适的神经网络计算平台就非常重要了。一个普通的$CPU$能够实现一秒钟$10-100G FLOP$，并且功耗刚刚低于$1 GOP/J$。所以$CPUs$无论是在云端的高性能需求还是在终端的低功耗上都很难达到需求。与之相对应的，$GPUs$能够提供高达$10TOP/s$的最高性能，是高性能神经网络应用的不错选择。像$Caffe$和$Tensorflow$等开发框架同样提供了易于使用的界面，这使得$GPU$成为神经网络加速的第一选择。&emsp;&emsp;除了$CPUs$和$GPUs$，$FPGAs$正成为低功耗神经网络处理的潜在平台。对于一个面向硬件设计的神经网络，$FPGAs$能够实现高并行，并且利用神经网络计算的特性去除不必要的逻辑单元。算法研究同样表明神经网络模型能够以一种硬件友好型的方式简化，而不损失模型准确度。因此$FPGAs$相对于$CPU$和$GPU$是可能实现更高能效的。&emsp;&emsp;基于$FPGA$的加速器设计在性能和灵活性上正面临两个挑战： 当前$FPGAs$通常工作频率在$100-300MHz$，这要比$CPU$和$GPU$低很多。$FPGAs$过高的可重构逻辑也降低了系统整体的性能。直接在$FPGA$上进行设计很难达到高性能和高效能。 在$FPGAs$上实现神经网络要远远比在$CPUs$和$GPUs$上难得多。FPGA需要像面向$CPU$和$GPU$的$Caffe$、$Tensorflow$这样的框架。 &emsp;&emsp;为了实现$FPGA$神经网络加速器更高的能效和灵活性，进行了许多针对上面两个问题的研究。在本文中，总结了这些工作中的技术。我们是从以下方面总结这些技术的： 我们首先给出一个$FPGA$神经网络加速器的简单模型以分析能效设计的方法。 我们研究了当前对于高性能和高能效的神经网络加速器设计的技术方法。我们从软件和硬件两个层面进行介绍，并且预估了这些技术的影响。 我们比较了最新的神经网络加速器设计以评估被介绍的技术，并且预估可达到的$FPGA$神经网络加速器设计，其相对于当前的$GPUs$有至少40倍的能效。 我们考察了$FPGA$神经网络加速器自动设计方法。 &emsp;&emsp;本文的剩余部分安排如下：第二部分介绍了神经网络的基本运算；第4部分和第5部分回顾了神经网络加速器在软硬件上的技术；第6部分比较并评估了现存的技术；第7部分介绍了灵活设计加速器的方法；第8部分为本文结论。 神经网络初步研究&emsp;&emsp;在这一部分，我们介绍在神经网络算法中的基本运算。神经网络是一个生物启发的模型，它通常包括几个神经元的层。每一层将上一层的输出作为输入。在一个基本的神经网络层中，该层中的每个神经元计算与其相连的输入神经元与相应权重相乘之和。本文中将连接的权重表示为$weights$。最新的神经网络模型也介绍了其他类型的层。在本部分的剩余部分，我们介绍几种不同类型的层。&emsp;&emsp;全连接层($Fully$ $connected$ $layer$) 实现了每个输入神经元与输出神经元之间存在一个权重的连接。CNN和RNN都采用了这种层。全连接层的输入和输出是两个向量$x$和$y$。该层的权重可表示为矩阵$W$。一个偏置量$b$被加到每个输出神经元中。该层的函数可表示为等式(1)。 x=Wy+b \tag{1}&emsp;&emsp;卷积层（$Convolution$ $layer$) 用于二维神经元处理。图像处理中的卷积神经网络常常采用卷积层。该层的输入输出神经元能够表示为二维特征映射，$F_{in}$和$F_{out}$。每个特征映射被称作一个通道。卷积层实现了每组输入输出之间的卷积矩阵$K_{ij}$和每个输出通道的偏差标量$b_{i}$。$M$个输入通道、$N$个输出通道的卷积层计算能够用等式(2)表示： F_{out}{(j)}=\sum_{i=0}^{M-1} conv2d{(F_{in}{(i)},K_{ij})+b_j} \quad j = 0,1,\dots,N-1 \tag{2}在卷积层中有多种二维卷积。通常使用卷积矩阵为$3\times3$带填充的标准卷积。对于大一点的卷积矩阵，如$5\times5$、$7\times7$等，通常使用大于1的步幅来减少操作次数和特征图大小。最近的研究也有使用$1\times1$的卷积矩阵[17，19]。&emsp;&emsp;非线性层($Non-linear$ $layer$) 在每一个输入神经元上应用了非线性函数。在早期模型中，$sigmoid$函数和$tanh$函数是最常用的，并且仍在语音识别的循环神经网络中使用。$ReLU$激活函数应用于许多先进的模型之中。这个函数保留了神经元正值，并将负值置零。各种不同的$ReLU$同样得以应用，如$PReLU$和$Leaky ReLU$[56]。&emsp;&emsp;池化层($Pooling$ $layer$) 也应用于像卷积层一样的二维神经元处理中。池化层分别向下采样每个输入通道，这有助于降低特征维度。有两种向下采样的方法：平均池化和最大池化。平均池化将特征图分割成小窗口，如$2\times2$窗口，并找出每个窗口的平均值。最大池化方法即为找出每个窗口的最大值。常见的窗口大小包括$2\times2$，步幅为2；$3\times3$，步幅为2。&emsp;&emsp;元素操作层($Element-wise$ $layer$) 通常用于$RNN$中，在一些$CNN$模型中也有应用[17]。该层接收两个同样大小的神经元向量，并在两个向量的相应神经元上应用基于元素的运算。在$ResNet$中，这个层是元素加法。对于$RNN$，这个层是元素减法或乘法。&emsp;&emsp;在这些层中，全连接层和卷积层是神经网络中最占用计算和存储的。在接下来的部分，所有软硬件设计都是针对这两种层的。 设计方法&emsp;&emsp;在开始分析更快、更高能效的神经网络加速器具体技术细节之前，我们首先给出一个设计方法的概述。一般来说，一个神经网络系统的设计目标包括一下三个方面：高模型准确率、高吞吐和高能效。对于特定的应用，高灵活性可能也会被考虑。&emsp;&emsp;通常，一个大的神经网络往往能够保证高模型准确率。不同的网络结构，像[17,22,46]中的，确实会影响模型准确率，但不在本文的讨论范围之内。同一个模型，用模型压缩的方法去平衡吞吐率与模型准确率。一些模型压缩的方法在没有准确率损失的情况下甚至达到加速。&emsp;&emsp;一个神经网络系统的吞吐率能够用等式(3)来表示。借助模型压缩的方式，我们能够减少$workload$。在一个$FPGA$芯片中，片上资源是有限的。提高最高性能意味着降低计算量并提高工作频率。降低计算量可通过简化神经网络中基本的运算来实现，这可能会损失模型精度，并且需要软硬件协同设计。提高工作频率却是一个单纯的硬件设计工作。通过合理的并行执行和高效的内存系统能够实现高利用率。这部分主要受硬件设计影响。但是模型压缩同样能够降低神经网络模型存储需求，同时有利于内存系统。 throughput=\frac{peak_performance\times utilization}{workload} \tag{3}&emsp;&emsp;能效是以单位能耗下能够进行多少次运算(此处为乘法、加法)评估的。对于一个特定的神经网络模型，神经网络系统的能效是与能耗成反比的，其用等式(4)来表示。能耗来自于两部分：计算和内存访问。 E_{total}=N_{effect\_op}\times E_{uint\_op} + N_{mem\_access}\times E_{uint\_mem\_access} \tag{4}&emsp;&emsp;在等式(4)中的第一项为计算的能耗。这部分很大程度上收模型压缩的影响。模型压缩的方法能够从硬件上减少计算执行的次数$N_{effect\_op}$，并且能够降低单次运算的能耗。对于$FPGA$实现而言，单次运算能耗也受其硬件实现的影响。(4)中第二项为内存访问的能耗。内存访问次数受内存系统和调度方法的影响。可通过模型压缩降低位宽来降低单次内存访问的能耗。&emsp;&emsp;从吞吐和能量的分析来看，神经网络加速器涉及到软硬件协同设计。在接下来的部分，我们将分别介绍过去在软件和硬件方面关于神经网络的工作。 软件设计：模型压缩&emsp;&emsp;如第三部分所介绍，高能效和高性能的神经网络加速器设计设计到软件和硬件的协同。在本部分，我们研究软件层面网络模型压缩的方法。已经进行了很多关于这个话题的很多研究，通过减少权重$weights$的数量或者降低每个神经元、权重的比特位宽，来帮助减小计算量和存储复杂度。但是这些方法同时也损失了模型准确率。本部分主要讨论在模型压缩和模型准确率损失之间如何平衡的问题。 数据量化&emsp;&emsp;模型压缩最常用的方法之一就是权重和神经元的量化。在常规的开发框架中，神经网络的神经元和权重通常用浮点数表示。最近的研究尝试用低位宽的定点数甚至是一小组训练值来代替浮点数表示。一方面，用低位宽的神经元和位宽能够降低神经网络系统的带宽和存储需求。另一方面，使用简化的表示方式能够降低硬件每次计算的消耗。硬件的所得好处将会在第5部分具体讨论。在本部分讨论两种量化方法：线性量化和非线性量化。 线性量化&emsp;&emsp;线性量化是寻找每个权重和神经元的最近的定点数表达。这个方法的问题是浮点数表示的动态范围远远超过了定点数。绝大部分的权重和神经元都面临着上溢出和下溢出的风险。$Qiu$在[40]中发现在单层中神经元和权重的动态范围更加有限，并且在不同层之间是不同的。因此，他们给不同层中的神经元和权重分配不同的小数位宽。为了确定一组数据即一层的神经元与权重的分数位宽，首先需要分析数据的分布。一组可能的分数位宽作为备选方案。然后选择对训练数据集表现最好的小数位宽方案。在[40]中，网络的最优方案是一层一层选择的，以避免修改指数设计。$Guo$，在[13]中，在确定所有层的小数位宽之后通过微调模型大大提高了该方法。&emsp;&emsp;选择某个小数位宽的方法等同于以比例因子$2^k$缩放数据。$Li$等人为每层用训练的参数$W^l$缩放权重，并且用表示为$W^l$，$0$，$-W^l$的2位数量化比重。在这个研究中神经元没有被量化。所以，神经网络仍然实现的是32位的浮点数运算。$Zhou$等人只用1位$\pm s$量化一个层的权重，而$s=E(|{w^l}|)$是该层权重绝对值的期望。这项研究中也运用了线性量化。 非线性量化&emsp;&emsp;与线性量化相比，非线性量化独立地赋值给不同的二进制码。从一个非线性编码到其真实值就是一个查找表。这种方法极大地帮助了减少每个神经元和权重的位宽。$Chen$等人在[6中]通过预定义哈希函数将每个权重分配到查找表的一项，并训练查找表中的值。$Han$等人在[15]中通过聚类某一已训练的模型将查找表中的值赋给权重。将每个查找表中的值作为聚类中心并且用训练数据集进行微调。这个方法能够在没有精度损失的情况下压缩最新的$CNN$模型权重。$Zhu$等人在[65]中提出三元量化网络，所有的权重被量化为三个值：$W^n$，$0$，$W^p$。量化值、权重与查找表之间的对应关系都会被训练。这个方法牺牲了基于$ImageNet$数据集的最新的神经网络上2%的准确率。权重的位宽从32位降到2位，这意味着大约16倍的压缩率。 比较&emsp;&emsp;我们在表1中比较了不同的量化方法。标签表示了实验的$BW_{weight}\times BW_{neurons}$和网络名称。‘$(FT)$’表示网络在线性化之后进行了微调。比较不同模型中的不同方法有一点有失公允。但是这仍能给予一些见解。对于线性量化而言，8位是准确度损失是否可忽略的界限。对于6位及其以下的位数，微调甚至开始时就训练权重也会造成明显的精度下降。如果我们需要将1%的精度损失作为可接受的范围，那么我们可以发现$8 \times 8$线性量化和$2 \times 32$非线性量化是最低的量化界限。我们将在第五部分进一步讨论量化的性能增益。 减小权重&emsp;&emsp;除了降低神经元和权重的位宽，另一个模型压缩的方法就是减小权重。其中一种方法是用一个低秩的表达去近似权重矩阵。$Qiu$等人在[40]中用奇异值分解($singular$ $value$ $decomposition$)去压缩全连接层的权重矩阵$W$。一个$m\times n$的权重矩阵$W$用两个矩阵的乘积$A_{m \times p}B_{p \times n}$代替。对于一个足够小的$p$，全部的权重数量减少了。这项研究以0.04%的分类准确率降低量将最开始的$VGG$网络中最大的全连接层压缩了36%。$Zhang$等人在[62]中对卷积层应用了相似的方法，并将后面非线性层的效果纳入分解优化的过程。这种方法以0.9%的准确度损失达到对基于$ImageNet$数据集最新的$CNN$模型4倍的加速。&emsp;&emsp;剪枝是另外一种减少权重数量的方法。这种方法直接移除了权重中的“0”项和绝对值较小项。剪枝的难点在于怎样在保证模型准确率的情况下使更多的权重为0。一种解决方法是在训练中应用$lasso$函数。$Liu$等人在[26]中对$AlexNet$[22]模型应用$spase$ $group-lasso$函数。在准确率损失低于1%的情况下移除了90%的权重。另外一种方法是在训练过程中剪枝“0”项。$Han$等人在[15]中直接在网络中移除了“0”项以及绝对值较小项。留下来的权重再去微调训练以恢复准确度。在$AlexNet$上的实验结果表明在保证准确度的情况下能够移除89%的权重。&emsp;&emsp;来自权重数减小的硬件性能提高是压缩比的倒数($reciprocal$)。根据上面的结果，来自权重减小量的提高能达到10倍。 硬件设计：高效率架构&emsp;&emsp;在这一部分，我们研究为了实现高性能和高效能的FPGA神经网络加速器的硬件层面的技术。我们将其技术分为三个层级：计算单元层，循环展开层，系统层。 计算单元层&emsp;&emsp;计算单元层面的设计影响神经网络加速器的最高性能。对于一片确定的FPGA，可用的资源是有限的。一个更小的计算单元设计意味着有更多的计算单元和更高的性能。一个仔细设计的计算单元阵列同样也可以增加工作频率，并因此提高最高性能。 低位宽单元&emsp;&emsp;降低计算的位宽数是减小计算单元大小的直接方式。使用更小位宽的可行性来自于4.1部分介绍的量化方法。绝大部分最新的$FPGA$设计用定点数单元代替了32位浮点数单元。$Podili$等人在[38]中为系统实现了32位定点数单元。[10，24，40，55，57]中均采用了16位定点神经元设计。$Guo$在[13]中在他们的嵌入式$FPGA$中使用了8位单元。最近的研究还是关注于及其小位宽的设计。$Prost-Boucle$在[39]中用1个$LUT$实现了三元网络的2位乘法。[37]中的实验表明FPGA实现二值神经网络性能($BNN$)优于在$CPU$和$GPU$上。尽管$BNN$有精度损失，许多设计仍在探索1位计算的好处[21，25，32，35，48，63]。&emsp;&emsp;上面提到的主要集中于线性量化的计算单元。对于非线性量化，将数据对应到全精度的计算仍是高耗费的。$Samragh$等人在[42]中提出基于点积实现的分解系数。由于在非线性量化中权重的可能值非常有限，所提出的计算单元为每个可能的权重值的乘法累加求和，并将其结果作为查找表中权重之和。在这种方式中，一个输出神经元的乘法等同于查找表中的数。原来的乘法被随机的积分所代替。&emsp;&emsp;绝大部分的设计在神经网络中均使用相同的位宽。$Qiu$等人在[40]中发现在保持准确率的情况下全连接层的神经元和权重比卷积层可用更少的位宽。[12，63]中使用了异构($Heterogeneous$)计算单元。&emsp;&emsp;表2比较了不同位宽的计算单元的规模。综合后的资源消耗是$Vivado$ $2017.2$的结果。所有的$IPs$都没有使用$DSP$资源。尽管我们倾向于在实际实现时使用$DSPs$，但这个结果却可以显示真实的硬件消耗。像[40]中，一些运算用$DSP$和其他的逻辑资源来实现，用这种混合式的方式来实现计算单元是非常普遍的。&emsp;&emsp;在神经网络中，乘法和加法的计算次数大约是相同的。所以乘法器和加法器的资源总和就是全部消耗。32位的定点数运算和32位的浮点数运算所消耗的资源基本是相同的。而对16位的运算，使用定点格式能够节省30%的资源。4.1部分介绍过，8位的定点运算是线性量化的界限。相对于32位运算，8位能在相同的逻辑面积上实现14倍的运算。如果进一步研究可以利用4位运算，这个优势能变为54倍。对于1位的设计，提高能够达到1000倍。 快速卷积单元&emsp;&emsp;对于卷积层，卷积运算能够被特殊的算法加速。基于快速卷积的离散傅里叶变换($DFT$)广泛适用于数字信号处理上。$Zhang$等人在[59]中为了高效的卷积层执行提出了一种基于硬件设计的二维离散傅里叶变换。对于一个$F \times F$与$K \times K$卷积的滤波器，离散傅里叶变换将空间域上$(F-K+1)^2K^2$次乘法转换为频域上$F^2$复杂度的乘法。对于一个有$M$个输入通道、$N$个输出通道的卷积层，需要$MN$次频域乘法，而$DFT$只需要$(M+N)$次。卷积矩阵的转换只需要一次。所以对于卷积层而言，域转换是低消耗的。对于步长$&gt;1$或者$1 \times 1$卷积的卷积层，这个方法是不适用的。$Ding$等人在[8]中建议块循环约束可以应用于权重矩阵上。在这种方法中，在全连接层的矩阵向量乘法被转换为一组一维卷积，并且能够在频域里加速。这种方法同样可以通过把$K \times K$看作$K \times K$矩阵应用于卷积层中，并且不受$K$和步长的限制。&emsp;&emsp;频域方法需要复数乘法。另外一种快速卷积的方法只涉及实数乘法[53]。等式(5)表示了使用$Winograd$算法的二维特征映射$F_{in}$的卷积。 F_out=A^T{[(GF_{in}G^T) \odot (BF_{in}B^T)]}A \tag{5}$G$，$B$和$A$是只与卷积矩阵和特征映射有关的变换矩阵。$\odot$表示两个矩阵的元素乘法。对一个与$3 \times 3$卷积矩阵卷积的$4 \times 4$的特征映射，变换矩阵可以用下式表示： G= \begin{bmatrix} 1 & 0 & 0 \\ 1/2 & 1/2 & 1/2 \\ 1/2 & -1/2 & 1/2 \\ 0 & 0 & 1 \end{bmatrix} B= \begin{bmatrix} 1 & 0 & -1 & 0\\ 1 & 1 & 1 & 0\\ 0 & -1 & 1 & 0\\ 0 & 1 & 0 & -1 \end{bmatrix} A= \begin{bmatrix} 1 & 0 \\ 1 & 1 \\ 1 & -1 \\ 0 & 1 \end{bmatrix}基于$Winograd$的方法受限于卷积矩阵的$size$和$DFT$的步长。最常使用$Winograd$变换的是在[28，55]中的$3 \times 3$卷积。&emsp;&emsp;快速卷积的理论性能取决于变换矩阵的$size$。因为基于$DFT$的方法使用了复数运算并且很耗费硬件资源，我们根据在[28]中的$6 \times 6$ $Winograd$预估性能上理论值能高达4倍。 $DSP$优化最近的FPGA与可重构逻辑一起实现了强化的DSP单元，以提供高计算能力。一个$DSP$单元的基本运算是乘法累加($MAC$)。乘法和加法的位宽是确定的。当神经网络中用的位宽和$DSP$单元的位宽不匹配时，$FPGA$不能被充分利用。$Altera$ $FPGA$中最新的$DSP$单元实现了2个$18 \times 19$的乘法器，并且能够配置为$27 \times 27$的乘法器或者一个32位的浮点数乘法器[1]。$Xilinx$ $FPGA$能够实现$27 \times 18$的乘法器[2]。正如5.1.1部分所提到的，许多设计采用了等于或者少于16位的乘法运算，这可能会造成$DSP$利用率大大下降。&emsp;&emsp;$Nguyen$等人在[36]中提出用一个比特位数较宽的乘法器去实现两个比特位数较少的乘法运算的设计。在该设计中，$AB$和$AC$能够用一个乘法$A{(B&lt;&lt;k+C)}$来执行。如果$k$足够大，那么$AB$和$AC$在乘法运算中不会交叠，并且能够直接分离。在[36]中的设计用一个$25 \times 18$的乘法器实现了两个8位的乘法运算，此处$k$为9。相似的方法能够适用于其他位宽和$DSP$中。如果使用这项技术，理论上最高性能高达两倍。 频率优化方法&emsp;&emsp;上述所有的技术都是在一个特定的$FPGA$上去增加计算单元。增加计算的工作频率同样能够提高性能。&emsp;&emsp;为了实现高并行性。神经网络加速器通常都是实现矩阵与向量的乘法或者矩阵与矩阵的乘法，而不是向量内积作为基本运算。不同的计算单元共享运算器。简单的调用数据到不同的计算单元上就会造成大量扇出，浪费布线资源，并因此降低工作频率。$Wei$等人在[52]中使用了脉动阵列结构用于他们的设计。共享数据以链式方式从一个计算单元转移到下一个计算单元。所以数据不会被$broadcast$，而只需在相邻的计算单元中连接。缺点是会增加延迟。随着神经网络模型的处理被确定并且收缩结构被完全流水线化，延迟开销可以被完全覆盖。&emsp;&emsp;最近的$FPGA$ $DSP$支持理论最高$700-900MHz$的工作频率。但是现存的工作频率一般在$100-300MHz$[13，30，40，57]。如[54]中说明，工作频率受限于片上$SRAM$与$DSP$单元之间的布线。[54]中的设计为$DSP$单元和周围的逻辑使用了不同的工作频率。每个$DSP$单元的相邻$slice$被用作局部$RAM$来分离时钟域。在[54]中的原型设计在不同等级的$FPGA$上实现了最高$741MHz$和$891MHz$的$DSP$工作频率。然而这个方法还没有被一个完整的神经网络加速器设计所采纳。不用该方法，现存设计可达到$300MHz$，所以我们预估理论硬件性能还可达到两倍。 循环展开策略&emsp;&emsp;第二部分介绍过，卷积层和全连接层占一个神经网络的计算和存储需求的绝大部分。我们将等式2中的卷积层函数表示为算法1中的嵌套循环。为了使代码更加清晰易读，我们分别为特征映射和二维卷积核沿$x$和$y$的方向合并映射。一个全连接层可以看作一个特征映射和核的大小均为$1 \times 1$的卷积层。除了算法1中的循环，我们同样将多个输入的过程的并行看作一个$batch$。这形成了$batch$循环。&emsp;&emsp;为了并行化执行这些循环操作，我们将循环的一个特定部分展开，并将这部分的每一个运算映射到一个硬件计算单元中。一组不恰当的循环展开参数可能会造成硬件资源严重利用不足。我们以图3所示的3个嵌套循环为例。大立方体表示循环内的所有操作。每条边的长度表示循环的行程计数。小立方体表示展开的核，其边缘代表展开的参数。满负载工作意味着小的立方体填满大的立方体。图3(a)表示了一组合适的展开参数。但是图3(b)中，红色部分表示一些小立方体的某些部分在大立方体之外，这意味着硬件资源的浪费。&emsp;&emsp;在图3中可以很明显的看出如果一个循环的行程计数太小，该循环展开参数就会受限。对于一个$CNN$模型，循环的大小在不同层之间变化很大。对于一个像$ResNet$一样在$ImageNet$分类中使用的普通网络，通道数可从3到2048间变化，特征映射可从$224 \times 224$到$7 \times 7$之间变化，卷积核的大小可从$7 \times 7$到$1 \times 1$之间变化。除了利用率的问题，循环展开还会影响到片上内存和数据通道的设计。因此循环展开的策略是一个神经网络加速器设计的关键。&emsp;&emsp;各种各样的研究主要围绕在如何去选择展开参数。$Zhang$等人在[58]中提出了展开输入通道和输出通道循环的思想，并通过设计空间探索来选择最优的展开参数。在这两个循环之间，相邻迭代间没有输入数据交叉相关性。因此，不需要多路复用器将数据从片上缓冲器运送到计算单元。但是并行化被$7 \times 64=448$个乘法器所限制。对更大的并行化，这个方法很容易面临利用率低的问题。$Ma$等人zai[30]中通过允许在特征映射循环上并行化进一步扩展了设计空间。这个并行化可达到$1 \times 16 \times 14 \times 14=3136$个乘法器。移位寄存器结构被用来将特征映像素送到计算单元。&emsp;&emsp;在上面的工作中没有选择核循环，因为核的大小差别很大。$Motamedi$在[33]中使用核展开应用于$AlexNet$。即使对于$11 \times 11$和$5 \times 5$核进行$3 \times 3$展开，整个系统的性能仍能达到卷积层的最高性能的97.4%。对于特定的像$VGG$[46]的网络，只能使用$3 \times 3$的卷积核。$Qiu$等人在[40]中使用行缓冲结构来实现$3 \times 3$滑动窗口函数，并且完全并行化核循环。另外一个展开核循环的原因是用快速卷积算法达到加速。[59]中的设计在$4 \times 4$特征映射和$3 \times 3$核上完全实现了并行频域乘法运算。$Lu$等人在[28]中为等式5在$FPGA$上实现了专用的流水线。$6 \times 6$核上的$3 \times 3$核的卷积完全并行化了。&emsp;&emsp;上面的解决方案仅仅是针对单层。但是几乎没有一个适用于整个网络的通用解决方案，特别是当我们需要高并行时。&emsp;&emsp; 系统设计&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; 评估备注：卷积的物理意义Convolution kernel 的意思]]></content>
+      <tags>
+        <tag>翻译</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[About Me]]></title>
+    <url>%2F2017%2F12%2F29%2Faboutme%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[NowI’m a student from NEU. My research interests include optimization, FPGA. PastI have participated in several competitions, including ABU Robocon and National Undergraduate Electronic Design Contest. If you have any questions about these competitions, I’m willing to communicate with you.]]></content>
+  </entry>
+</search>
