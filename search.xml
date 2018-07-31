@@ -19,7 +19,7 @@
   <entry>
     <title><![CDATA[7.30与卓老师汇报所存在的问题]]></title>
     <url>%2F2018%2F07%2F30%2F7-30%E4%B8%8E%E5%8D%93%E8%80%81%E5%B8%88%E6%B1%87%E6%8A%A5%E6%89%80%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98%2Funcategorized%2F</url>
-    <content type="text"><![CDATA[1、第一个问题：${\gamma}$和${\beta}$有什么用？第一个作用是可以恢复没有归一化前的模型(在合理选择${\gamma}$和${\beta}$参数的条件下)。在增加新操作的时候，可能改变原来的输入，也可能不改变，这样的话，可以保持原输入，模型的容纳能力提升了。]]></content>
+    <content type="text"><![CDATA[1、第一个问题：${\gamma}$和${\beta}$有什么用？第一个作用是可以恢复没有归一化前的模型(在合理选择${\gamma}$和${\beta}$参数的条件下)。在增加新操作的时候，可能改变原来的输入，也可能不改变，这样的话，可以保持原输入，模型的容纳能力提升了。2、卷积层的Batch Normalization是怎么做的？原文中是这么说的：一个$d$维输入的层，对于每个维度单独的normalize。 {\hat x}^{(k)}=\frac{x^{(k)}-E[x^{(k)}]} {\sqrt{Var[x^{(k)}]}}$d$维输入对应到卷积层就是$k$个channel。为什么这么说？对于每一个${\hat x}^{(k)}$而言，都有一个${\gamma}^{(k)}$和$\beta^{(k)}$与之对应，即： y^{(k)}={\gamma}^{(k)}{\hat x}^{(k)}+\beta^{(k)}重新看了下吴恩达的视频，发现我之前弄错了，如果是全连接层，$d$个神经元就有$d$个${\gamma}$和${\beta}$，那这么样的话参数的确要比之前多了。对于mini-batch训练的问题，上面式子中的$E[x^{(k)}]$就是一个mini-batch中所有$x^{(k)}$的平均值。 Batch Normalization中还有什么问题可以随时查看这篇论文《atch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift》。看完这篇论文之后，我终于懂了，对于全连接层和卷积层有不同的操作。对于全连接层，$z=g(Wx+b)$，其中$g(.)$是激活函数，Batch Normalization是这么做的，$z=g(BN(Wx))$，对于每个神经元有一个$\gamma$和$\beta$。对于全连接层而言，mini-batch样本数为$m$，一个feature map的大小为$pq$，那么求取平均值的时候是在这个$mp*q$个数据之间求取平均值。这样的话，是每个feature map做完BN之后再去做卷积操作。文中说这么做的目的是为了保证卷积的属性，就是相邻数据的相关性，感觉还有点道理的。这样对应到我看的那篇基于$\gamma$值得压缩算法就讲得通了。]]></content>
       <tags>
         <tag>生活</tag>
       </tags>

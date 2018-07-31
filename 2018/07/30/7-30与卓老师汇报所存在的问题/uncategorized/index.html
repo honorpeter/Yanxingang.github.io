@@ -86,18 +86,18 @@
 
 
 
-<meta name="description" content="1、第一个问题：${\gamma}$和${\beta}$有什么用？第一个作用是可以恢复没有归一化前的模型(在合理选择${\gamma}$和${\beta}$参数的条件下)。在增加新操作的时候，可能改变原来的输入，也可能不改变，这样的话，可以保持原输入，模型的容纳能力提升了。">
+<meta name="description" content="1、第一个问题：${\gamma}$和${\beta}$有什么用？第一个作用是可以恢复没有归一化前的模型(在合理选择${\gamma}$和${\beta}$参数的条件下)。在增加新操作的时候，可能改变原来的输入，也可能不改变，这样的话，可以保持原输入，模型的容纳能力提升了。2、卷积层的Batch Normalization是怎么做的？原文中是这么说的：一个$d$维输入的层，对于每个维度单独的nor">
 <meta name="keywords" content="生活">
 <meta property="og:type" content="article">
 <meta property="og:title" content="7.30与卓老师汇报所存在的问题">
 <meta property="og:url" content="http://yanxingang.com/2018/07/30/7-30与卓老师汇报所存在的问题/uncategorized/index.html">
 <meta property="og:site_name" content="Xingang Yan">
-<meta property="og:description" content="1、第一个问题：${\gamma}$和${\beta}$有什么用？第一个作用是可以恢复没有归一化前的模型(在合理选择${\gamma}$和${\beta}$参数的条件下)。在增加新操作的时候，可能改变原来的输入，也可能不改变，这样的话，可以保持原输入，模型的容纳能力提升了。">
+<meta property="og:description" content="1、第一个问题：${\gamma}$和${\beta}$有什么用？第一个作用是可以恢复没有归一化前的模型(在合理选择${\gamma}$和${\beta}$参数的条件下)。在增加新操作的时候，可能改变原来的输入，也可能不改变，这样的话，可以保持原输入，模型的容纳能力提升了。2、卷积层的Batch Normalization是怎么做的？原文中是这么说的：一个$d$维输入的层，对于每个维度单独的nor">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-07-30T06:34:19.154Z">
+<meta property="og:updated_time" content="2018-07-31T02:29:04.854Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="7.30与卓老师汇报所存在的问题">
-<meta name="twitter:description" content="1、第一个问题：${\gamma}$和${\beta}$有什么用？第一个作用是可以恢复没有归一化前的模型(在合理选择${\gamma}$和${\beta}$参数的条件下)。在增加新操作的时候，可能改变原来的输入，也可能不改变，这样的话，可以保持原输入，模型的容纳能力提升了。">
+<meta name="twitter:description" content="1、第一个问题：${\gamma}$和${\beta}$有什么用？第一个作用是可以恢复没有归一化前的模型(在合理选择${\gamma}$和${\beta}$参数的条件下)。在增加新操作的时候，可能改变原来的输入，也可能不改变，这样的话，可以保持原输入，模型的容纳能力提升了。2、卷积层的Batch Normalization是怎么做的？原文中是这么说的：一个$d$维输入的层，对于每个维度单独的nor">
 
 
 
@@ -392,7 +392,12 @@
       
 
       
-        <p>1、第一个问题：${\gamma}$和${\beta}$有什么用？<br>第一个作用是可以恢复没有归一化前的模型(在合理选择${\gamma}$和${\beta}$参数的条件下)。在增加新操作的时候，可能改变原来的输入，也可能不改变，这样的话，可以保持原输入，模型的容纳能力提升了。  </p>
+        <p>1、第一个问题：${\gamma}$和${\beta}$有什么用？<br>第一个作用是可以恢复没有归一化前的模型(在合理选择${\gamma}$和${\beta}$参数的条件下)。在增加新操作的时候，可能改变原来的输入，也可能不改变，这样的话，可以保持原输入，模型的容纳能力提升了。<br>2、卷积层的Batch Normalization是怎么做的？<br>原文中是这么说的：<br>一个$d$维输入的层，对于每个维度单独的normalize。  </p>
+<script type="math/tex; mode=display">
+{\hat x}^{(k)}=\frac{x^{(k)}-E[x^{(k)}]} {\sqrt{Var[x^{(k)}]}}</script><p>$d$维输入对应到卷积层就是$k$个channel。为什么这么说？对于每一个${\hat x}^{(k)}$而言，都有一个${\gamma}^{(k)}$和$\beta^{(k)}$与之对应，即：  </p>
+<script type="math/tex; mode=display">
+y^{(k)}={\gamma}^{(k)}{\hat x}^{(k)}+\beta^{(k)}</script><p>重新看了下吴恩达的视频，发现我之前弄错了，如果是全连接层，$d$个神经元就有$d$个${\gamma}$和${\beta}$，那这么样的话参数的确要比之前多了。<br>对于mini-batch训练的问题，上面式子中的$E[x^{(k)}]$就是一个mini-batch中所有$x^{(k)}$的平均值。  </p>
+<p>Batch Normalization中还有什么问题可以随时查看这篇论文《atch Normalization: Accelerating Deep Network Training b<br>y Reducing Internal Covariate Shift》。<br>看完这篇论文之后，我终于懂了，对于全连接层和卷积层有不同的操作。对于全连接层，$z=g(Wx+b)$，其中$g(.)$是激活函数，Batch Normalization是这么做的，$z=g(BN(Wx))$，对于每个神经元有一个$\gamma$和$\beta$。对于全连接层而言，mini-batch样本数为$m$，一个feature map的大小为$p<em>q$，那么求取平均值的时候是在这个$m</em>p*q$个数据之间求取平均值。这样的话，是每个feature map做完BN之后再去做卷积操作。文中说这么做的目的是为了保证卷积的属性，就是相邻数据的相关性，感觉还有点道理的。<br>这样对应到我看的那篇基于$\gamma$值得压缩算法就讲得通了。  </p>
 
       
     </div>
