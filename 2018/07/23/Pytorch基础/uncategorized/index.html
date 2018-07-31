@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="Pytorch," />
+  <meta name="keywords" content="pytorch," />
 
 
 
@@ -87,14 +87,14 @@
 
 
 <meta name="description" content="开始时装的是torch0.3.1，后来发现现在官方的文档都是0.4版本的，所以就将版本换到0.4，开始时怎么也下载不下来，后来翻墙了一下，下载速度就快了不少。好像版本0.4和0.3还是有较大去别的，很多东西都做了改进。如下：    Tensor和Variable合并 支持零维张量（标量） 弃用volatile标志 detype,devices和Numpy-style Tensor创建函数 编写一些">
-<meta name="keywords" content="Pytorch">
+<meta name="keywords" content="pytorch">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Pytorch基础">
 <meta property="og:url" content="http://yanxingang.com/2018/07/23/Pytorch基础/uncategorized/index.html">
 <meta property="og:site_name" content="Xingang Yan">
 <meta property="og:description" content="开始时装的是torch0.3.1，后来发现现在官方的文档都是0.4版本的，所以就将版本换到0.4，开始时怎么也下载不下来，后来翻墙了一下，下载速度就快了不少。好像版本0.4和0.3还是有较大去别的，很多东西都做了改进。如下：    Tensor和Variable合并 支持零维张量（标量） 弃用volatile标志 detype,devices和Numpy-style Tensor创建函数 编写一些">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-07-30T12:32:00.300Z">
+<meta property="og:updated_time" content="2018-07-31T10:07:05.426Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Pytorch基础">
 <meta name="twitter:description" content="开始时装的是torch0.3.1，后来发现现在官方的文档都是0.4版本的，所以就将版本换到0.4，开始时怎么也下载不下来，后来翻墙了一下，下载速度就快了不少。好像版本0.4和0.3还是有较大去别的，很多东西都做了改进。如下：    Tensor和Variable合并 支持零维张量（标量） 弃用volatile标志 detype,devices和Numpy-style Tensor创建函数 编写一些">
@@ -401,28 +401,62 @@
 <li>编写一些不依赖设备的代码  </li>
 </ul>
 <h2 id="Tensor"><a href="#Tensor" class="headerlink" title="Tensor"></a>Tensor</h2><p>torch.Tensor是pytorch中最核心的类，如果将其属性.requres_grad设为true，其所有运算都会被track。在完成所有运算之后，可以调用.backward()就会自动计算出所有的梯度值。这个张量的梯度值就会保存在属性.grad中。为了停止对该张量的追踪，可以调用.detach()去分离计算。<br>如果不想去计算梯度值，该数值却需要训练，可以将所需代码包在with torch.no_grad():中。这样可以减少对于内存的占用（不需要再追踪变量了）<br>如果想要计算梯度，可以对张量调用.backward()。  </p>
+<h2 id="loss-backward"><a href="#loss-backward" class="headerlink" title="loss.backward()"></a>loss.backward()</h2><p>首先在定义tensor时，会说明该tensor是不是需要更新梯度的变量，如下  </p>
+<pre><code class="lang-python">w=touch.randn(2,2,dtype=torch.float,device=torch.device(&quot;cpu&quot;),requires_grad=True)
+</code></pre>
+<p>其中requires_grad=True就是说明需要更新梯度，如果没有设置，默认是False。在后面的计算中，会自动记录关于requires_grad=True变量的所有计算。标题中的loss是损失函数，自己定义的，比如下面的代码：  </p>
+<pre><code class="lang-python">loss=(y_pred-y).pow(2).sum()
+</code></pre>
+<p>其中y_pred是前向计算的结果值，y是标记值。y_pred是关于上面定义的变量w的函数，那么loss也就是关于x的函数，这样backward()计算时就可以自动反向求导了。  </p>
+<h2 id="更新参数"><a href="#更新参数" class="headerlink" title="更新参数"></a>更新参数</h2><p>通过”.grad”可以访问到反向传播中计算的变量的梯度值，使用时见如下代码：  </p>
+<pre><code class="lang-python">with torch.no_grad():
+    w-=learning_rate*w.grad
+
+     # Manually zero the gradients after updating weights
+     w.grad.zero_()
+</code></pre>
+<p>需要注意的地方有两点，一个是权重数据值是需要更新的，设置为requires_grad=True,那么”.grad” wrap in torch.no_grad()中，不需要在autograd中追踪该梯度值。另外就是，如果不重新将w.grad值置为零，下次计算的grad值会在该次值上累加。  </p>
+<h2 id="Function"><a href="#Function" class="headerlink" title="Function"></a>Function</h2><p>Pytorch是通过Tensor和Function来构建计算图，Function能够实现对于Tensor的运算，但是Function中的函数与numPy中的运算不同，pytorch中的function是需要计算反向传播梯度的。我们可以对Function进行扩展，充实我们所需要的计算方法。比如有些函数是不能自动求导的，需要自己定义求导方式。<br>下面是一个继承Function的ReLU类。  </p>
+<pre><code class="lang-python">class MyReLU(torch.autograd.Function):
+    # 必须是staticmethod
+    @staticmethod  #修饰器，声明静态方法
+    # 在forward中，需要定义MyReLU这个运算的forward计算过程
+    def forward(ctx,input):
+        # 保存任何在后向传播中需要使用的变量值
+        # 这个save_for_backward应该就是父类中的方法
+        ctx.save_for_backward(input)
+        return input.clamp(min=0)
+
+    def backward(ctx,grad_output):
+        &#39;&#39;&#39;
+        # 根据BP算法的推导（链式法则），dloss / dx = (dloss / doutput) * (doutput / dx)
+        # dloss / doutput就是输入的参数grad_output、因此只需求relu的导数，在乘以grad_output 
+        &#39;&#39;&#39;
+        # a=saved_tensors应该是父类中成员，此处应该是继承过来的
+        input, = ctx.saved_tensors
+        # 拷贝了grad_output
+        grad_input = grad_output.clone()
+        # 将开始前行传播的输入中小于0的数据的梯度值设为0
+        grad_input[input &lt; 0] = 0
+        return grad_input
+</code></pre>
+<p>上文中的ctx，官网的介绍是ctx is a context object that can be used to stash information for backward computation。应用时，ctx类似于self。而定义反向传播的方法时，传入的参数grad_output是反向传播上一级计算所得的梯度值。</p>
 <h2 id="Neural-Neatworks"><a href="#Neural-Neatworks" class="headerlink" title="Neural Neatworks"></a>Neural Neatworks</h2><p>‘nn’模块依靠’autograd’模块定义模型、计算梯度，一个’nn.Module’包含层、’forward(input)’,并且返回’output’。<br>一个典型的神经网络训练过程包含以下几个步骤：<br>1、定义网络，同时确定要学习的参数<br>2、根据输入数据集迭代<br>3、前向传播<br>4、计算损失函数<br>5、反向传播计算梯度值<br>6、更新参数  </p>
 <hr>
 <ul>
 <li>torch.nn中包含网络相关内容，nn.Module中包含层相关内容(如卷积层Conv2d、全连接层Linear)，nn.functional中包含神经网络网络中使用的函数(激活函数relu、MAX函数max_pool2d等)  </li>
 <li>torch.nn中只支持mini-batch，整个torch.nn只支持mini-batch样本，不支持单样本。例如，nn.Conv2d输入输出是一个四维张量nSamples×nChannels×Height×Width。如果使用单样本的话，使用input.unsqueeze(0)  </li>
 </ul>
-<h3 id="python中super的用法"><a href="#python中super的用法" class="headerlink" title="python中super的用法"></a>python中super的用法</h3><p>Note: super() only works for new-style classes.<br>super()函数的一个常见用法是在<strong>init</strong>()方法中确保父类被正确初始化。<br>super()函数是子类用于调用父类的一个方法，用来解决多重继承问题。<br>举例说明：  </p>
-<pre><code>class BasicClassPeople(object):
-    def __init__(self,name,age,gender):
-        self.name = name
-        self.age = age
-        self.gender = gender
-    def short_introduction(self):
-        print &#39;My name is {}, a {}, this year I am {} years old&#39;.format(self.name,self.gender,self.age)
-
-class ExtenClassOne(BasicClassPeople):
-    def __init__(self,name,age,gender,job):
-        super(ExtenClassOne, self).__init__(name,gender,age)
-        self.job = job
-    def short_introduction(self):
-        print &#39;My name is {}, a {}, this year I am {} years old, my job is {}&#39;.format(self.name, self.gender, self.age,self.job)
-</code></pre><p>在上边的程序中ExtenClassOne继承自BasicClassPeople，但是它想在初始化的时候为类新增加一个属性，如果不使用super的话我们就只能重写初始化函数了，但是使用了super之后我们只需要在定义扩展的初始化函数时调用父类初始化函数，然后把自己新增的属性添加到调用语句后面就可以了。  </p>
+<p>Function与Module都可以对pytorch进行自定义拓展，使其满足网络的需求，但这两者还是有十分重要的不同：<br>1、Function一般只定义一个操作，因为其无法保存参数，因此适用于激活函数、pooling等操作；Module是保存了参数，因此适合于定义一层，如线性层，卷积层，也适用于定义一个网络。<br>2、Function需要定义三个方法：<strong>init</strong>, forward, backward（需要自己写求导公式）；Module：只需定义<strong>init</strong>和forward，而backward的计算由自动求导机制构成。  </p>
+<h2 id="torch-nn-Sequential"><a href="#torch-nn-Sequential" class="headerlink" title="torch.nn.Sequential"></a>torch.nn.Sequential</h2><p>torch.nn.Sequential是一个sequential容器，模块按照构造函数传递的顺序添加到模块之中。<br>下面是一个示例：  </p>
+<pre><code class="lang-python">model=nn.Sequential(
+    nn.Conv2d(1,20,5),
+    nn.ReLU(),
+    nn.Conv2d(20,64,5),
+    nn.ReLU()
+)
+</code></pre>
+<p>其中Conv2d传入的参数以此是该层的Channel数、卷积核数、卷积核大小。  </p>
 
       
     </div>
@@ -440,7 +474,7 @@ class ExtenClassOne(BasicClassPeople):
       
         <div class="post-tags">
           
-            <a href="/tags/Pytorch/" rel="tag"># Pytorch</a>
+            <a href="/tags/pytorch/" rel="tag"># pytorch</a>
           
         </div>
       
@@ -582,7 +616,7 @@ class ExtenClassOne(BasicClassPeople):
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">23</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -630,7 +664,7 @@ class ExtenClassOne(BasicClassPeople):
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Tensor"><span class="nav-number">1.</span> <span class="nav-text">Tensor</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Neural-Neatworks"><span class="nav-number">2.</span> <span class="nav-text">Neural Neatworks</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#python中super的用法"><span class="nav-number">2.1.</span> <span class="nav-text">python中super的用法</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Tensor"><span class="nav-number">1.</span> <span class="nav-text">Tensor</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#loss-backward"><span class="nav-number">2.</span> <span class="nav-text">loss.backward()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新参数"><span class="nav-number">3.</span> <span class="nav-text">更新参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Function"><span class="nav-number">4.</span> <span class="nav-text">Function</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Neural-Neatworks"><span class="nav-number">5.</span> <span class="nav-text">Neural Neatworks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#torch-nn-Sequential"><span class="nav-number">6.</span> <span class="nav-text">torch.nn.Sequential</span></a></li></ol></div>
             
 
           </div>

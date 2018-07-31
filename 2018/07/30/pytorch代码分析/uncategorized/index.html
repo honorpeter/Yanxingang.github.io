@@ -94,7 +94,7 @@
 <meta property="og:site_name" content="Xingang Yan">
 <meta property="og:description" content="该部分所有的示例代码都是使用的torch0.4版本。下面是两个全连接层带反向传播的神经网络。   import torch  dtype = torch.float  #float型数据 #device = torch.device(&amp;quot;cpu&amp;quot;) #在CPU上运行 device = torch.device(&amp;quot;cuda:0&amp;quot;) #在GPU0上运行  # N">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-07-31T02:44:04.965Z">
+<meta property="og:updated_time" content="2018-07-31T10:19:49.453Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="pytorch代码分析">
 <meta name="twitter:description" content="该部分所有的示例代码都是使用的torch0.4版本。下面是两个全连接层带反向传播的神经网络。   import torch  dtype = torch.float  #float型数据 #device = torch.device(&amp;quot;cpu&amp;quot;) #在CPU上运行 device = torch.device(&amp;quot;cuda:0&amp;quot;) #在GPU0上运行  # N">
@@ -421,12 +421,17 @@ for t in range(500):
     h_relu = h.clamp(min=0) 
     y_pred = h_relu.mm(w2)
 
-    # Compute and print loss
+    # Compute and print loss\
+    # pow(2)函数是平方的意思
+    # sum()是求和的意思
+    # item()是遍历的意思
     loss = (y_pred - y).pow(2).sum().item()
     print(t, loss)
 
-    # Backprop to compute gradients of w1 and w2 with respect to loss
+    # Backprop to compute gradients of w1 and w2 with respect to loss、
+    # 从最后输出层往前传播
     grad_y_pred = 2.0 * (y_pred - y)
+    # h_relu.t()表示转置的意思，是原地操作，h_relu的值没有变换
     grad_w2 = h_relu.t().mm(grad_y_pred)
     grad_h_relu = grad_y_pred.mm(w2.t())
     grad_h = grad_h_relu.clone()
@@ -436,6 +441,132 @@ for t in range(500):
     # Update weights using gradient descent
     w1 -= learning_rate * grad_w1
     w2 -= learning_rate * grad_w2
+</code></pre>
+<p>上面应用的是自己手动求解梯度值的过程，还可以利用torch里面提供的函数backward()自动求解梯度。中间得某些函数，我在另一篇笔记《Pytorch基础》中讲解了。  </p>
+<pre><code class="lang-python">w1 = torch.randn(D_in, H, device=device, dtype=dtype, requires_grad=True)
+w2 = torch.randn(H, D_out, device=device, dtype=dtype, requires_grad=True)
+
+learning_rate = 1e-6
+for t in range(500):
+    # 不用自己手动保存中间变量计算梯度值了，直接计算到结果就行
+    y_pred = x.mm(w1).clamp(min=0).mm(w2)
+
+    loss = (y_pred - y).pow(2).sum()
+    print(t, loss.item())
+    # 反向计算梯度值
+    loss.backward()
+    #更新权重值
+    with torch.no_grad():
+        w1 -= learning_rate * w1.grad
+        w2 -= learning_rate * w2.grad
+        # 权重梯度置零
+        w1.grad.zero_()
+        w2.grad.zero_()
+</code></pre>
+<p>下面的示例程序是为了说明自定义某些函数是如何实现的。  </p>
+<pre><code class="lang-python">import torch
+# 下面的这段在《pytorch基础》中解释过了
+class MyReLU(torch.autograd.Function):
+
+    @staticmethod
+    def forward(ctx, input):
+        ctx.save_for_backward(input)
+        return input.clamp(min=0)
+
+    @staticmethod
+    def backward(ctx, grad_output):
+        input, = ctx.saved_tensors
+        grad_input = grad_output.clone()
+        grad_input[input &lt; 0] = 0
+        return grad_input
+
+dtype = torch.float
+device = torch.device(&quot;cpu&quot;)
+# device = torch.device(&quot;cuda:0&quot;) # Uncomment this to run on GPU
+N, D_in, H, D_out = 64, 1000, 100, 10
+
+x = torch.randn(N, D_in, device=device, dtype=dtype)
+y = torch.randn(N, D_out, device=device, dtype=dtype)
+
+w1 = torch.randn(D_in, H, device=device, dtype=dtype, requires_grad=True)
+w2 = torch.randn(H, D_out, device=device, dtype=dtype, requires_grad=True)
+
+learning_rate = 1e-6
+for t in range(500):
+    # To apply our Function, we use Function.apply method. We alias this as &#39;relu&#39;.
+    # MyReLU是类名，apply是继承自父类中的方法
+    relu = MyReLU.apply
+
+    # Forward pass: compute predicted y using operations; we compute ReLU using our custom autograd operation.
+    y_pred = relu(x.mm(w1)).mm(w2)
+
+    # Compute and print loss
+    loss = (y_pred - y).pow(2).sum()
+    print(t, loss.item())
+
+    # Use autograd to compute the backward pass.
+    loss.backward()
+
+    # Update weights using gradient descent
+    with torch.no_grad():
+        w1 -= learning_rate * w1.grad
+        w2 -= learning_rate * w2.grad
+
+        # Manually zero the gradients after updating weights
+        w1.grad.zero_()
+        w2.grad.zero_()
+</code></pre>
+<p>上面在应用backward()，没有出现relu.backward()这样的字样，猜测是，当应用MyReLU时，计算图就自动的添加了该运算，反向计算梯度时，就自动去寻找MyReLU中的backward()方法了。我做了个测试，如果将定义MyReLU时的backward换成其他的名字就不行了，果然名字的定义是确定的。并且，计算y_pred时，没有选择具体哪个方法，并不是自动选择了第一个，而是根据名字选择的，当我把forward改变为myforward时就不能用了，说明方法名字的使用时确定的。  </p>
+<p>下面是一个使用nn.Sequential构建的网络：  </p>
+<pre><code class="lang-python">import torch
+
+N, D_in, H, D_out = 64, 1000, 100, 10
+
+x = torch.randn(N, D_in)
+y = torch.randn(N, D_out)
+
+# Use the nn package to define our model as a sequence of layers. nn.Sequential
+# is a Module which contains other Modules, and applies them in sequence to
+# produce its output. Each Linear Module computes output from input using a
+# linear function, and holds internal Tensors for its weight and bias.
+model = torch.nn.Sequential(
+    torch.nn.Linear(D_in, H),
+    torch.nn.ReLU(),
+    torch.nn.Linear(H, D_out),
+)
+
+# The nn package also contains definitions of popular loss functions; in this case we will use Mean Squared Error (MSE) as our loss function.
+# nn 包里面有很多的现成的优化参数可以选择
+loss_fn = torch.nn.MSELoss(size_average=False)
+
+learning_rate = 1e-4
+for t in range(500):
+    # Forward pass: compute predicted y by passing x to the model. Module objects
+    # override the __call__ operator so you can call them like functions. When
+    # doing so you pass a Tensor of input data to the Module and it produces
+    # a Tensor of output data.
+    y_pred = model(x)
+
+    # Compute and print loss. We pass Tensors containing the predicted and true
+    # values of y, and the loss function returns a Tensor containing the
+    # loss.
+    loss = loss_fn(y_pred, y)
+    print(t, loss.item())
+
+    # Zero the gradients before running the backward pass.
+    model.zero_grad()
+
+    # Backward pass: compute gradient of the loss with respect to all the learnable
+    # parameters of the model. Internally, the parameters of each Module are stored
+    # in Tensors with requires_grad=True, so this call will compute gradients for
+    # all learnable parameters in the model.
+    loss.backward()
+
+    # Update the weights using gradient descent. Each parameter is a Tensor, so
+    # we can access its gradients like we did before.
+    with torch.no_grad():
+        for param in model.parameters():
+            param -= learning_rate * param.grad
 </code></pre>
 
       
@@ -583,7 +714,7 @@ for t in range(500):
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">23</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

@@ -94,7 +94,7 @@
 <meta property="og:site_name" content="Xingang Yan">
 <meta property="og:description" content="解答自己的疑惑：    定义类时，在类名后面的(object)的意思是派生自object类。   在定义类的成员名时，可以通过(__)两个下划线表示是私有成员，但是Pyhton并没有对私有成员提供严格的访问保护机制。   数据成员可以分为两类，属于对象的数据成员和属于类的数据成员。属于对象的数据成员主要指的是在构造函数init()中定义的，也可以在其他成员方法中定义，但是必须要以self作为前缀，">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-07-25T08:26:55.275Z">
+<meta property="og:updated_time" content="2018-07-31T06:15:37.596Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python中的类">
 <meta name="twitter:description" content="解答自己的疑惑：    定义类时，在类名后面的(object)的意思是派生自object类。   在定义类的成员名时，可以通过(__)两个下划线表示是私有成员，但是Pyhton并没有对私有成员提供严格的访问保护机制。   数据成员可以分为两类，属于对象的数据成员和属于类的数据成员。属于对象的数据成员主要指的是在构造函数init()中定义的，也可以在其他成员方法中定义，但是必须要以self作为前缀，">
@@ -406,6 +406,22 @@
 <ul>
 <li>派生类可以继承父类的共有成员，但是不能继承其私有成员。如果需要在派生类中调用基类的方法，可以使用内置函数super()或者通过”基类名.方法名”的方式来实现这一目标。  </li>
 </ul>
+<h2 id="python中super的用法"><a href="#python中super的用法" class="headerlink" title="python中super的用法"></a>python中super的用法</h2><p>Note: super() only works for new-style classes.<br>super()函数的一个常见用法是在<strong>init</strong>()方法中确保父类被正确初始化。<br>super()函数是子类用于调用父类的一个方法，用来解决多重继承问题。<br>举例说明：  </p>
+<pre><code>class BasicClassPeople(object):
+    def __init__(self,name,age,gender):
+        self.name = name
+        self.age = age
+        self.gender = gender
+    def short_introduction(self):
+        print &#39;My name is {}, a {}, this year I am {} years old&#39;.format(self.name,self.gender,self.age)
+
+class ExtenClassOne(BasicClassPeople):
+    def __init__(self,name,age,gender,job):
+        super(ExtenClassOne, self).__init__(name,gender,age)
+        self.job = job
+    def short_introduction(self):
+        print &#39;My name is {}, a {}, this year I am {} years old, my job is {}&#39;.format(self.name, self.gender, self.age,self.job)
+</code></pre><p>在上边的程序中ExtenClassOne继承自BasicClassPeople，但是它想在初始化的时候为类新增加一个属性，如果不使用super的话我们就只能重写初始化函数了，但是使用了super之后我们只需要在定义扩展的初始化函数时调用父类初始化函数，然后把自己新增的属性添加到调用语句后面就可以了。  </p>
 
       
     </div>
@@ -523,8 +539,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -556,7 +581,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">23</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -594,6 +619,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#python中super的用法"><span class="nav-number">1.</span> <span class="nav-text">python中super的用法</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
