@@ -173,7 +173,7 @@
     <url>%2F2018%2F05%2F19%2FAXIS-Bug%2Funcategorized%2F</url>
     <content type="text"><![CDATA[很久没有更新博客了，最近一直在解一个Bug，基本快要崩溃了，不过好在现在已经有些眉目了。自己写的AXI Stream发送接口好像有些问题，只有在模块与DMA之间接入相对较深的FIFO时才能正常使用，比如Depth为1024或者512好使，Depth为16就不好使，另外，DMA接收时的Ready信号总是不连续，思考了一下，感觉原因可能是PS端在处理数据，占用了数据总线。还有就是如果我将Ram输出的数据直接给AXI Stream接口，是有问题的，Ready信号不连续的时候会丢失数据。现在在考虑在Ram与AXI Stream接口之间加上FIFO。最近思考了一下，自己Verilog写起来特别费劲的原因是自己框架搭建的不好，很多地方不合理。 1、没有利用FIFO这个东西，这个东西直接就有现成的IP，使用起来应该很方便。它可以实现数据时钟不匹配以及数据位宽不匹配的问题，在设计中大有用处。 2、顺序流的模块，关键的Start、Done信号，要统一标准，配合状态机一起使用，要么都是上升沿开始，要么都是高电平触发，如果都有的话，逻辑上容易不清晰，产生混乱。 3、很多时候实现的时钟建立时间不满足要求是自己设计有问题，这次就是自己想当然的认为100MHz和200MHz相差一定相位来设计的，实际上相当于将频率提到了400MHz。 4、TestBench仿真是一定要做的，否则的话，更容易找不到问题了，Simulation是自己Debug时的一个参考，另外Simulation是很快的，很容易修改错误，Debug是非常慢的，容易造成心态崩。 另外，以自己做了这么一段时间的FPGA加速CNN的感受来说，这个东西就是在做FPGA，而不是CNN算法，如果之前熟悉FPGA，做起来就快，如果不熟悉FPGA，做起来就慢很多。现在，我并不想以后就做IC前端的工作，感觉自己优势不大，我有可能的话想要走物联网的道路，又要借助上FPGA的优势。以后可以重点关注下面的方面： FPGA有关图像处理的事情，就是用摄像头输入图像，然后完成相应的功能，识别、检测等等。但是感觉很多半导体厂商(英伟达、Arm)正在发力物联网应用，不清楚仅仅就FPGA而言能够走多远。 Linux系统，在Linux系统上完成相应的功能，但是我有不想研究太多驱动的内容，如果能最少的时间完成移植相关的工作就好了，自己可以专注于应用程序的开发。 系统级开发，神经网络层出不穷，做和神经网络相关的研究，研究跟适合FPGA加速的网络。 2018.5.21更新(2018.5.21)中午躺在椅子上休息了将近1个小时吧，感觉下午精神状态很饱满。上午看了下Xilinx最新的发展愿景，三大发展方向：云计算、八大主流应用(汽车、通信等等)、ACAP(异构计算平台)，感觉Xilinx接下来才是真正推出软件易用产品，预计年底量产，感觉如果成本可以降下来，又是对于行业的一次洗牌，毕竟现在Xilinx的营业额不是特别高，虽然一直在增长。 有时间的话得重点关注如何使用Zynq上的Linux系统了，感觉裸机不是未来，以太网驱动看看怎么用，以后可能会先用以太网建一个网络。 有时间多看看Xilinx有哪些IP可以使用，这可以大大减小自己开发的时间。 将网上自己找的相关的资料、视频等等，得看看了，这有助于自己后面对于架构的设计，有些很传统的跟Verilog相关的就不必看了，感觉没什么用。]]></content>
       <tags>
-        <tag>FPAG</tag>
+        <tag>FPGA</tag>
       </tags>
   </entry>
   <entry>
@@ -393,10 +393,5 @@
       <tags>
         <tag>翻译</tag>
       </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[About Me]]></title>
-    <url>%2F2017%2F12%2F29%2Faboutme%2Funcategorized%2F</url>
-    <content type="text"><![CDATA[NowI’m a student from NEU. My research interests include optimization, FPGA. PastI have participated in several competitions, including ABU Robocon and National Undergraduate Electronic Design Contest. If you have any questions about these competitions, I’m willing to communicate with you.]]></content>
   </entry>
 </search>
