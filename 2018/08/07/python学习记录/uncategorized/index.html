@@ -94,7 +94,7 @@
 <meta property="og:site_name" content="Xingang Yan">
 <meta property="og:description" content="python中的模块和包如果是模块就是一些.py文件，包就是将这些.py文件整合起来。比如main.py文件同目录下有一个models文件夹，models文件夹下有很多.py文件，这样在main.py文件里面就直接可以使用import models来调用该文件夹下的模块。   allall在模块的开头，主要用于说明模块的对外接口。形式  __all_=[&amp;#39;vgg&amp;#39;]  其中vgg为">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-08-07T02:00:44.806Z">
+<meta property="og:updated_time" content="2018-08-13T05:45:54.463Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python学习记录">
 <meta name="twitter:description" content="python中的模块和包如果是模块就是一些.py文件，包就是将这些.py文件整合起来。比如main.py文件同目录下有一个models文件夹，models文件夹下有很多.py文件，这样在main.py文件里面就直接可以使用import models来调用该文件夹下的模块。   allall在模块的开头，主要用于说明模块的对外接口。形式  __all_=[&amp;#39;vgg&amp;#39;]  其中vgg为">
@@ -405,6 +405,12 @@ array+=a
 print(array)
 </code></pre>
 <p>那么输出的结果为[1,2,1,2]。  </p>
+<h3 id="assert函数"><a href="#assert函数" class="headerlink" title="assert函数"></a>assert函数</h3><p>assert函数中文名为断言，断言为真时，继续往下执行程序，为假时停止执行并输出AssertionError。<br>如：   </p>
+<pre><code class="lang-python">a=3
+assert(a==3) #程序继续执行
+assert(a!=3) #程序输出AssertionError
+</code></pre>
+<h3 id="from-XX-import"><a href="#from-XX-import" class="headerlink" title="from XX import *"></a>from XX import *</h3><p>这是将XX模块的所有的函数或者类之类的都import进来，而且下面使用时，不在需要XX这个名，直接使用里面的函数名就可以了。  </p>
 
       
     </div>
@@ -551,7 +557,7 @@ print(array)
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">55</span>
+                  <span class="site-state-item-count">57</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -612,7 +618,7 @@ print(array)
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#python中的模块和包"><span class="nav-number">1.</span> <span class="nav-text">python中的模块和包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#all"><span class="nav-number">2.</span> <span class="nav-text">all</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#"><span class="nav-number">3.</span> <span class="nav-text">+=</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#python中的模块和包"><span class="nav-number">1.</span> <span class="nav-text">python中的模块和包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#all"><span class="nav-number">2.</span> <span class="nav-text">all</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#"><span class="nav-number">3.</span> <span class="nav-text">+=</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#assert函数"><span class="nav-number">4.</span> <span class="nav-text">assert函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#from-XX-import"><span class="nav-number">5.</span> <span class="nav-text">from XX import *</span></a></li></ol></div>
             
 
           </div>
