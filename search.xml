@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[YOLOv3_Pytorch train分析]]></title>
+    <url>%2F2018%2F08%2F17%2FYOLOv3-Pytorch-train%E5%88%86%E6%9E%90%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[之前看的github上那个什么版本的yolo都可以用的pytorch yolo程序好像有点问题，训练的时候反而将准确率变低了，暂时的感觉是网络构建可能没有问题，可能是最后损失函数的部分有问题。这次我重新搞了另外一个版本的，只能用在YOLOV3上，不过训练没有问题，现在打算把这个版本的弄明白。时间不等人，加油吧！ mian函数首先介绍下python里面有个 if __name__ == &quot;__main__&quot;: main() 可以直接进入main()函数，也就是说python里面识别的不是main()而是”main“。main()函数里面一般调用了很多的类和函数，所以先看一下main函数里面大概是什么逻辑流程吧。 main函数的开头就调用了logging模块里面的函数，那下面就对logging模块介绍一下吧。logging模块是python中的内置标准模块，可以设置输出日志的等级、日志的保存路径、日志文件回滚等：可以设置不同的日志等级，在release版本中只输出重要信息，而不必显示大量的调试信息；logging可以由开发者决定将信息输出到什么地方，以及怎么输出。logging.basicConfig配置文件使用： logging.basicConfig(level=logging.DEBUG, #设置日志级别，默认为logging.WARNING format=&#39;%(asctime)s %(filename)s[line:%(lineno)d] %(message)s&#39;, # %(asctime)s 打印日志时间 # %(filename)s 打印日志名称 # %(lineno)d 打印日志的当前行数 # %(message)s 打印日志信息 filename=&#39;parser_result.log&#39;, # 指定日志文件名 filemode=&#39;w&#39; #指定日志的打开模式，&#39;w&#39;或&#39;a&#39; ) 按照上面的信息输出，那么想要输出的]]></content>
+      <tags>
+        <tag>pytorch</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[物体检测的评价指标]]></title>
+    <url>%2F2018%2F08%2F15%2F%E7%89%A9%E4%BD%93%E6%A3%80%E6%B5%8B%E7%9A%84%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[首先需要清楚四个概念：tp,fp,fn,tn。 tp:True Positive真正 fp: False Positive真负 fn: False Negative假正 tn: True Negative假负 以检索文献为例，检索出来的包含我们想要的信息，又包含我们不想要的信息，而整体信息又分为有用的信息和无用的信息，即可用下表表示： 相关的 不相关的 被检索到的 true positive false positive 没有被检索到的 false negetive true negetive IoU是交并比，precision是精确率，recall是召回率。 precision=\frac{\sum{tp}}{\sum{tp}+\sum{fp}} recall=\frac{\sum{tp}}{\sum{tp}+\sum{fn}} Fscore=\frac{2*precision*recall}{precision+recall}]]></content>
+      <tags>
+        <tag>深度学习</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[雨夜游西湖]]></title>
     <url>%2F2018%2F08%2F13%2F%E9%9B%A8%E5%A4%9C%E6%B8%B8%E8%A5%BF%E6%B9%96%2Funcategorized%2F</url>
     <content type="text"><![CDATA[山外山，楼外楼]]></content>

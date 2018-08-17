@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="python," />
+  <meta name="keywords" content="pytorch," />
 
 
 
@@ -86,18 +86,18 @@
 
 
 
-<meta name="description" content="Numpy是应用Python进行科学计算时的基础模块。它是一个提供多维数组对象的Python库，除此之外，还包含了多种衍生的对象（比如掩码式数组(masked arrays)或矩阵）以及一系列的为快速计算数组而生的例程，包括数学运算，逻辑运算，形状操作，排序，选择，I/O，离散傅里叶变换，基本线性代数，基本统计运算，随机模拟等等。   矩阵乘与元素乘dot是矩阵乘，乘号”*”是元素乘。   for">
-<meta name="keywords" content="python">
+<meta name="description" content="之前看的github上那个什么版本的yolo都可以用的pytorch yolo程序好像有点问题，训练的时候反而将准确率变低了，暂时的感觉是网络构建可能没有问题，可能是最后损失函数的部分有问题。这次我重新搞了另外一个版本的，只能用在YOLOV3上，不过训练没有问题，现在打算把这个版本的弄明白。时间不等人，加油吧！   mian函数首先介绍下python里面有个   if __name__ == &amp;q">
+<meta name="keywords" content="pytorch">
 <meta property="og:type" content="article">
-<meta property="og:title" content="numpy基础">
-<meta property="og:url" content="http://yanxingang.com/2018/07/26/numpy基础/uncategorized/index.html">
+<meta property="og:title" content="YOLOv3_Pytorch train分析">
+<meta property="og:url" content="http://yanxingang.com/2018/08/17/YOLOv3-Pytorch-train分析/uncategorized/index.html">
 <meta property="og:site_name" content="Xingang Yan">
-<meta property="og:description" content="Numpy是应用Python进行科学计算时的基础模块。它是一个提供多维数组对象的Python库，除此之外，还包含了多种衍生的对象（比如掩码式数组(masked arrays)或矩阵）以及一系列的为快速计算数组而生的例程，包括数学运算，逻辑运算，形状操作，排序，选择，I/O，离散傅里叶变换，基本线性代数，基本统计运算，随机模拟等等。   矩阵乘与元素乘dot是矩阵乘，乘号”*”是元素乘。   for">
+<meta property="og:description" content="之前看的github上那个什么版本的yolo都可以用的pytorch yolo程序好像有点问题，训练的时候反而将准确率变低了，暂时的感觉是网络构建可能没有问题，可能是最后损失函数的部分有问题。这次我重新搞了另外一个版本的，只能用在YOLOV3上，不过训练没有问题，现在打算把这个版本的弄明白。时间不等人，加油吧！   mian函数首先介绍下python里面有个   if __name__ == &amp;q">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-07-26T07:23:44.954Z">
+<meta property="og:updated_time" content="2018-08-17T06:56:29.092Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="numpy基础">
-<meta name="twitter:description" content="Numpy是应用Python进行科学计算时的基础模块。它是一个提供多维数组对象的Python库，除此之外，还包含了多种衍生的对象（比如掩码式数组(masked arrays)或矩阵）以及一系列的为快速计算数组而生的例程，包括数学运算，逻辑运算，形状操作，排序，选择，I/O，离散傅里叶变换，基本线性代数，基本统计运算，随机模拟等等。   矩阵乘与元素乘dot是矩阵乘，乘号”*”是元素乘。   for">
+<meta name="twitter:title" content="YOLOv3_Pytorch train分析">
+<meta name="twitter:description" content="之前看的github上那个什么版本的yolo都可以用的pytorch yolo程序好像有点问题，训练的时候反而将准确率变低了，暂时的感觉是网络构建可能没有问题，可能是最后损失函数的部分有问题。这次我重新搞了另外一个版本的，只能用在YOLOV3上，不过训练没有问题，现在打算把这个版本的弄明白。时间不等人，加油吧！   mian函数首先介绍下python里面有个   if __name__ == &amp;q">
 
 
 
@@ -127,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://yanxingang.com/2018/07/26/numpy基础/uncategorized/"/>
+  <link rel="canonical" href="http://yanxingang.com/2018/08/17/YOLOv3-Pytorch-train分析/uncategorized/"/>
 
 
 
 
 
-  <title>numpy基础 | Xingang Yan</title>
+  <title>YOLOv3_Pytorch train分析 | Xingang Yan</title>
   
 
 
@@ -304,7 +304,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yanxingang.com/2018/07/26/numpy基础/uncategorized/">
+    <link itemprop="mainEntityOfPage" href="http://yanxingang.com/2018/08/17/YOLOv3-Pytorch-train分析/uncategorized/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Mr Yan">
@@ -321,7 +321,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">numpy基础</h1>
+          <h1 class="post-title" itemprop="name headline">YOLOv3_Pytorch train分析</h1>
         
 
         <div class="post-meta">
@@ -333,8 +333,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-26T13:38:49+08:00">
-                2018-07-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-17T14:10:52+08:00">
+                2018-08-17
               </time>
             
 
@@ -352,8 +352,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/07/26/numpy基础/uncategorized/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/07/26/numpy基础/uncategorized/" itemprop="commentsCount"></span>
+                <a href="/2018/08/17/YOLOv3-Pytorch-train分析/uncategorized/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/08/17/YOLOv3-Pytorch-train分析/uncategorized/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -361,7 +361,7 @@
 
           
           
-             <span id="/2018/07/26/numpy基础/uncategorized/" class="leancloud_visitors" data-flag-title="numpy基础">
+             <span id="/2018/08/17/YOLOv3-Pytorch-train分析/uncategorized/" class="leancloud_visitors" data-flag-title="YOLOv3_Pytorch train分析">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -392,59 +392,26 @@
       
 
       
-        <p>Numpy是应用Python进行科学计算时的基础模块。它是一个提供多维数组对象的Python库，除此之外，还包含了多种衍生的对象（比如掩码式数组(masked arrays)或矩阵）以及一系列的为快速计算数组而生的例程，包括数学运算，逻辑运算，形状操作，排序，选择，I/O，离散傅里叶变换，基本线性代数，基本统计运算，随机模拟等等。  </p>
-<h2 id="矩阵乘与元素乘"><a href="#矩阵乘与元素乘" class="headerlink" title="矩阵乘与元素乘"></a>矩阵乘与元素乘</h2><p>dot是矩阵乘，乘号”*”是元素乘。  </p>
-<h2 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h2><p>python中的for一般借用range函数实现，如下：  </p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> <span class="selector-tag">i</span> <span class="keyword">in</span> range(<span class="number">100</span>)</span><br></pre></td></tr></table></figure>
-<p>range就是一个从0到99的数组  </p>
-<h2 id="常用函数"><a href="#常用函数" class="headerlink" title="常用函数"></a>常用函数</h2><div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">函数</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">abs、fabs</td>
-<td style="text-align:center">计算整数和浮点数或复数的绝对值</td>
-</tr>
-<tr>
-<td style="text-align:center">sqrt</td>
-<td style="text-align:center">计算各元素的平方根</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h2 id="线性代数函数"><a href="#线性代数函数" class="headerlink" title="线性代数函数"></a>线性代数函数</h2><div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">函数</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">dot</td>
-<td style="text-align:center">矩阵乘法</td>
-</tr>
-<tr>
-<td style="text-align:center">trace</td>
-<td style="text-align:center">计算对角线元素的和</td>
-</tr>
-<tr>
-<td style="text-align:center">det</td>
-<td style="text-align:center">计算矩阵行列式</td>
-</tr>
-<tr>
-<td style="text-align:center">inv</td>
-<td style="text-align:center">计算方阵的逆</td>
-</tr>
-</tbody>
-</table>
-</div>
+        <p>之前看的github上那个什么版本的yolo都可以用的pytorch yolo程序好像有点问题，训练的时候反而将准确率变低了，暂时的感觉是网络构建可能没有问题，可能是最后损失函数的部分有问题。这次我重新搞了另外一个版本的，只能用在YOLOV3上，不过训练没有问题，现在打算把这个版本的弄明白。时间不等人，加油吧！  </p>
+<h2 id="mian函数"><a href="#mian函数" class="headerlink" title="mian函数"></a>mian函数</h2><p>首先介绍下python里面有个  </p>
+<pre><code class="lang-python">if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre>
+<p>可以直接进入main()函数，也就是说python里面识别的不是main()而是”<strong>main</strong>“。main()函数里面一般调用了很多的类和函数，所以先看一下main函数里面大概是什么逻辑流程吧。  </p>
+<ul>
+<li>main函数的开头就调用了logging模块里面的函数，那下面就对logging模块介绍一下吧。logging模块是python中的内置标准模块，可以设置输出日志的等级、日志的保存路径、日志文件回滚等：<br>可以设置不同的日志等级，在release版本中只输出重要信息，而不必显示大量的调试信息；logging可以由开发者决定将信息输出到什么地方，以及怎么输出。<br>logging.basicConfig配置文件使用：  <pre><code class="lang-python">logging.basicConfig(level=logging.DEBUG,  #设置日志级别，默认为logging.WARNING
+                  format=&#39;%(asctime)s %(filename)s[line:%(lineno)d] %(message)s&#39;,
+                  # %(asctime)s 打印日志时间
+                  # %(filename)s 打印日志名称
+                  # %(lineno)d 打印日志的当前行数
+                  # %(message)s 打印日志信息
+                  filename=&#39;parser_result.log&#39;, # 指定日志文件名
+                  filemode=&#39;w&#39;  #指定日志的打开模式，&#39;w&#39;或&#39;a&#39;
+                  )
+</code></pre>
+</li>
+</ul>
+<p>按照上面的信息输出，那么想要输出的</p>
 
       
     </div>
@@ -462,7 +429,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/python/" rel="tag"># python</a>
+            <a href="/tags/pytorch/" rel="tag"># pytorch</a>
           
         </div>
       
@@ -490,8 +457,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/07/25/DDR读写/uncategorized/" rel="next" title="DDR读写">
-                <i class="fa fa-chevron-left"></i> DDR读写
+              <a href="/2018/08/15/物体检测的评价指标/uncategorized/" rel="next" title="物体检测的评价指标">
+                <i class="fa fa-chevron-left"></i> 物体检测的评价指标
               </a>
             
           </div>
@@ -499,10 +466,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/07/27/Zynq工程介绍/uncategorized/" rel="prev" title="Zynq工程介绍">
-                Zynq工程介绍 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -652,7 +615,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#矩阵乘与元素乘"><span class="nav-number">1.</span> <span class="nav-text">矩阵乘与元素乘</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#for循环"><span class="nav-number">2.</span> <span class="nav-text">for循环</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用函数"><span class="nav-number">3.</span> <span class="nav-text">常用函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线性代数函数"><span class="nav-number">4.</span> <span class="nav-text">线性代数函数</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#mian函数"><span class="nav-number">1.</span> <span class="nav-text">mian函数</span></a></li></ol></div>
             
 
           </div>

@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="python," />
+  <meta name="keywords" content="深度学习," />
 
 
 
@@ -86,18 +86,18 @@
 
 
 
-<meta name="description" content="Numpy是应用Python进行科学计算时的基础模块。它是一个提供多维数组对象的Python库，除此之外，还包含了多种衍生的对象（比如掩码式数组(masked arrays)或矩阵）以及一系列的为快速计算数组而生的例程，包括数学运算，逻辑运算，形状操作，排序，选择，I/O，离散傅里叶变换，基本线性代数，基本统计运算，随机模拟等等。   矩阵乘与元素乘dot是矩阵乘，乘号”*”是元素乘。   for">
-<meta name="keywords" content="python">
+<meta name="description" content="首先需要清楚四个概念：tp,fp,fn,tn。    tp:True Positive真正   fp: False Positive真负   fn: False Negative假正   tn: True Negative假负    以检索文献为例，检索出来的包含我们想要的信息，又包含我们不想要的信息，而整体信息又分为有用的信息和无用的信息，即可用下表表示：        相关的 不相关的">
+<meta name="keywords" content="深度学习">
 <meta property="og:type" content="article">
-<meta property="og:title" content="numpy基础">
-<meta property="og:url" content="http://yanxingang.com/2018/07/26/numpy基础/uncategorized/index.html">
+<meta property="og:title" content="物体检测的评价指标">
+<meta property="og:url" content="http://yanxingang.com/2018/08/15/物体检测的评价指标/uncategorized/index.html">
 <meta property="og:site_name" content="Xingang Yan">
-<meta property="og:description" content="Numpy是应用Python进行科学计算时的基础模块。它是一个提供多维数组对象的Python库，除此之外，还包含了多种衍生的对象（比如掩码式数组(masked arrays)或矩阵）以及一系列的为快速计算数组而生的例程，包括数学运算，逻辑运算，形状操作，排序，选择，I/O，离散傅里叶变换，基本线性代数，基本统计运算，随机模拟等等。   矩阵乘与元素乘dot是矩阵乘，乘号”*”是元素乘。   for">
+<meta property="og:description" content="首先需要清楚四个概念：tp,fp,fn,tn。    tp:True Positive真正   fp: False Positive真负   fn: False Negative假正   tn: True Negative假负    以检索文献为例，检索出来的包含我们想要的信息，又包含我们不想要的信息，而整体信息又分为有用的信息和无用的信息，即可用下表表示：        相关的 不相关的">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-07-26T07:23:44.954Z">
+<meta property="og:updated_time" content="2018-08-17T06:11:10.300Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="numpy基础">
-<meta name="twitter:description" content="Numpy是应用Python进行科学计算时的基础模块。它是一个提供多维数组对象的Python库，除此之外，还包含了多种衍生的对象（比如掩码式数组(masked arrays)或矩阵）以及一系列的为快速计算数组而生的例程，包括数学运算，逻辑运算，形状操作，排序，选择，I/O，离散傅里叶变换，基本线性代数，基本统计运算，随机模拟等等。   矩阵乘与元素乘dot是矩阵乘，乘号”*”是元素乘。   for">
+<meta name="twitter:title" content="物体检测的评价指标">
+<meta name="twitter:description" content="首先需要清楚四个概念：tp,fp,fn,tn。    tp:True Positive真正   fp: False Positive真负   fn: False Negative假正   tn: True Negative假负    以检索文献为例，检索出来的包含我们想要的信息，又包含我们不想要的信息，而整体信息又分为有用的信息和无用的信息，即可用下表表示：        相关的 不相关的">
 
 
 
@@ -127,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://yanxingang.com/2018/07/26/numpy基础/uncategorized/"/>
+  <link rel="canonical" href="http://yanxingang.com/2018/08/15/物体检测的评价指标/uncategorized/"/>
 
 
 
 
 
-  <title>numpy基础 | Xingang Yan</title>
+  <title>物体检测的评价指标 | Xingang Yan</title>
   
 
 
@@ -304,7 +304,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yanxingang.com/2018/07/26/numpy基础/uncategorized/">
+    <link itemprop="mainEntityOfPage" href="http://yanxingang.com/2018/08/15/物体检测的评价指标/uncategorized/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Mr Yan">
@@ -321,7 +321,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">numpy基础</h1>
+          <h1 class="post-title" itemprop="name headline">物体检测的评价指标</h1>
         
 
         <div class="post-meta">
@@ -333,8 +333,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-26T13:38:49+08:00">
-                2018-07-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-15T08:56:27+08:00">
+                2018-08-15
               </time>
             
 
@@ -352,8 +352,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/07/26/numpy基础/uncategorized/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/07/26/numpy基础/uncategorized/" itemprop="commentsCount"></span>
+                <a href="/2018/08/15/物体检测的评价指标/uncategorized/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/08/15/物体检测的评价指标/uncategorized/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -361,7 +361,7 @@
 
           
           
-             <span id="/2018/07/26/numpy基础/uncategorized/" class="leancloud_visitors" data-flag-title="numpy基础">
+             <span id="/2018/08/15/物体检测的评价指标/uncategorized/" class="leancloud_visitors" data-flag-title="物体检测的评价指标">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -392,60 +392,42 @@
       
 
       
-        <p>Numpy是应用Python进行科学计算时的基础模块。它是一个提供多维数组对象的Python库，除此之外，还包含了多种衍生的对象（比如掩码式数组(masked arrays)或矩阵）以及一系列的为快速计算数组而生的例程，包括数学运算，逻辑运算，形状操作，排序，选择，I/O，离散傅里叶变换，基本线性代数，基本统计运算，随机模拟等等。  </p>
-<h2 id="矩阵乘与元素乘"><a href="#矩阵乘与元素乘" class="headerlink" title="矩阵乘与元素乘"></a>矩阵乘与元素乘</h2><p>dot是矩阵乘，乘号”*”是元素乘。  </p>
-<h2 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h2><p>python中的for一般借用range函数实现，如下：  </p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> <span class="selector-tag">i</span> <span class="keyword">in</span> range(<span class="number">100</span>)</span><br></pre></td></tr></table></figure>
-<p>range就是一个从0到99的数组  </p>
-<h2 id="常用函数"><a href="#常用函数" class="headerlink" title="常用函数"></a>常用函数</h2><div class="table-container">
+        <p>首先需要清楚四个概念：tp,fp,fn,tn。  </p>
+<ul>
+<li>tp:True Positive真正  </li>
+<li>fp: False Positive真负  </li>
+<li>fn: False Negative假正  </li>
+<li>tn: True Negative假负  </li>
+</ul>
+<p>以检索文献为例，检索出来的包含我们想要的信息，又包含我们不想要的信息，而整体信息又分为有用的信息和无用的信息，即可用下表表示：  </p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
-<th style="text-align:center">函数</th>
-<th style="text-align:center">说明</th>
+<th style="text-align:center"></th>
+<th style="text-align:center">相关的</th>
+<th style="text-align:center">不相关的</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">abs、fabs</td>
-<td style="text-align:center">计算整数和浮点数或复数的绝对值</td>
+<td style="text-align:center">被检索到的</td>
+<td style="text-align:center">true positive</td>
+<td style="text-align:center">false positive</td>
 </tr>
 <tr>
-<td style="text-align:center">sqrt</td>
-<td style="text-align:center">计算各元素的平方根</td>
+<td style="text-align:center">没有被检索到的</td>
+<td style="text-align:center">false negetive</td>
+<td style="text-align:center">true negetive</td>
 </tr>
 </tbody>
 </table>
 </div>
-<h2 id="线性代数函数"><a href="#线性代数函数" class="headerlink" title="线性代数函数"></a>线性代数函数</h2><div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">函数</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">dot</td>
-<td style="text-align:center">矩阵乘法</td>
-</tr>
-<tr>
-<td style="text-align:center">trace</td>
-<td style="text-align:center">计算对角线元素的和</td>
-</tr>
-<tr>
-<td style="text-align:center">det</td>
-<td style="text-align:center">计算矩阵行列式</td>
-</tr>
-<tr>
-<td style="text-align:center">inv</td>
-<td style="text-align:center">计算方阵的逆</td>
-</tr>
-</tbody>
-</table>
-</div>
-
+<p>IoU是交并比，precision是精确率，recall是召回率。  </p>
+<script type="math/tex; mode=display">
+precision=\frac{\sum{tp}}{\sum{tp}+\sum{fp}}</script><script type="math/tex; mode=display">
+recall=\frac{\sum{tp}}{\sum{tp}+\sum{fn}}</script><script type="math/tex; mode=display">
+Fscore=\frac{2*precision*recall}{precision+recall}</script>
       
     </div>
     
@@ -462,7 +444,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/python/" rel="tag"># python</a>
+            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
           
         </div>
       
@@ -490,8 +472,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/07/25/DDR读写/uncategorized/" rel="next" title="DDR读写">
-                <i class="fa fa-chevron-left"></i> DDR读写
+              <a href="/2018/08/13/雨夜游西湖/uncategorized/" rel="next" title="雨夜游西湖">
+                <i class="fa fa-chevron-left"></i> 雨夜游西湖
               </a>
             
           </div>
@@ -500,8 +482,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/07/27/Zynq工程介绍/uncategorized/" rel="prev" title="Zynq工程介绍">
-                Zynq工程介绍 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/08/17/YOLOv3-Pytorch-train分析/uncategorized/" rel="prev" title="YOLOv3_Pytorch train分析">
+                YOLOv3_Pytorch train分析 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -562,17 +544,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -642,22 +615,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#矩阵乘与元素乘"><span class="nav-number">1.</span> <span class="nav-text">矩阵乘与元素乘</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#for循环"><span class="nav-number">2.</span> <span class="nav-text">for循环</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用函数"><span class="nav-number">3.</span> <span class="nav-text">常用函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线性代数函数"><span class="nav-number">4.</span> <span class="nav-text">线性代数函数</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -1362,6 +1319,26 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
