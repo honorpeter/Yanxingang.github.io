@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="FPGA," />
+  <meta name="keywords" content="pytorch," />
 
 
 
@@ -86,18 +86,18 @@
 
 
 
-<meta name="description" content="AMP模式，双CPU同时运行(1)建立两个BSP，在CPU1的BSP SETTING中，在extra_compier_flags中的value值的地方添加-DUSE_AMP=1。(2)分配DDR地址，是两个DDR的地址不重合。(3)设置Debug Configuration,Apllicatoin的两个CPU都选中。(4)固化到SD卡中启动：在FSBL的src中找到main.c，在其中添加CPU1">
-<meta name="keywords" content="FPGA">
+<meta name="description" content="pytorch中使用tensorboardX的一般流程1、首先要import tensorboardX：   from tensorboardX import SummaryWriter  2、直接调用函数添加pytorch形式的tensor即可   writer=SummaryWriter() writer.add_histogram(&amp;#39;zz/x&amp;#39;, x, epoch) # ad">
+<meta name="keywords" content="pytorch">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Zynq工程介绍">
-<meta property="og:url" content="http://yanxingang.com/2018/07/27/Zynq工程介绍/uncategorized/index.html">
+<meta property="og:title" content="TensorboardX">
+<meta property="og:url" content="http://yanxingang.com/2018/08/17/TensorboardX/uncategorized/index.html">
 <meta property="og:site_name" content="Xingang Yan">
-<meta property="og:description" content="AMP模式，双CPU同时运行(1)建立两个BSP，在CPU1的BSP SETTING中，在extra_compier_flags中的value值的地方添加-DUSE_AMP=1。(2)分配DDR地址，是两个DDR的地址不重合。(3)设置Debug Configuration,Apllicatoin的两个CPU都选中。(4)固化到SD卡中启动：在FSBL的src中找到main.c，在其中添加CPU1">
+<meta property="og:description" content="pytorch中使用tensorboardX的一般流程1、首先要import tensorboardX：   from tensorboardX import SummaryWriter  2、直接调用函数添加pytorch形式的tensor即可   writer=SummaryWriter() writer.add_histogram(&amp;#39;zz/x&amp;#39;, x, epoch) # ad">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-07-27T08:33:37.182Z">
+<meta property="og:updated_time" content="2018-08-17T12:44:04.018Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Zynq工程介绍">
-<meta name="twitter:description" content="AMP模式，双CPU同时运行(1)建立两个BSP，在CPU1的BSP SETTING中，在extra_compier_flags中的value值的地方添加-DUSE_AMP=1。(2)分配DDR地址，是两个DDR的地址不重合。(3)设置Debug Configuration,Apllicatoin的两个CPU都选中。(4)固化到SD卡中启动：在FSBL的src中找到main.c，在其中添加CPU1">
+<meta name="twitter:title" content="TensorboardX">
+<meta name="twitter:description" content="pytorch中使用tensorboardX的一般流程1、首先要import tensorboardX：   from tensorboardX import SummaryWriter  2、直接调用函数添加pytorch形式的tensor即可   writer=SummaryWriter() writer.add_histogram(&amp;#39;zz/x&amp;#39;, x, epoch) # ad">
 
 
 
@@ -127,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://yanxingang.com/2018/07/27/Zynq工程介绍/uncategorized/"/>
+  <link rel="canonical" href="http://yanxingang.com/2018/08/17/TensorboardX/uncategorized/"/>
 
 
 
 
 
-  <title>Zynq工程介绍 | Xingang Yan</title>
+  <title>TensorboardX | Xingang Yan</title>
   
 
 
@@ -304,7 +304,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yanxingang.com/2018/07/27/Zynq工程介绍/uncategorized/">
+    <link itemprop="mainEntityOfPage" href="http://yanxingang.com/2018/08/17/TensorboardX/uncategorized/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Mr Yan">
@@ -321,7 +321,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Zynq工程介绍</h1>
+          <h1 class="post-title" itemprop="name headline">TensorboardX</h1>
         
 
         <div class="post-meta">
@@ -333,8 +333,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-27T14:53:25+08:00">
-                2018-07-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-17T20:18:47+08:00">
+                2018-08-17
               </time>
             
 
@@ -352,8 +352,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/07/27/Zynq工程介绍/uncategorized/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/07/27/Zynq工程介绍/uncategorized/" itemprop="commentsCount"></span>
+                <a href="/2018/08/17/TensorboardX/uncategorized/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2018/08/17/TensorboardX/uncategorized/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -361,7 +361,7 @@
 
           
           
-             <span id="/2018/07/27/Zynq工程介绍/uncategorized/" class="leancloud_visitors" data-flag-title="Zynq工程介绍">
+             <span id="/2018/08/17/TensorboardX/uncategorized/" class="leancloud_visitors" data-flag-title="TensorboardX">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -392,25 +392,30 @@
       
 
       
-        <h2 id="AMP模式，双CPU同时运行"><a href="#AMP模式，双CPU同时运行" class="headerlink" title="AMP模式，双CPU同时运行"></a>AMP模式，双CPU同时运行</h2><p>(1)建立两个BSP，在CPU1的BSP SETTING中，在extra_compier_flags中的value值的地方添加<strong>-DUSE_AMP=1</strong>。<br>(2)分配DDR地址，是两个DDR的地址不重合。<br>(3)设置Debug Configuration,Apllicatoin的两个CPU都选中。<br>(4)固化到SD卡中启动：<br>在FSBL的src中找到main.c，在其中添加CPU1的启动函数。  </p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> sev() __asm__(<span class="meta-string">"sev"</span>)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CPU1STARTADR 0xFFFFFFF0  <span class="comment">//与实际DDR地址保持一直</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CPU1STARTMEM 0x20000000</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">StartCpu1</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="meta">#<span class="meta-keyword">if</span> 1</span></span><br><span class="line">    fsbl_printf(DEBUG_GENERAL,<span class="string">"FSBL: Write the address of the application for CPU 1 to 0xFFFFFFF0\n\r"</span>);</span><br><span class="line">    Xil_Out32(CPU1STARTADR, CPU1STARTMEM);</span><br><span class="line">    dmb(); <span class="comment">//waits until write has finished</span></span><br><span class="line">    fsbl_printf(DEBUG_GENERAL,<span class="string">"FSBL: Execute the SEV instruction to cause CPU 1 to wake up and jump to the application\n\r"</span>);</span><br><span class="line">    sev();</span><br><span class="line">    <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>然后再找到Load boot image的位置，将将CPU1的启动函数，放置于此位置，改动后的代码段如下：  </p>
-<pre><code>/*
-    * Load boot image
-    */
-HandoffAddress = LoadBootImage();
-
-fsbl_printf(DEBUG_INFO,&quot;Handoff Address: 0x%08lx\r\n&quot;,HandoffAddress);
-StartCpu1();   /*add starting cpu1*/
-</code></pre><p>在Create Boot image的地方将两个CPU的elf文件都添加。  </p>
-<h2 id="利用Zynq-SoC的片上存储空间实现AMP通信"><a href="#利用Zynq-SoC的片上存储空间实现AMP通信" class="headerlink" title="利用Zynq SoC的片上存储空间实现AMP通信"></a>利用Zynq SoC的片上存储空间实现AMP通信</h2><p>片上存储空间，即为OCM，ZynqSOC上有256K字节的SRAM存储空间，有四个资源可以访问他。<strong>ZCU102好像在这个地方与Zynq架构不同</strong><br>1.通过SCU（监听控制单元）片上的两个ARM Cortex-A9 MPcore处理器都可以访问OCM<br>2.通过SCU（监听控制单元）PL（可编程逻辑）部分利用AXI ACP接口可以访问OCM<br>3.通过OCM interconnect结构PL部分利用AXI High Performance接口可以访问  OCM<br>4.通过OCM interconnect结构，Central Interconnect可以访问OCM<br>这么多种复用接口的资源都可以访问OCM，所以定义访问协议的仲裁和优先级机制是非常有必要的。SCU的读写操作具有最高的优先级（读操作的优先级比写操作要高）。由OCM interconnect发起的读写操作具有第二高的优先级。注：你可以翻转SCU写操作的优先级与OCM interconnect访问的优先级，方法是修改OCM控制寄存器，将SCU写操作的优先级设置的低一些。<br>OCM可以组织成128位的字存储空间，根据PS部分定义的地址空间OCM存储空间可以划分为四块64k字节的不同位置的存储区域。初始配置是将前三个64k字节的存储块映射到PS部分起始的地址空间，最后一个64K字节存储块映射到PS部分的末端的地址空间。这个在设置内存地址的那个文件中可以看到。<br>显然我们首先要做的事就是设置要使用的内存地址，我们将只传递8位无符号整数，所以我们只需要申请一个地址空间，这里我已经选择使用ZynqSoC的OCM的最高的64K字节的存储区完成这个工作，我禁止了这块存储空间的cache（缓存）功能，在应用程序中我们可以使用下面的函数命令来实现。<br>Xil_SetTlbAttributes(0xFFFF0000,0x14de2);</p>
-<p>我将利用0XFFFF0000这个内存地址作为介质实现在CPU0与CPU1之间传递一个字节的数据，当然有很多方式可以实现这个功能，下面我们将介绍两种最常用的方式：  </p>
-<p>第一种方法是利用通用的Xilinx I/O接口函数实现对制定地址的读取与写入，这些函数包含在Xil_IO.h头文件中，允许在CPU的地址空间内实现存储与访问8位、16位或者32位的字符型、短整型或整型的数值数据。使用这些函数你就可以读取指定地址的数据，或者像指定地址写入指定的数据。<br>Xil_Out8(0xFFFF0000,0x55);<br>read_char = Xil_In8(0xFFFF0000);<br>为了确保这些地址指向的是同一个OCM位置，尤其是当不同的人编写不同的应用程序，他们将会调用共同的头文件，头文件中包含的对这个地址的宏定义，这是一个非常好的工程实践的例子，例如下面所示：  </p>
-<h1 id="define-LED-PAT-0xFFFF0000"><a href="#define-LED-PAT-0xFFFF0000" class="headerlink" title="define LED_PAT 0xFFFF0000"></a>define LED_PAT 0xFFFF0000</h1><p>第二种方法是在两个程序中使用指针指向通一个存储位置。我们可以定义一个指针指向一个常量地址，使用C语言我们会定义一个宏，如下所示  </p>
-<h1 id="define-LED-OP-volatileunsignedint-0xFFFF0000"><a href="#define-LED-OP-volatileunsignedint-0xFFFF0000" class="headerlink" title="define LED_OP ((volatileunsignedint )(0xFFFF0000))"></a>define LED_OP (<em>(volatileunsignedint </em>)(0xFFFF0000))</h1><p>这种方法不需要再调用Xilinx I/O接口的库函数，通过指针就可以实现访问功能。   </p>
-<h2 id="中断和AMP"><a href="#中断和AMP" class="headerlink" title="中断和AMP"></a>中断和AMP</h2><p>中断自己，中断另一个处理器核或者中断两者。例如，我们使用Core 0产生一个中断，通知Core1接收到了一个LED模式的更新。<br>使用软件中断跟硬件中断没有太大区别，只有我们怎样触发中断不同。我们有16个软件产生的中断可以选择，因此我们必须定义软件中断编号：  </p>
-<h1 id="define-SW-INT-ID-0"><a href="#define-SW-INT-ID-0" class="headerlink" title="define SW_INT_ID 0"></a>define SW_INT_ID 0</h1><p>我们需要为每个处理器核在代码的共享头文件中声明这个选项。如果一个处理器核处理16个软件产生的中断之一而另一个处理器核正在等待另一个发生，这种情况是很尴尬的。<br>详情见《Adam Taylor玩转MicroZed系列》教程<a href="http://www.openhw.org/blog-383" target="_blank" rel="noopener">http://www.openhw.org/blog-383</a>这个网址。<br>原文见<a href="https://forums.xilinx.com/t5/Xcell-Daily-Blog-Archived/Adam-Taylor-s-MicroZed-Chronicles-Part-51-Interrupts-and-AMP/ba-p/525489" target="_blank" rel="noopener">https://forums.xilinx.com/t5/Xcell-Daily-Blog-Archived/Adam-Taylor-s-MicroZed-Chronicles-Part-51-Interrupts-and-AMP/ba-p/525489</a>这个网址。  </p>
-<h2 id="VDMA"><a href="#VDMA" class="headerlink" title="VDMA"></a>VDMA</h2><p><a href="https://forums.xilinx.com/t5/Xcell-Daily-Blog-Archived/Adam-Taylor-s-MicroZed-Chronicles-UltraZed-Edition-Part-218-The/ba-p/798084" target="_blank" rel="noopener">https://forums.xilinx.com/t5/Xcell-Daily-Blog-Archived/Adam-Taylor-s-MicroZed-Chronicles-UltraZed-Edition-Part-218-The/ba-p/798084</a>  </p>
+        <h2 id="pytorch中使用tensorboardX的一般流程"><a href="#pytorch中使用tensorboardX的一般流程" class="headerlink" title="pytorch中使用tensorboardX的一般流程"></a>pytorch中使用tensorboardX的一般流程</h2><p>1、首先要import tensorboardX：  </p>
+<pre><code class="lang-python">from tensorboardX import SummaryWriter
+</code></pre>
+<p>2、直接调用函数添加pytorch形式的tensor即可  </p>
+<pre><code class="lang-python">writer=SummaryWriter()
+writer.add_histogram(&#39;zz/x&#39;, x, epoch)
+# add_scalar才是添加进实际图中的数据，第一个参数&#39;data/x&#39;就是就是纵坐标上的图示，x和epoch分别是纵坐标和横坐标。
+writer.add_scalar(&#39;data/x&#39;, x, epoch)
+writer.add_scalars(&#39;data/scalar_group&#39;, {&#39;x&#39;: x,
+                                         &#39;y&#39;: y,
+                                         &#39;loss&#39;: loss}, epoch)
+writer.add_text(&#39;zz/text&#39;, &#39;zz: this is epoch &#39; + str(epoch), epoch)
+</code></pre>
+<p><strong>上面的add_histogram和add_text我都没有搞懂</strong><br>3、保存记录信息到.json文件  </p>
+<pre><code class="lang-python">writer.export_scalars_to_json(&quot;./test.json&quot;)
+</code></pre>
+<p>4、在所有的都完事，也就是说train完成后，可以  </p>
+<pre><code class="lang-python">writer.close()
+</code></pre>
+<h2 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h2><p>上面的应用主要注意两点：  </p>
+<ul>
+<li>add_scalars不是动态添加的，需要有一个for循环  </li>
+<li>如果开始时，writer=SummaryWriter()中，传入一个文件地址，保存信息，后面可以不同保存到.json文件中，<strong>没有试验过，不确定</strong>。</li>
+</ul>
 
       
     </div>
@@ -428,7 +433,7 @@ StartCpu1();   /*add starting cpu1*/
       
         <div class="post-tags">
           
-            <a href="/tags/FPGA/" rel="tag"># FPGA</a>
+            <a href="/tags/pytorch/" rel="tag"># pytorch</a>
           
         </div>
       
@@ -456,8 +461,8 @@ StartCpu1();   /*add starting cpu1*/
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/07/26/numpy基础/uncategorized/" rel="next" title="numpy基础">
-                <i class="fa fa-chevron-left"></i> numpy基础
+              <a href="/2018/08/17/YOLOv3-Pytorch-train分析/uncategorized/" rel="next" title="YOLOv3_Pytorch train分析">
+                <i class="fa fa-chevron-left"></i> YOLOv3_Pytorch train分析
               </a>
             
           </div>
@@ -465,10 +470,6 @@ StartCpu1();   /*add starting cpu1*/
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/07/27/这一天我什么都不想干/uncategorized/" rel="prev" title="这一天我什么都不想干">
-                这一天我什么都不想干 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -618,7 +619,7 @@ StartCpu1();   /*add starting cpu1*/
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#AMP模式，双CPU同时运行"><span class="nav-number">1.</span> <span class="nav-text">AMP模式，双CPU同时运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用Zynq-SoC的片上存储空间实现AMP通信"><span class="nav-number">2.</span> <span class="nav-text">利用Zynq SoC的片上存储空间实现AMP通信</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#define-LED-PAT-0xFFFF0000"><span class="nav-number"></span> <span class="nav-text">define LED_PAT 0xFFFF0000</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#define-LED-OP-volatileunsignedint-0xFFFF0000"><span class="nav-number"></span> <span class="nav-text">define LED_OP ((volatileunsignedint )(0xFFFF0000))</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#中断和AMP"><span class="nav-number">1.</span> <span class="nav-text">中断和AMP</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#define-SW-INT-ID-0"><span class="nav-number"></span> <span class="nav-text">define SW_INT_ID 0</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#VDMA"><span class="nav-number">1.</span> <span class="nav-text">VDMA</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#pytorch中使用tensorboardX的一般流程"><span class="nav-number">1.</span> <span class="nav-text">pytorch中使用tensorboardX的一般流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意点"><span class="nav-number">2.</span> <span class="nav-text">注意点</span></a></li></ol></div>
             
 
           </div>
