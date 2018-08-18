@@ -86,18 +86,18 @@
 
 
 
-<meta name="description" content="首先需要清楚四个概念：tp,fp,fn,tn。    tp:True Positive真正   fp: False Positive真负   fn: False Negative假正   tn: True Negative假负    以检索文献为例，检索出来的包含我们想要的信息，又包含我们不想要的信息，而整体信息又分为有用的信息和无用的信息，即可用下表表示：        相关的 不相关的">
+<meta name="description" content="单标签分类与多标签分类+定位单标签分类+定位：如行人检测，之需要检测到行人即可，也就是每张图里面只有行人的方框，别的物体根本不用管，就是个二分类问题。多标签分类+定位：就是一张图片里面不仅有行人，还有车，还有其他东西，都需要识别出来。   tp,fp,fn,tn首先需要清楚四个概念：tp,fp,fn,tn。    tp:True Positive真正   fp: False Positive真负">
 <meta name="keywords" content="深度学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="物体检测的评价指标">
 <meta property="og:url" content="http://yanxingang.com/2018/08/15/物体检测的评价指标/uncategorized/index.html">
 <meta property="og:site_name" content="Xingang Yan">
-<meta property="og:description" content="首先需要清楚四个概念：tp,fp,fn,tn。    tp:True Positive真正   fp: False Positive真负   fn: False Negative假正   tn: True Negative假负    以检索文献为例，检索出来的包含我们想要的信息，又包含我们不想要的信息，而整体信息又分为有用的信息和无用的信息，即可用下表表示：        相关的 不相关的">
+<meta property="og:description" content="单标签分类与多标签分类+定位单标签分类+定位：如行人检测，之需要检测到行人即可，也就是每张图里面只有行人的方框，别的物体根本不用管，就是个二分类问题。多标签分类+定位：就是一张图片里面不仅有行人，还有车，还有其他东西，都需要识别出来。   tp,fp,fn,tn首先需要清楚四个概念：tp,fp,fn,tn。    tp:True Positive真正   fp: False Positive真负">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-08-17T06:11:10.300Z">
+<meta property="og:updated_time" content="2018-08-18T06:43:16.441Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="物体检测的评价指标">
-<meta name="twitter:description" content="首先需要清楚四个概念：tp,fp,fn,tn。    tp:True Positive真正   fp: False Positive真负   fn: False Negative假正   tn: True Negative假负    以检索文献为例，检索出来的包含我们想要的信息，又包含我们不想要的信息，而整体信息又分为有用的信息和无用的信息，即可用下表表示：        相关的 不相关的">
+<meta name="twitter:description" content="单标签分类与多标签分类+定位单标签分类+定位：如行人检测，之需要检测到行人即可，也就是每张图里面只有行人的方框，别的物体根本不用管，就是个二分类问题。多标签分类+定位：就是一张图片里面不仅有行人，还有车，还有其他东西，都需要识别出来。   tp,fp,fn,tn首先需要清楚四个概念：tp,fp,fn,tn。    tp:True Positive真正   fp: False Positive真负">
 
 
 
@@ -392,42 +392,119 @@
       
 
       
-        <p>首先需要清楚四个概念：tp,fp,fn,tn。  </p>
+        <h2 id="单标签分类与多标签分类-定位"><a href="#单标签分类与多标签分类-定位" class="headerlink" title="单标签分类与多标签分类+定位"></a>单标签分类与多标签分类+定位</h2><p>单标签分类+定位：如行人检测，之需要检测到行人即可，也就是每张图里面只有行人的方框，别的物体根本不用管，就是个二分类问题。<br>多标签分类+定位：就是一张图片里面不仅有行人，还有车，还有其他东西，都需要识别出来。  </p>
+<h2 id="tp-fp-fn-tn"><a href="#tp-fp-fn-tn" class="headerlink" title="tp,fp,fn,tn"></a>tp,fp,fn,tn</h2><p>首先需要清楚四个概念：tp,fp,fn,tn。  </p>
 <ul>
 <li>tp:True Positive真正  </li>
 <li>fp: False Positive真负  </li>
 <li>fn: False Negative假正  </li>
 <li>tn: True Negative假负  </li>
 </ul>
-<p>以检索文献为例，检索出来的包含我们想要的信息，又包含我们不想要的信息，而整体信息又分为有用的信息和无用的信息，即可用下表表示：  </p>
 <div class="table-container">
 <table>
 <thead>
 <tr>
 <th style="text-align:center"></th>
-<th style="text-align:center">相关的</th>
-<th style="text-align:center">不相关的</th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">被检索到的</td>
-<td style="text-align:center">true positive</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">true positiv-e</td>
 <td style="text-align:center">false positive</td>
 </tr>
 <tr>
-<td style="text-align:center">没有被检索到的</td>
+<td style="text-align:center"></td>
 <td style="text-align:center">false negetive</td>
-<td style="text-align:center">true negetive</td>
+<td style="text-align:center">true neegtive</td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>IoU是交并比，precision是精确率，recall是召回率。  </p>
+<p>现在假设已经通过非极大值抑制的方法得到了几个方框以及相应的类别，下面就可以和真正的标签进行计算，计算IoU,IoU是交并比，如果，IoU&gt;0.5就认为是true positive,否则就认为是false positive。当然很多情况下，不仅仅是IoU决定的，还要综合考虑置信度的情况，<br>precision是精确率，recall是召回率。下面是对于精确率和召回率进行的计算，注意这些计算都是针对于一个类别而言的。测试模型的精确度时，经过极大值抑制之后，我们可以得到的每个方框都有一个属于他们的类别，对每一个类别都做一个排序，如下图：  </p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">image index</th>
+<th style="text-align:center">类别</th>
+<th style="text-align:center">置信度</th>
+<th style="text-align:center">实际标签</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">person(0)</td>
+<td style="text-align:center">0.9</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">person(0)</td>
+<td style="text-align:center">0.8</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">person(0)</td>
+<td style="text-align:center">0.77</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">person(0)</td>
+<td style="text-align:center">0.75</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">person(0)</td>
+<td style="text-align:center">0.5</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center">person(0)</td>
+<td style="text-align:center">0.4</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center">person(0)</td>
+<td style="text-align:center">0.33</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">8</td>
+<td style="text-align:center">person(0)</td>
+<td style="text-align:center">0.2</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">9</td>
+<td style="text-align:center">person(0)</td>
+<td style="text-align:center">0.15</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">10</td>
+<td style="text-align:center">person(0)</td>
+<td style="text-align:center">0.11</td>
+<td style="text-align:center">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>按照上面的分析置信度也是一个重要的评判标准，置信度也有一个阈值。如果上表是10张图片里面对于person这个类别的判断，如果我们想要得到top-5的准确率,tp就是图片 1，2，3；fp就是4，5；fn就是7，9；按照下面的公式计算精确率和召回率分别为0.6和0.6。 </p>
 <script type="math/tex; mode=display">
 precision=\frac{\sum{tp}}{\sum{tp}+\sum{fp}}</script><script type="math/tex; mode=display">
 recall=\frac{\sum{tp}}{\sum{tp}+\sum{fn}}</script><script type="math/tex; mode=display">
-Fscore=\frac{2*precision*recall}{precision+recall}</script>
+Fscore=\frac{2*precision*recall}{precision+recall}</script><p>实际在多类别的分类任务中，我们通常不满足于top-5来衡量一个模型的好坏，而是需要指导从top-1到top-N的precision和recall。显然，我们选定的样本越来越多，recall一定会越来越高，而precision会呈现出下降趋势。  </p>
+<h2 id="mAP与AP"><a href="#mAP与AP" class="headerlink" title="mAP与AP"></a>mAP与AP</h2><p>普通的单标签分类标准，即为mean accuracy,是不能用于多标签分类任务的，多标签分类任务采用的是和信息检索类似的方法——mAP(mean Average Precision)，mAP的计算流程如下：<br>结合上面对于fp,np,fn的分析，下面给出mAP的计算方法。假设上面10个样本中有5个正例，就是说10张图片里面是有5张里面是有人的，我们先有5个recall值，就是[1/5,2/5,3/5,4/5]，对于每个recall值，都可以计算出一个最大的精度值precision，在将这些precision值取平均值就是AP。<br>而mAP就是在所有class上取一个平均值。  </p>
+
       
     </div>
     
@@ -544,8 +621,17 @@ Fscore=\frac{2*precision*recall}{precision+recall}</script>
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -564,7 +650,7 @@ Fscore=\frac{2*precision*recall}{precision+recall}</script>
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">60</span>
+                  <span class="site-state-item-count">63</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -615,6 +701,22 @@ Fscore=\frac{2*precision*recall}{precision+recall}</script>
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#单标签分类与多标签分类-定位"><span class="nav-number">1.</span> <span class="nav-text">单标签分类与多标签分类+定位</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tp-fp-fn-tn"><span class="nav-number">2.</span> <span class="nav-text">tp,fp,fn,tn</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mAP与AP"><span class="nav-number">3.</span> <span class="nav-text">mAP与AP</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

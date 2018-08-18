@@ -94,7 +94,7 @@
 <meta property="og:site_name" content="Xingang Yan">
 <meta property="og:description" content="之前看的github上那个什么版本的yolo都可以用的pytorch yolo程序好像有点问题，训练的时候反而将准确率变低了，暂时的感觉是网络构建可能没有问题，可能是最后损失函数的部分有问题。这次我重新搞了另外一个版本的，只能用在YOLOV3上，不过训练没有问题，现在打算把这个版本的弄明白。时间不等人，加油吧！   mian函数首先介绍下python里面有个   if __name__ == &amp;q">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-08-17T12:05:18.120Z">
+<meta property="og:updated_time" content="2018-08-18T11:17:13.480Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="YOLOv3_Pytorch train分析">
 <meta name="twitter:description" content="之前看的github上那个什么版本的yolo都可以用的pytorch yolo程序好像有点问题，训练的时候反而将准确率变低了，暂时的感觉是网络构建可能没有问题，可能是最后损失函数的部分有问题。这次我重新搞了另外一个版本的，只能用在YOLOV3上，不过训练没有问题，现在打算把这个版本的弄明白。时间不等人，加油吧！   mian函数首先介绍下python里面有个   if __name__ == &amp;q">
@@ -434,8 +434,18 @@ net=net.cuda()
 <li>下面是一个是否重载预训练权重的判断。其中有一个问题：<strong>就是怎么去配置这个pretrain_snapshot(即checkpoint)</strong>。</li>
 <li>定义了一个yolo_loss的变量，3个scales按顺序append到yolo_losss中，每个是一个YOLOLoss例化的对象，例化init时需要传入三个参数，anchors的值，class的数量，image的宽和高，这里的 <strong>archors不知道为什么是2×3×3个数?</strong>。  </li>
 <li>加载训练数据集，这个地方需要注意下，不同的程序好像具体实现起来不是完全一致。  </li>
-<li>开始训练了：<br>1、这个地方每个不同的版本倒是有相似之处，都是两个for循环，一个是epoch的循环，一个是mini-batch的循环，里面就是训练，感觉这个程序要简洁一点。<br>2、之前加载训练数据的时候，将赋值到了dataloader里面，这个dataloader最然还没仔细研究，但是感觉里面东西也挺多的，至少这个dataloader里面是个多维数组，最外面的是按照batch_size分割的数据集，往里面是image和label的分割，在里面应该就是图像数据吧。在计算每个nimi-batch的时候还搞了一个变量用于统计计算了多少个mini-batch了，这个变量是跨epoch的，也就是每个epoch开始的时候不清零。<br>3、下面就是进行前向计算了，一般就是将图像输入给例化的网络对象，就可以得到计算的结果了，因为forward函数已经定义过了，计算的时候会自动地寻找forward计算。在每次mini-batch计算开始的时候，别忘了optimizer.zero_grad()，因为梯度不清零是会累加的。<br>4、重要的是损失函数的计算，<strong>现在还没看懂</strong>，下面是更新权重<br>5、接下来有一段是配置的TensorBoard</li>
+<li>开始训练了：<br>1、这个地方每个不同的版本倒是有相似之处，都是两个for循环，一个是epoch的循环，一个是mini-batch的循环，里面就是训练，感觉这个程序要简洁一点。<br>2、之前加载训练数据的时候，将赋值到了dataloader里面，这个dataloader最然还没仔细研究，但是感觉里面东西也挺多的，至少这个dataloader里面是个多维数组，最外面的是按照batch_size分割的数据集，往里面是image和label的分割，在里面应该就是图像数据吧。在计算每个nimi-batch的时候还搞了一个变量用于统计计算了多少个mini-batch了，这个变量是跨epoch的，也就是每个epoch开始的时候不清零。<br>3、下面就是进行前向计算了，一般就是将图像输入给例化的网络对象，就可以得到计算的结果了，因为forward函数已经定义过了，计算的时候会自动地寻找forward计算。在每次mini-batch计算开始的时候，别忘了optimizer.zero_grad()，因为梯度不清零是会累加的。<br>4、重要的是损失函数的计算，<strong>现在还没看懂</strong>，下面是更新权重<br>5、接下来有一段是配置的TensorBoard  </li>
 </ul>
+<h2 id="保存中间训练的权重"><a href="#保存中间训练的权重" class="headerlink" title="保存中间训练的权重"></a>保存中间训练的权重</h2><p>这个地方好像用到了checkpoint，而且权重数据为.pth的文件格式，这与之前剪枝时用的文件格式一致。<br>对于保存和加载模型，pytorch提供了两种方案，一种是保存和加载整个网络：  </p>
+<pre><code class="lang-python">#保存和加载整个模型，包括：网络结果，模型参数
+torch.save(resnet,&#39;model.pkl&#39;) #保存
+model=torch.load(&#39;model.pkl&#39;) #加载
+</code></pre>
+<p>另一种是保存和加载网络中的参数  </p>
+<pre><code class="lang-python">torch.save(resnet.state_dict(),&#39;params.pkl&#39;)
+resnet.load_state_dict(torch.load(&#39;params.pkl&#39;))
+</code></pre>
+<p>上面的resnet是例化后的网络对象。<br><strong>这个地方，最终保存的是什么格式的，有点奇怪，我看到剪枝的那个程序里面保存的是.pth.tar的格式</strong><br>我最终保存的是.pth文件格式  </p>
 
       
     </div>
@@ -582,7 +592,7 @@ net=net.cuda()
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">60</span>
+                  <span class="site-state-item-count">63</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -643,7 +653,7 @@ net=net.cuda()
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#mian函数"><span class="nav-number">1.</span> <span class="nav-text">mian函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#train函数"><span class="nav-number">2.</span> <span class="nav-text">train函数</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#mian函数"><span class="nav-number">1.</span> <span class="nav-text">mian函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#train函数"><span class="nav-number">2.</span> <span class="nav-text">train函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#保存中间训练的权重"><span class="nav-number">3.</span> <span class="nav-text">保存中间训练的权重</span></a></li></ol></div>
             
 
           </div>
