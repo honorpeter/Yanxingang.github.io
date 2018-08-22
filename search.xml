@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[How to implement yolo in pytorch]]></title>
+    <url>%2F2018%2F08%2F22%2FHow-to-implement-yolo-in-pytorch%2Funcategorized%2F</url>
+    <content type="text"></content>
+      <tags>
+        <tag>-pytroch -翻译</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[我的愿望值多少钱]]></title>
+    <url>%2F2018%2F08%2F22%2F%E6%88%91%E7%9A%84%E6%84%BF%E6%9C%9B%E5%80%BC%E5%A4%9A%E5%B0%91%E9%92%B1%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[想统计一下自己对于物质生活的欲望，下面的东西估计自己短时间肯定是买不起的，有些东西可能过两年就有新产品了，算了，就是统计一下。1、Surface book 2，主要感觉这个surface book 工业设计还是很好的，另一方面也是我当前的笔记本年头有点久了，现在人民币又对美元贬值了，这个我想买的话，估计得一万七八吧。2、显示屏，一个更大尺寸的显示屏，我想要，估计27寸就不错了，但是不想要还是1080P的，这个买的话，估计得2000以下吧。3、一台苹果的台式机，据说mac mini今年也就是2018年回更新，现在的都是14年的了，暂且就不考虑mac mini了，等到9月份的苹果发布会过后再说吧。iMAC好像是基本每年都会更新，不过边框着实是有点宽啊，什么时候能上窄边框啊？iMAC的屏幕是真的好，5K屏幕，感觉借钱也不是真的贵，就是处理器是i5的，内存只有8G,也还行吧，i5还分双核和四核？尺寸也有27寸和21.5寸的区别，感觉21.5寸是小了些。21.5寸的也就9000块钱，而27寸的多了将近4000。好像也就这些了，三万块钱，我暂时的愿望是三万块钱，要是想个办法能把这三万块钱挣出来就好了。]]></content>
+      <tags>
+        <tag>生活</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[记录2018-8]]></title>
+    <url>%2F2018%2F08%2F19%2F%E8%AE%B0%E5%BD%952018-8%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[8.19中午在实验室午睡了一会，一个小时多一点，做梦了，好像自己又回到了忙碌的学生时代，需要每天做很多事情。梦到自己好像有什么作业没做完，能够体会到那种深深的焦虑感，不知为何做梦后总是很累，在梦中能深深的体会到自己的不安和焦虑。]]></content>
+      <tags>
+        <tag>生活</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[根据BN层gamma值剪枝]]></title>
     <url>%2F2018%2F08%2F18%2F%E6%A0%B9%E6%8D%AEBN%E5%B1%82gamma%E5%80%BC%E5%89%AA%E6%9E%9D%2Funcategorized%2F</url>
     <content type="text"><![CDATA[可以根据BN层的gamma值可以进行剪枝，去掉不必要的channel和filter。 添加对于gamma值的正则化之所以这么做的目的是让gamma值尽量往0靠近，这样做的话，需要在反向计算梯度是将对于gamma值得梯度加上正则化那一项得求导。 def updateBN(): # model是模型，modules里面保存的是各层 for m in model.modules(): # 判断该层是不是BN层 if isinstance(m,nn.BatchNorm2d): # 加上grad就可以访问到梯度值 m.weight.grad.data.add_(spasity*torch.sign(m.weight.data)) 上面得m.weight是gamma值，不包含beta值，如果想要访问beta值，需要调用m.bias。]]></content>
@@ -19,7 +43,7 @@
   <entry>
     <title><![CDATA[YoloV3训练记录]]></title>
     <url>%2F2018%2F08%2F18%2FYoloV3%E8%AE%AD%E7%BB%83%E8%AE%B0%E5%BD%95%2Funcategorized%2F</url>
-    <content type="text"><![CDATA[正常训练总共打算训练100个epoch，现在是第32个，看tensorboard上的图，记录自己的发现。首先所有图的横坐标是global_step,global_step是用以记录总体训练到第多少个mini-batch了。1、学习率，在训练到一定global_step的时候，认为设置减小了。2、帧率，就是1s训练了多少examples，这个一直保持在43-49之间。3、还有几个数，这个几个数都是和损失函数有关的，现在大概这几个数的意义如下： x,y,w,h:应该是表示方框 conf:应该是置信度 cls:应该是分类 total_loss:损失函数值 从图上看，total_loss和cls都是稳步下降的，w和h也有下降，但是没有那么平滑明显。 正常训练的权重的测试结果在进行测试，不是自己算的那些个tp,sp之类的，而是调用了个COCO官网的分析包，叫做pycocotools，分析起来很方便，详细的链接见https://blog.csdn.net/u014734886/article/details/78831884。这个分析工具出来的结果是不区分AP和mAP的，输出的结果都是mAP。而且根据不同的IoU，有不同的AP。有一点需要注意下，对于YOLOv3-416,对于IoU&gt;0.5，官方的mAP为55.3，这个的mAP要低一些，只到了53.2，这个地方以后有待研究。]]></content>
+    <content type="text"><![CDATA[正常训练总共打算训练100个epoch，现在是第32个，看tensorboard上的图，记录自己的发现。首先所有图的横坐标是global_step,global_step是用以记录总体训练到第多少个mini-batch了。1、学习率，在训练到一定global_step的时候，认为设置减小了。2、帧率，就是1s训练了多少examples，这个一直保持在43-49之间。3、还有几个数，这个几个数都是和损失函数有关的，现在大概这几个数的意义如下： x,y,w,h:应该是表示方框 conf:应该是置信度 cls:应该是分类 total_loss:损失函数值 从图上看，total_loss和cls都是稳步下降的，w和h也有下降，但是没有那么平滑明显。 正常训练的权重的测试结果在进行测试，不是自己算的那些个tp,sp之类的，而是调用了个COCO官网的分析包，叫做pycocotools，分析起来很方便，详细的链接见https://blog.csdn.net/u014734886/article/details/78831884。这个分析工具出来的结果是不区分AP和mAP的，输出的结果都是mAP。而且根据不同的IoU，有不同的AP。有一点需要注意下，对于YOLOv3-416,对于IoU&gt;0.5，官方的mAP为55.3，这个的mAP要低一些，只到了53.2，这个地方以后有待研究。 自己训练的权重的测试结果自己训练时到达30个epoch大概Loss就稳定在一个范围之内了，然后自己测试了mAP，发现mAP好低啊，只有34，这就奇怪了，为什么自己训练的总是精确度低一些呢，之前用另一个版本的pytorch-yolo代码训练也是自己训练后精度立马下来的，大概只有官方权重精度的66%。这真是奇怪啊。 将官方权重作为初始权重进行训练首先有一点比较奇怪，加上对BN层的gamma值的正则化后，所有的BN层每层的gamma值得绝对值得平均值都是线性下降的。]]></content>
       <tags>
         <tag>pytorch</tag>
       </tags>

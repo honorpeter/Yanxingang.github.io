@@ -94,7 +94,7 @@
 <meta property="og:site_name" content="Xingang Yan">
 <meta property="og:description" content="正常训练总共打算训练100个epoch，现在是第32个，看tensorboard上的图，记录自己的发现。首先所有图的横坐标是global_step,global_step是用以记录总体训练到第多少个mini-batch了。1、学习率，在训练到一定global_step的时候，认为设置减小了。2、帧率，就是1s训练了多少examples，这个一直保持在43-49之间。3、还有几个数，这个几个数都是和">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-08-18T07:39:50.963Z">
+<meta property="og:updated_time" content="2018-08-19T11:17:54.645Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="YoloV3训练记录">
 <meta name="twitter:description" content="正常训练总共打算训练100个epoch，现在是第32个，看tensorboard上的图，记录自己的发现。首先所有图的横坐标是global_step,global_step是用以记录总体训练到第多少个mini-batch了。1、学习率，在训练到一定global_step的时候，认为设置减小了。2、帧率，就是1s训练了多少examples，这个一直保持在43-49之间。3、还有几个数，这个几个数都是和">
@@ -401,6 +401,8 @@
 </ul>
 <p>从图上看，total_loss和cls都是稳步下降的，w和h也有下降，但是没有那么平滑明显。  </p>
 <h2 id="正常训练的权重的测试结果"><a href="#正常训练的权重的测试结果" class="headerlink" title="正常训练的权重的测试结果"></a>正常训练的权重的测试结果</h2><p>在进行测试，不是自己算的那些个tp,sp之类的，而是调用了个COCO官网的分析包，叫做pycocotools，分析起来很方便，详细的链接见<a href="https://blog.csdn.net/u014734886/article/details/78831884" target="_blank" rel="noopener">https://blog.csdn.net/u014734886/article/details/78831884</a>。<br>这个分析工具出来的结果是不区分AP和mAP的，输出的结果都是mAP。而且根据不同的IoU，有不同的AP。有一点需要注意下，对于YOLOv3-416,对于IoU&gt;0.5，官方的mAP为55.3，这个的mAP要低一些，只到了53.2，这个地方以后有待研究。  </p>
+<h2 id="自己训练的权重的测试结果"><a href="#自己训练的权重的测试结果" class="headerlink" title="自己训练的权重的测试结果"></a>自己训练的权重的测试结果</h2><p>自己训练时到达30个epoch大概Loss就稳定在一个范围之内了，然后自己测试了mAP，发现mAP好低啊，只有34，这就奇怪了，为什么自己训练的总是精确度低一些呢，之前用另一个版本的pytorch-yolo代码训练也是自己训练后精度立马下来的，大概只有官方权重精度的66%。这真是奇怪啊。  </p>
+<h2 id="将官方权重作为初始权重进行训练"><a href="#将官方权重作为初始权重进行训练" class="headerlink" title="将官方权重作为初始权重进行训练"></a>将官方权重作为初始权重进行训练</h2><p>首先有一点比较奇怪，加上对BN层的gamma值的正则化后，所有的BN层每层的gamma值得绝对值得平均值都是线性下降的。</p>
 
       
     </div>
@@ -547,7 +549,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-count">66</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -560,7 +562,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">25</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -608,7 +610,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#正常训练"><span class="nav-number">1.</span> <span class="nav-text">正常训练</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正常训练的权重的测试结果"><span class="nav-number">2.</span> <span class="nav-text">正常训练的权重的测试结果</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#正常训练"><span class="nav-number">1.</span> <span class="nav-text">正常训练</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正常训练的权重的测试结果"><span class="nav-number">2.</span> <span class="nav-text">正常训练的权重的测试结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自己训练的权重的测试结果"><span class="nav-number">3.</span> <span class="nav-text">自己训练的权重的测试结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将官方权重作为初始权重进行训练"><span class="nav-number">4.</span> <span class="nav-text">将官方权重作为初始权重进行训练</span></a></li></ol></div>
             
 
           </div>
