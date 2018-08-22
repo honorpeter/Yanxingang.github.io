@@ -88,14 +88,14 @@
 
 <meta name="description" content="当我们是小孩子的时候，我们都活在当下，这就是我们为何那么快乐的缘故，但是，当我们长大了之后，我们的心智总会在过去或者未来，并不在当下。">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Tagcloud">
+<meta property="og:title" content="tags">
 <meta property="og:url" content="http://yanxingang.com/tags/index.html">
 <meta property="og:site_name" content="Xingang Yan">
 <meta property="og:description" content="当我们是小孩子的时候，我们都活在当下，这就是我们为何那么快乐的缘故，但是，当我们长大了之后，我们的心智总会在过去或者未来，并不在当下。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-07-31T02:42:23.964Z">
+<meta property="og:updated_time" content="2018-08-22T06:55:54.286Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Tagcloud">
+<meta name="twitter:title" content="tags">
 <meta name="twitter:description" content="当我们是小孩子的时候，我们都活在当下，这就是我们为何那么快乐的缘故，但是，当我们长大了之后，我们的心智总会在过去或者未来，并不在当下。">
 
 
@@ -132,7 +132,7 @@
 
 
 
-  <title>Tagcloud | Xingang Yan</title>
+  <title>tags | Xingang Yan</title>
   
 
 
@@ -188,9 +188,9 @@
       
         
         <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
+          <a href="/home" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
             
             Home
           </a>
@@ -208,9 +208,9 @@
       
         
         <li class="menu-item menu-item-tags">
-          <a href="/" rel="section">
+          <a href="/tags" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
             
             Tags
           </a>
@@ -296,7 +296,7 @@
     <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">Tagcloud</h1>
+	<h1 class="post-title" itemprop="name headline">tags</h1>
 
 
 
@@ -333,6 +333,18 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      
+        <div onclick="showGitment()" id="gitment-display-button">显示 Gitment 评论</div>
+        <div id="gitment-container" style="display:none"></div>
+      
+    </div>
+
+  
+
+
 
         </div>
         
@@ -627,6 +639,34 @@
 
     
 
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'Yanxingang',
+            repo: 'mygitment_hexo',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: 'a86bbb5e1222aeea5fce81845dc2dd6d7129c119',
+            
+                client_id: '353225e81e70f8f76366'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      function showGitment(){
+        document.getElementById("gitment-display-button").style.display = "none";
+        document.getElementById("gitment-container").style.display = "block";
+        renderGitment();
+      }
+      
+      </script>
     
 
 
