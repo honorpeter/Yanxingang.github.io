@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[How to implement yolo in pytorch]]></title>
-    <url>%2F2018%2F08%2F22%2FHow-to-implement-yolo-in-pytorch%2Funcategorized%2F</url>
+    <title><![CDATA[How to implement yolo in pytorch: part one]]></title>
+    <url>%2F2018%2F08%2F22%2FHow-to-implement-yolo-in-pytorch-part-one%2Funcategorized%2F</url>
     <content type="text"></content>
       <tags>
         <tag>pytorch</tag>
         <tag>翻译</tag>
+        <tag>YOLO</tag>
       </tags>
   </entry>
   <entry>
