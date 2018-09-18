@@ -96,7 +96,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yanxingang.com/images/yolo/network.jpg">
 <meta property="og:image" content="http://yanxingang.com/images/yolo/network2.png">
-<meta property="og:updated_time" content="2018-09-18T07:23:28.874Z">
+<meta property="og:updated_time" content="2018-09-18T08:20:47.058Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="How to implement yolo in pytorch: part one">
 <meta name="twitter:description" content="本文是翻译的https://blog.paperspace.com/how-to-implement-a-yolo-object-detector-in-pytorch/中的内容。学了个新的英语词组 from scratch, 意思为从头开始，而scratch是抓、挠、搔的意思，真是有意思。本文为其博客的第一部分，题目为理解YOLO是如何工作的。   一个全卷积神经网络YOLO V3是一个全卷积神">
@@ -436,86 +436,86 @@ conv17    128  1 x 1 / 1    52 x  52 x 256   -&gt;    52 x  52 x 128  0.177 BFLO
 conv18    256  3 x 3 / 1    52 x  52 x 128   -&gt;    52 x  52 x 256  1.595 BFLOPs
 res         21                  52 x  52 x 256   -&gt;    52 x  52 x 256
 conv19    128  1 x 1 / 1    52 x  52 x 256   -&gt;    52 x  52 x 128  0.177 BFLOPs
-conv    256  3 x 3 / 1    52 x  52 x 128   -&gt;    52 x  52 x 256  1.595 BFLOPs
+conv20    256  3 x 3 / 1    52 x  52 x 128   -&gt;    52 x  52 x 256  1.595 BFLOPs
 res         24                  52 x  52 x 256   -&gt;    52 x  52 x 256
-conv20    128  1 x 1 / 1    52 x  52 x 256   -&gt;    52 x  52 x 128  0.177 BFLOPs
-conv    256  3 x 3 / 1    52 x  52 x 128   -&gt;    52 x  52 x 256  1.595 BFLOPs
-res         27                  52 x  52 x 256   -&gt;    52 x  52 x 256
 conv21    128  1 x 1 / 1    52 x  52 x 256   -&gt;    52 x  52 x 128  0.177 BFLOPs
 conv22    256  3 x 3 / 1    52 x  52 x 128   -&gt;    52 x  52 x 256  1.595 BFLOPs
-res         30                  52 x  52 x 256   -&gt;    52 x  52 x 256
+res         27                  52 x  52 x 256   -&gt;    52 x  52 x 256
 conv23    128  1 x 1 / 1    52 x  52 x 256   -&gt;    52 x  52 x 128  0.177 BFLOPs
 conv24    256  3 x 3 / 1    52 x  52 x 128   -&gt;    52 x  52 x 256  1.595 BFLOPs
+res         30                  52 x  52 x 256   -&gt;    52 x  52 x 256
+conv25    128  1 x 1 / 1    52 x  52 x 256   -&gt;    52 x  52 x 128  0.177 BFLOPs
+conv26    256  3 x 3 / 1    52 x  52 x 128   -&gt;    52 x  52 x 256  1.595 BFLOPs
 res         33                  52 x  52 x 256   -&gt;    52 x  52 x 256
-conv25    512  3 x 3 / 2    52 x  52 x 256   -&gt;    26 x  26 x 512  1.595 BFLOPs
-conv26    256  1 x 1 / 1    26 x  26 x 512   -&gt;    26 x  26 x 256  0.177 BFLOPs
-conv27    512  3 x 3 / 1    26 x  26 x 256   -&gt;    26 x  26 x 512  1.595 BFLOPs
-res         37                  26 x  26 x 512   -&gt;    26 x  26 x 512
+conv27    512  3 x 3 / 2    52 x  52 x 256   -&gt;    26 x  26 x 512  1.595 BFLOPs
 conv28    256  1 x 1 / 1    26 x  26 x 512   -&gt;    26 x  26 x 256  0.177 BFLOPs
 conv29    512  3 x 3 / 1    26 x  26 x 256   -&gt;    26 x  26 x 512  1.595 BFLOPs
-res         40                  26 x  26 x 512   -&gt;    26 x  26 x 512
+res         37                  26 x  26 x 512   -&gt;    26 x  26 x 512
 conv30    256  1 x 1 / 1    26 x  26 x 512   -&gt;    26 x  26 x 256  0.177 BFLOPs
 conv31    512  3 x 3 / 1    26 x  26 x 256   -&gt;    26 x  26 x 512  1.595 BFLOPs
-res         43                  26 x  26 x 512   -&gt;    26 x  26 x 512
+res         40                  26 x  26 x 512   -&gt;    26 x  26 x 512
 conv32    256  1 x 1 / 1    26 x  26 x 512   -&gt;    26 x  26 x 256  0.177 BFLOPs
 conv33    512  3 x 3 / 1    26 x  26 x 256   -&gt;    26 x  26 x 512  1.595 BFLOPs
-res         46                  26 x  26 x 512   -&gt;    26 x  26 x 512
+res         43                  26 x  26 x 512   -&gt;    26 x  26 x 512
 conv34    256  1 x 1 / 1    26 x  26 x 512   -&gt;    26 x  26 x 256  0.177 BFLOPs
 conv35    512  3 x 3 / 1    26 x  26 x 256   -&gt;    26 x  26 x 512  1.595 BFLOPs
-res         49                  26 x  26 x 512   -&gt;    26 x  26 x 512
+res         46                  26 x  26 x 512   -&gt;    26 x  26 x 512
 conv36    256  1 x 1 / 1    26 x  26 x 512   -&gt;    26 x  26 x 256  0.177 BFLOPs
 conv37    512  3 x 3 / 1    26 x  26 x 256   -&gt;    26 x  26 x 512  1.595 BFLOPs
-res         52                  26 x  26 x 512   -&gt;    26 x  26 x 512
+res         49                  26 x  26 x 512   -&gt;    26 x  26 x 512
 conv38    256  1 x 1 / 1    26 x  26 x 512   -&gt;    26 x  26 x 256  0.177 BFLOPs
 conv39    512  3 x 3 / 1    26 x  26 x 256   -&gt;    26 x  26 x 512  1.595 BFLOPs
-res         55                  26 x  26 x 512   -&gt;    26 x  26 x 512
+res         52                  26 x  26 x 512   -&gt;    26 x  26 x 512
 conv40    256  1 x 1 / 1    26 x  26 x 512   -&gt;    26 x  26 x 256  0.177 BFLOPs
 conv41    512  3 x 3 / 1    26 x  26 x 256   -&gt;    26 x  26 x 512  1.595 BFLOPs
+res         55                  26 x  26 x 512   -&gt;    26 x  26 x 512
+conv42    256  1 x 1 / 1    26 x  26 x 512   -&gt;    26 x  26 x 256  0.177 BFLOPs
+conv43    512  3 x 3 / 1    26 x  26 x 256   -&gt;    26 x  26 x 512  1.595 BFLOPs
 res         58                  26 x  26 x 512   -&gt;    26 x  26 x 512
-conv42   1024  3 x 3 / 2    26 x  26 x 512   -&gt;    13 x  13 x1024  1.595 BFLOPs
-conv43    512  1 x 1 / 1    13 x  13 x1024   -&gt;    13 x  13 x 512  0.177 BFLOPs
-conv44   1024  3 x 3 / 1    13 x  13 x 512   -&gt;    13 x  13 x1024  1.595 BFLOPs
-res         62                  13 x  13 x1024   -&gt;    13 x  13 x1024
+conv44   1024  3 x 3 / 2    26 x  26 x 512   -&gt;    13 x  13 x1024  1.595 BFLOPs
 conv45    512  1 x 1 / 1    13 x  13 x1024   -&gt;    13 x  13 x 512  0.177 BFLOPs
 conv46   1024  3 x 3 / 1    13 x  13 x 512   -&gt;    13 x  13 x1024  1.595 BFLOPs
-res         65                  13 x  13 x1024   -&gt;    13 x  13 x1024
+res         62                  13 x  13 x1024   -&gt;    13 x  13 x1024
 conv47    512  1 x 1 / 1    13 x  13 x1024   -&gt;    13 x  13 x 512  0.177 BFLOPs
 conv48   1024  3 x 3 / 1    13 x  13 x 512   -&gt;    13 x  13 x1024  1.595 BFLOPs
-res         68                  13 x  13 x1024   -&gt;    13 x  13 x1024
+res         65                  13 x  13 x1024   -&gt;    13 x  13 x1024
 conv49    512  1 x 1 / 1    13 x  13 x1024   -&gt;    13 x  13 x 512  0.177 BFLOPs
 conv50   1024  3 x 3 / 1    13 x  13 x 512   -&gt;    13 x  13 x1024  1.595 BFLOPs
-res         71                  13 x  13 x1024   -&gt;    13 x  13 x1024
+res         68                  13 x  13 x1024   -&gt;    13 x  13 x1024
 conv51    512  1 x 1 / 1    13 x  13 x1024   -&gt;    13 x  13 x 512  0.177 BFLOPs
 conv52   1024  3 x 3 / 1    13 x  13 x 512   -&gt;    13 x  13 x1024  1.595 BFLOPs
+res         71                  13 x  13 x1024   -&gt;    13 x  13 x1024
 conv53    512  1 x 1 / 1    13 x  13 x1024   -&gt;    13 x  13 x 512  0.177 BFLOPs
 conv54   1024  3 x 3 / 1    13 x  13 x 512   -&gt;    13 x  13 x1024  1.595 BFLOPs
-conv55    512  1 x 1 / 1    13 x  13 x1024   -&gt;    13 x  13 x 512  0.177 BFLOPs      79
-conv56   1024  3 x 3 / 1    13 x  13 x 512   -&gt;    13 x  13 x1024  1.595 BFLOPs      80
-conv57    255  1 x 1 / 1    13 x  13 x1024   -&gt;    13 x  13 x 255  0.088 BFLOPs      81 这层卷积是没有Batch Normalization的，此层类似于全连接层
+conv55    512  1 x 1 / 1    13 x  13 x1024   -&gt;    13 x  13 x 512  0.177 BFLOPs
+conv56   1024  3 x 3 / 1    13 x  13 x 512   -&gt;    13 x  13 x1024  1.595 BFLOPs
+conv57    512  1 x 1 / 1    13 x  13 x1024   -&gt;    13 x  13 x 512  0.177 BFLOPs      79
+conv58   1024  3 x 3 / 1    13 x  13 x 512   -&gt;    13 x  13 x1024  1.595 BFLOPs      80
+conv59    255  1 x 1 / 1    13 x  13 x1024   -&gt;    13 x  13 x 255  0.088 BFLOPs      81 这层卷积是没有Batch Normalization的，此层类似于全连接层
 detection                                                                          82
 route  79
-conv58    256  1 x 1 / 1    13 x  13 x 512   -&gt;    13 x  13 x 256  0.044 BFLOPs
+conv60    256  1 x 1 / 1    13 x  13 x 512   -&gt;    13 x  13 x 256  0.044 BFLOPs
 upsample            2x    13 x  13 x 256   -&gt;    26 x  26 x 256
 route  85 61
-conv59    256  1 x 1 / 1    26 x  26 x 768   -&gt;    26 x  26 x 256  0.266 BFLOPs
-conv60    512  3 x 3 / 1    26 x  26 x 256   -&gt;    26 x  26 x 512  1.595 BFLOPs
-conv61    256  1 x 1 / 1    26 x  26 x 512   -&gt;    26 x  26 x 256  0.177 BFLOPs
+conv61    256  1 x 1 / 1    26 x  26 x 768   -&gt;    26 x  26 x 256  0.266 BFLOPs
 conv62    512  3 x 3 / 1    26 x  26 x 256   -&gt;    26 x  26 x 512  1.595 BFLOPs
 conv63    256  1 x 1 / 1    26 x  26 x 512   -&gt;    26 x  26 x 256  0.177 BFLOPs
 conv64    512  3 x 3 / 1    26 x  26 x 256   -&gt;    26 x  26 x 512  1.595 BFLOPs
-conv65    255  1 x 1 / 1    26 x  26 x 512   -&gt;    26 x  26 x 255  0.177 BFLOPs
+conv65    256  1 x 1 / 1    26 x  26 x 512   -&gt;    26 x  26 x 256  0.177 BFLOPs
+conv66    512  3 x 3 / 1    26 x  26 x 256   -&gt;    26 x  26 x 512  1.595 BFLOPs
+conv67    255  1 x 1 / 1    26 x  26 x 512   -&gt;    26 x  26 x 255  0.177 BFLOPs
 detection
 route  91
-conv66    128  1 x 1 / 1    26 x  26 x 256   -&gt;    26 x  26 x 128  0.044 BFLOPs
+conv68    128  1 x 1 / 1    26 x  26 x 256   -&gt;    26 x  26 x 128  0.044 BFLOPs
 upsample            2x    26 x  26 x 128   -&gt;    52 x  52 x 128
 route  97 36
-conv67    128  1 x 1 / 1    52 x  52 x 384   -&gt;    52 x  52 x 128  0.266 BFLOPs
-conv68    256  3 x 3 / 1    52 x  52 x 128   -&gt;    52 x  52 x 256  1.595 BFLOPs
-conv69    128  1 x 1 / 1    52 x  52 x 256   -&gt;    52 x  52 x 128  0.177 BFLOPs
+conv69    128  1 x 1 / 1    52 x  52 x 384   -&gt;    52 x  52 x 128  0.266 BFLOPs
 conv70    256  3 x 3 / 1    52 x  52 x 128   -&gt;    52 x  52 x 256  1.595 BFLOPs
 conv71    128  1 x 1 / 1    52 x  52 x 256   -&gt;    52 x  52 x 128  0.177 BFLOPs
 conv72    256  3 x 3 / 1    52 x  52 x 128   -&gt;    52 x  52 x 256  1.595 BFLOPs
-conv73    255  1 x 1 / 1    52 x  52 x 256   -&gt;    52 x  52 x 255  0.353 BFLOPs
+conv73    128  1 x 1 / 1    52 x  52 x 256   -&gt;    52 x  52 x 128  0.177 BFLOPs
+conv74    256  3 x 3 / 1    52 x  52 x 128   -&gt;    52 x  52 x 256  1.595 BFLOPs
+conv75    255  1 x 1 / 1    52 x  52 x 256   -&gt;    52 x  52 x 255  0.353 BFLOPs
 detection
 Loading weights from yolov3.weights...Done!
 </code></pre>
