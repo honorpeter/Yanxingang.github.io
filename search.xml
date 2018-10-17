@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[归一化的作用]]></title>
+    <url>%2F2018%2F10%2F17%2F%E5%BD%92%E4%B8%80%E5%8C%96%E7%9A%84%E4%BD%9C%E7%94%A8%2Funcategorized%2F</url>
+    <content type="text"><![CDATA[在处理三个变量的分布情况时，遇到了问题，就是考量三个变量的重要性，不进行数据的缩放处理是肯定不行的，问题是应该怎么进行缩放处理。首先来看归一化，归一化的数学表达式为： \frac{X_{i}-X_{min}}{X_{max}-X_{min}}]]></content>
+      <tags>
+        <tag>数学</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Darknet源码分析(一)]]></title>
     <url>%2F2018%2F09%2F16%2FDarknet%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E4%B8%80%2Funcategorized%2F</url>
     <content type="text"><![CDATA[基本数据类型在darknet.h文件中定义了很多结构体类型，下面就这些结构体数据类型进行说明：node: 结构体内三个指针，一个空指针，一个指向上一个node，一个指向下一个node.list: 结构体内一个int型变量size，两个node型指针network: 结构体内成员为与网络相关的各个量。包括但不限于batch,epoch,学习率等等。data:layer： 读取datasets配置文件list read_data_cfg(char filename)该函数用来读取配置文件，输入为配置文件的目录地址。该函数返回的是一个list型的指针，暂且不考虑其内部是怎么将配置文件读入的。 不懂的问题：detector.c: line17 network为什么要定义二级指针，calloc返回的是一级指针。多GPU训练，学习率为什么还要乘上GPU的数目？]]></content>
