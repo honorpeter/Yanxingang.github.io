@@ -86,18 +86,18 @@
 
 
 
-<meta name="description" content="在处理三个变量的分布情况时，遇到了问题，就是考量三个变量的重要性，不进行数据的缩放处理是肯定不行的，问题是应该怎么进行缩放处理。首先来看归一化，归一化的数学表达式为：    \frac{X_{i}-X_{min}}{X_{max}-X_{min}}">
+<meta name="description" content="归一化与标准化在处理三个变量的分布情况时，遇到了问题，就是考量三个变量的重要性，不进行数据的缩放处理是肯定不行的，问题是应该怎么进行缩放处理。首先来看归一化，归一化的数学表达式为:    \frac{X_{i}-X_{min}}{X_{max}-X_{min}}在这个地方提一下，标准化，无论是标准化还是归一化，都是一种线性变化，就是先压缩一定比例或者扩大一定比例，然后平移一定的数据量。   我在剪">
 <meta name="keywords" content="数学">
 <meta property="og:type" content="article">
 <meta property="og:title" content="归一化的作用">
 <meta property="og:url" content="http://yanxingang.com/2018/10/17/归一化的作用/uncategorized/index.html">
 <meta property="og:site_name" content="Xingang Yan">
-<meta property="og:description" content="在处理三个变量的分布情况时，遇到了问题，就是考量三个变量的重要性，不进行数据的缩放处理是肯定不行的，问题是应该怎么进行缩放处理。首先来看归一化，归一化的数学表达式为：    \frac{X_{i}-X_{min}}{X_{max}-X_{min}}">
+<meta property="og:description" content="归一化与标准化在处理三个变量的分布情况时，遇到了问题，就是考量三个变量的重要性，不进行数据的缩放处理是肯定不行的，问题是应该怎么进行缩放处理。首先来看归一化，归一化的数学表达式为:    \frac{X_{i}-X_{min}}{X_{max}-X_{min}}在这个地方提一下，标准化，无论是标准化还是归一化，都是一种线性变化，就是先压缩一定比例或者扩大一定比例，然后平移一定的数据量。   我在剪">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-17T07:46:26.289Z">
+<meta property="og:updated_time" content="2018-10-17T07:58:46.741Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="归一化的作用">
-<meta name="twitter:description" content="在处理三个变量的分布情况时，遇到了问题，就是考量三个变量的重要性，不进行数据的缩放处理是肯定不行的，问题是应该怎么进行缩放处理。首先来看归一化，归一化的数学表达式为：    \frac{X_{i}-X_{min}}{X_{max}-X_{min}}">
+<meta name="twitter:description" content="归一化与标准化在处理三个变量的分布情况时，遇到了问题，就是考量三个变量的重要性，不进行数据的缩放处理是肯定不行的，问题是应该怎么进行缩放处理。首先来看归一化，归一化的数学表达式为:    \frac{X_{i}-X_{min}}{X_{max}-X_{min}}在这个地方提一下，标准化，无论是标准化还是归一化，都是一种线性变化，就是先压缩一定比例或者扩大一定比例，然后平移一定的数据量。   我在剪">
 
 
 
@@ -392,9 +392,11 @@
       
 
       
-        <p>在处理三个变量的分布情况时，遇到了问题，就是考量三个变量的重要性，不进行数据的缩放处理是肯定不行的，问题是应该怎么进行缩放处理。<br>首先来看归一化，归一化的数学表达式为：  </p>
+        <h2 id="归一化与标准化"><a href="#归一化与标准化" class="headerlink" title="归一化与标准化"></a>归一化与标准化</h2><p>在处理三个变量的分布情况时，遇到了问题，就是考量三个变量的重要性，不进行数据的缩放处理是肯定不行的，问题是应该怎么进行缩放处理。<br>首先来看归一化，归一化的数学表达式为:  </p>
 <script type="math/tex; mode=display">
-\frac{X_{i}-X_{min}}{X_{max}-X_{min}}</script>
+\frac{X_{i}-X_{min}}{X_{max}-X_{min}}</script><p>在这个地方提一下，标准化，无论是标准化还是归一化，都是一种线性变化，就是先压缩一定比例或者扩大一定比例，然后平移一定的数据量。  </p>
+<h2 id="我在剪枝中的应用"><a href="#我在剪枝中的应用" class="headerlink" title="我在剪枝中的应用"></a>我在剪枝中的应用</h2><p>我都是除了一个平均值，那么经过这个变换之后会变成一个什么样的分布呢？变成了一组以1为平均值的数据。  </p>
+
       
     </div>
     
@@ -448,6 +450,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/24/关于房价感觉有道理的分析/uncategorized/" rel="prev" title="关于房价感觉有道理的分析">
+                关于房价感觉有道理的分析 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -507,8 +513,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -527,7 +542,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">69</span>
+                  <span class="site-state-item-count">72</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -578,6 +593,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#归一化与标准化"><span class="nav-number">1.</span> <span class="nav-text">归一化与标准化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我在剪枝中的应用"><span class="nav-number">2.</span> <span class="nav-text">我在剪枝中的应用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
